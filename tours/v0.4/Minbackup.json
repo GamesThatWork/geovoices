@@ -1,0 +1,1379 @@
+{
+  "name": "Mini",
+  "class": "tour",
+  "notes": "",
+  "author": "D Jacobson",
+  "id": "cherokee",
+  "status": "open",
+  "center": { "lat": 35.5011179, "lng": -83.2966019 },
+  "schema": "Open Geotour",
+  "version": 0.4,
+  "agent": "cherokee editor",
+  "pins": [
+    {
+      "name": "Welcome",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.welcome",
+      "latlng": { "lat": 35.58808543223098, "lng": -83.40657234268633 },
+      "notes": "    Start of the Tour",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.welcome.guide",
+          "notes": "",
+          "play": false,
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0013639019035925001,
+            "min": 0.0004739523114707732
+          },
+          "sector": {
+            "cut": true,
+            "max": 2.921953392660641,
+            "min": -2.131719799861023
+          },
+          "content": "guide/welcome.ogg"
+        }
+      ]
+    },
+    {
+      "name": "Bird Town",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.birdtown",
+      "latlng": { "lat": 35.45764372136286, "lng": -83.36205482922196 },
+      "notes": "    [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.birdtown.guide",
+          "notes": "",
+          "play": false,
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.001295414902751661,
+            "min": 0.0009327069980224644
+          },
+          "sector": {
+            "cut": true,
+            "max": 2.921953392660641,
+            "min": -1.478639196120867
+          },
+          "content": "guide/birdtown.ogg"
+        }
+      ]
+    },
+    {
+      "name": "First Fire (Intro)",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.first-fire-intro",
+      "latlng": { "lat": 35.58774790979952, "lng": -83.36351036993393 },
+      "notes": "    [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.first-fire-intro.guide",
+          "notes": "",
+          "play": false,
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0015635627826409099,
+            "min": 0.001114192898132185
+          },
+          "sector": {
+            "cut": true,
+            "max": -2.6726185132635902,
+            "min": 2.1375786481717025
+          },
+          "content": "guide/first-fire.ogg"
+        }
+      ]
+    },
+    {
+      "name": "How to Follow Directions (Intro)",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.how-to-follow-directions-intro",
+      "latlng": { "lat": 35.56359901532812, "lng": -83.33003998512142 },
+      "notes": "    [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.how-to-follow-directions-intro.guide",
+          "notes": "",
+          "play": false,
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.001143264613766229,
+            "min": 0.001123903157805513
+          },
+          "sector": {
+            "cut": true,
+            "max": 2.921953392660641,
+            "min": 2.1375786481717025
+          },
+          "content": "guide/how-to-follow-directions.ogg"
+        }
+      ]
+    },
+    {
+      "name": "Kuwahi (Intro)",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.kuwahi-intro",
+      "latlng": { "lat": 35.59394800950972, "lng": -83.40521693306756 },
+      "notes": "    [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.kuwahi-intro.guide",
+          "notes": "",
+          "play": false,
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0021603948350061627,
+            "min": 0.0021058606904461497
+          },
+          "sector": {
+            "cut": true,
+            "max": -0.03713042935617145,
+            "min": -2.2811845561336277
+          },
+          "content": "guide/kuwahi-1.ogg"
+        }
+      ]
+    },
+    {
+      "name": "Kuwahi (Outro)",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.kuwahi-outro",
+      "latlng": { "lat": 35.59619003359037, "lng": -83.39732408447846 },
+      "notes": "    [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.kuwahi-outro.guide",
+          "notes": "",
+          "play": false,
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0021483192045288198,
+            "min": 0.001123903157805513
+          },
+          "sector": {
+            "cut": true,
+            "max": -3.092845607946352,
+            "min": 2.1375786481717025
+          },
+          "content": "guide/kuwahi-2.ogg"
+        }
+      ]
+    },
+    {
+      "name": "Selu and Kanate (Intro)",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.selu-and-kanate-intro",
+      "latlng": { "lat": 35.45279664124231, "lng": -83.41398238797412 },
+      "notes": "    [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.selu-and-kanate-intro.guide",
+          "notes": "",
+          "play": false,
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.001143264613766229,
+            "min": 0.001123903157805513
+          },
+          "sector": {
+            "cut": true,
+            "max": 2.921953392660641,
+            "min": 2.1375786481717025
+          },
+          "content": "guide/selu-and-kanate.ogg"
+        }
+      ]
+    },
+    {
+      "name": "BALLGAME OF BIRDS AND ANIMALS",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.ballgame-of-birds-and-animals",
+      "latlng": { "lat": 35.46485435458919, "lng": -83.23898792704769 },
+      "notes": "    [unnamed Pin]",
+      "status": "open",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.ballgame-of-birds-and-animals.story",
+          "notes": "",
+          "play": false,
+          "status": "open",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0029909938002572268,
+            "min": 0.0019004134995458913
+          },
+          "sector": {
+            "cut": true,
+            "max": 3.096679159563504,
+            "min": 1.6725897924478186
+          },
+          "content": "story/ballgame-of-birds-and-animals.ogg"
+        }
+      ]
+    },
+    {
+      "name": "FIRST FIRE",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.first-fire",
+      "latlng": { "lat": 35.58575870456767, "lng": -83.35872530937878 },
+      "notes": "    [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.first-fire.story",
+          "notes": "",
+          "play": false,
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0014709414851000922,
+            "min": 0.001123903157805513
+          },
+          "sector": {
+            "cut": true,
+            "max": -2.306399916278114,
+            "min": 2.1375786481717025
+          },
+          "content": "story/first-fire.ogg"
+        }
+      ]
+    },
+    {
+      "name": "HOW TO FOLLLOW DIRECTIONS",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.how-to-follow-directions",
+      "latlng": { "lat": 35.559646243192695, "lng": -83.3248329163689 },
+      "notes": "    [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.how-to-follow-directions.story",
+          "notes": "",
+          "play": false,
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.001143264613766229,
+            "min": 0.001123903157805513
+          },
+          "sector": {
+            "cut": true,
+            "max": 2.921953392660641,
+            "min": 2.1375786481717025
+          },
+          "content": "story/how-to-follow-directions.ogg"
+        }
+      ]
+    },
+    {
+      "name": "KANATI",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.kanati",
+      "latlng": { "lat": 35.444965975459404, "lng": -83.41484069485888 },
+      "notes": "    [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.kanati.story",
+          "notes": "",
+          "play": false,
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.001143264613766229,
+            "min": 0.001123903157805513
+          },
+          "sector": {
+            "cut": true,
+            "max": 2.921953392660641,
+            "min": 2.1375786481717025
+          },
+          "content": "story/kanati.ogg"
+        }
+      ]
+    },
+    {
+      "name": "SELU",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.selu",
+      "latlng": { "lat": 35.45167802135203, "lng": -83.32574844022021 },
+      "notes": "    [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.selu.story",
+          "notes": "",
+          "play": false,
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.001143264613766229,
+            "min": 0.001123903157805513
+          },
+          "sector": {
+            "cut": true,
+            "max": 2.921953392660641,
+            "min": 2.1375786481717025
+          },
+          "content": "story/selu.ogg"
+        }
+      ]
+    },
+    {
+      "name": "SPEAR FINGER",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.spearfinger",
+      "latlng": { "lat": 35.51137412502472, "lng": -83.15849304287896 },
+      "notes": "    [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.spearfinger.story",
+          "notes": "",
+          "play": false,
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.005158943904842869,
+            "min": 0.005145167629813796
+          },
+          "sector": {
+            "cut": true,
+            "max": -0.46899248137662847,
+            "min": -2.5495157878769383
+          },
+          "content": "story/spearfinger.ogg"
+        }
+      ]
+    },
+    {
+      "name": "Webb Overlook",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.webb",
+      "latlng": { "lat": 35.58824683419882, "lng": -83.40540826397388 },
+      "notes": "    Start of the Tour",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.webb.zone_0",
+          "notes": "",
+          "play": false,
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.001143264613766229,
+            "min": 0.0007169213237997565
+          },
+          "sector": {
+            "cut": true,
+            "max": 2.921953392660641,
+            "min": -2.122078982912994
+          },
+          "content": "guide/welcome.ogg"
+        }
+      ]
+    },
+    {
+      "name": "Kituwah Mound",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.kituwah",
+      "latlng": { "lat": 35.43953408038781, "lng": -83.39963257313117 },
+      "notes": "    [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.kituwah.zone_0",
+          "notes": "",
+          "play": false,
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0022571637030953757,
+            "min": 0.0018952502013896003
+          },
+          "sector": {
+            "cut": true,
+            "max": -1.2257161191114485,
+            "min": 0.7550659407886429
+          },
+          "content": "This is the Kituwah Mound"
+        }
+      ]
+    },
+    {
+      "name": "Socco Falls",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.socco",
+      "latlng": { "lat": 35.492784497500196, "lng": -83.16964566795265 },
+      "notes": "    Stop at the Falls in Socco Pass",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.socco.zone_0",
+          "notes": "",
+          "play": false,
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.001154645541104807,
+            "min": 0.0010327094815612413
+          },
+          "sector": {
+            "cut": true,
+            "max": -1.388598152250014,
+            "min": 1.508421788854847
+          },
+          "content": "Pull off the road and enjoy the Falls."
+        }
+      ]
+    },
+    {
+      "name": "Thomas Divide Overlook",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.thomas-divide",
+      "latlng": { "lat": 35.520368753204615, "lng": -83.24749767764276 },
+      "notes": "    The home of the Thomas Divide lights",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.thomas-divide.zone_0",
+          "notes": "",
+          "play": false,
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.001954451930558957,
+            "min": 0.0017293100380283935
+          },
+          "sector": {
+            "cut": true,
+            "max": 2.921953392660641,
+            "min": -1.0079994607829275
+          },
+          "content": "Get out of the car and take in the view."
+        }
+      ]
+    },
+    {
+      "name": "New Kituwah Academy",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.academy",
+      "latlng": { "lat": 35.500859847895924, "lng": -83.310050368749 },
+      "notes": "    New Generations of Cherokee Speakers",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.academy.zone_0",
+          "notes": "",
+          "play": false,
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0011910289041279641,
+            "min": 0.0005745825908975631
+          },
+          "sector": {
+            "cut": true,
+            "max": 0.01466678325329001,
+            "min": -2.5963639908867164
+          },
+          "content": "Pull off the road and hear the children."
+        }
+      ]
+    },
+    {
+      "name": "Museum of the Cherokee",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.museum",
+      "latlng": { "lat": 35.48440151259639, "lng": -83.31588864370816 },
+      "notes": "    End of the Tour",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.museum.zone_0",
+          "notes": "",
+          "play": false,
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.002042628710820452,
+            "min": 0.0017100350007733657
+          },
+          "sector": {
+            "cut": true,
+            "max": 2.921953392660641,
+            "min": 0.9808717174961649
+          },
+          "content": "Thank you for taking the Cherokee Legends Geo Tour."
+        }
+      ]
+    },
+    {
+      "name": "right & down",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.58873103815014, "lng": -83.40462505894153 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0008406269269920681,
+            "min": 0.0004951479728822361
+          },
+          "sector": {
+            "cut": true,
+            "max": -2.1982598554010746,
+            "min": 2.9734137112088765
+          },
+          "content": "Turn right out of the parking lot. Drive down the mountain.",
+          "name": "",
+          "id": "cherokee.pin_0.zone_0",
+          "notes": ""
+        }
+      ],
+      "id": "cherokee.pin_0",
+      "notes": "    [unnamed Pin]"
+    },
+    {
+      "name": "straight down",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.592293232906535, "lng": -83.38260054599915 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0015981152383204781,
+            "min": 0.0009850547948195751
+          },
+          "sector": { "cut": true, "max": -2.689648421150449, "min": 2 },
+          "content": "Continue down the mountain for the next twenty minutes.",
+          "name": "",
+          "id": "cherokee.pin_1.zone_1",
+          "notes": ""
+        }
+      ],
+      "id": "cherokee.pin_1",
+      "notes": "    [unnamed Pin]"
+    },
+    {
+      "name": "exit the park",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.509633081852066, "lng": -83.30669403077536 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0012928828988700907,
+            "min": 0.0010838677534994636
+          },
+          "sector": { "cut": true, "max": 3, "min": 0.26489822771744725 },
+          "content": "We are now leaving the park. Watch out for people and elk.",
+          "name": "",
+          "id": "cherokee.pin_2.zone_2",
+          "notes": ""
+        }
+      ],
+      "id": "cherokee.pin_2",
+      "notes": "    [unnamed Pin]"
+    },
+    {
+      "name": "look for sign",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.49951489506704, "lng": -83.30158710480079 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0011680786195648533,
+            "min": 0.00041749383206395675
+          },
+          "sector": {
+            "cut": true,
+            "max": 0.9926061043846812,
+            "min": 0.0948659983456367
+          },
+          "content": "Watch carefully for a sign on your left. It is hard to see but it will say Big Cove. That is where we turn.",
+          "name": "",
+          "id": "cherokee.pin_3.zone_3",
+          "notes": ""
+        }
+      ],
+      "id": "cherokee.pin_3",
+      "notes": "    [unnamed Pin]"
+    },
+    {
+      "name": "left across bridge",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.49939990724764, "lng": -83.30309629429735 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0013795260673532307,
+            "min": 0.0004535477018015489
+          },
+          "sector": {
+            "cut": true,
+            "max": 0.7088744755894233,
+            "min": -0.36426214087532155
+          },
+          "content": "Take a left turn and follow the road across the bridge toward Big Cove.",
+          "name": "",
+          "id": "cherokee.pin_4.zone_4",
+          "notes": ""
+        }
+      ],
+      "id": "cherokee.pin_4",
+      "notes": "    [unnamed Pin]"
+    },
+    {
+      "name": "Cross bridge, then right",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.49877086736255, "lng": -83.29988837231554 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": { "cut": false, "max": 0.001, "min": 0.001 },
+          "sector": { "cut": true, "max": 3, "min": 2 },
+          "content": "After crossing the bridge, turn right on Big Cove Road.",
+          "name": "",
+          "id": "cherokee.pin_5.zone_5",
+          "notes": ""
+        }
+      ],
+      "id": "cherokee.pin_5",
+      "notes": "    [unnamed Pin]"
+    },
+    {
+      "name": "left at T",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.49880575292313, "lng": -83.30628097057685 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0015183887612061264,
+            "min": 0.0014682567211028198
+          },
+          "sector": {
+            "cut": true,
+            "max": 0.4167442796619421,
+            "min": -0.5661340737803683
+          },
+          "content": "At the T intersection, turn left onto Acquoni Road.",
+          "name": "",
+          "id": "cherokee.pin_6.zone_6",
+          "notes": ""
+        }
+      ],
+      "id": "cherokee.pin_6",
+      "notes": "    [unnamed Pin]"
+    },
+    {
+      "name": "straight through roundabout",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.484324060750964, "lng": -83.31439733505592 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0011172350262287371,
+            "min": 0.0007473047615538384
+          },
+          "sector": {
+            "cut": true,
+            "max": 1.8231447114264483,
+            "min": 0.32533810829275156
+          },
+          "content": "Go straight through the roundabout.",
+          "name": "",
+          "id": "cherokee.pin_7.zone_7",
+          "notes": ""
+        }
+      ],
+      "id": "cherokee.pin_7",
+      "notes": "    [unnamed Pin]"
+    },
+    {
+      "name": "past islands park",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.47964865182032, "lng": -83.3181238185489 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.001,
+            "min": 0.0004724014808104218
+          },
+          "sector": { "cut": true, "max": 3, "min": -0.03748571397365829 },
+          "content": "Continue past Islands Park.",
+          "name": "",
+          "id": "cherokee.pin_8.zone_8",
+          "notes": ""
+        }
+      ],
+      "id": "cherokee.pin_8",
+      "notes": "    [unnamed Pin]"
+    },
+    {
+      "name": "right onto 19",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.47663721583121, "lng": -83.31930041264401 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0011039967731918713,
+            "min": 0.000252876470489909
+          },
+          "sector": {
+            "cut": true,
+            "max": 1.8362966614377838,
+            "min": 0.9010168168621219
+          },
+          "content": "At the light, turn right onto Route 19.",
+          "name": "",
+          "id": "cherokee.pin_9.zone_9",
+          "notes": ""
+        }
+      ],
+      "id": "cherokee.pin_9",
+      "notes": "    [unnamed Pin]"
+    },
+    {
+      "name": "straight thru light",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.47700444830579, "lng": -83.32062721341119 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.001033282251918968,
+            "min": 0.00033262043267755063
+          },
+          "sector": {
+            "cut": true,
+            "max": 0.3282503323874683,
+            "min": -1.2423667630994468
+          },
+          "content": "Cross the river, go through the light and straight up the hill,",
+          "name": "",
+          "id": "cherokee.pin_10.zone_10",
+          "notes": ""
+        }
+      ],
+      "id": "cherokee.pin_10",
+      "notes": "    [unnamed Pin]"
+    },
+    {
+      "name": "straight through lights",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.475381636999494, "lng": -83.32862556068335 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.001,
+            "min": 0.0003152762617224746
+          },
+          "sector": { "cut": true, "max": 3, "min": -1.021848436475608 },
+          "content": "Continue throuogh the lights, straight on 19.",
+          "name": "",
+          "id": "cherokee.pin_11.zone_11",
+          "notes": ""
+        }
+      ],
+      "id": "cherokee.pin_11",
+      "notes": "    [unnamed Pin]"
+    },
+    {
+      "name": "straight past bridge",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.46053620753663, "lng": -83.35854292004572 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": { "cut": false, "max": 0.001, "min": 0.001 },
+          "sector": { "cut": true, "max": 3, "min": 2 },
+          "content": "Continue straight, go past the bridge.",
+          "name": "",
+          "id": "cherokee.pin_12.zone_12",
+          "notes": ""
+        }
+      ],
+      "id": "cherokee.pin_12",
+      "notes": "    [unnamed Pin]"
+    },
+    {
+      "name": "straight past bridge",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.4589988779859, "lng": -83.35805654439811 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.001,
+            "min": 0.00043931981684827655
+          },
+          "sector": { "cut": true, "max": 3, "min": -0.1479991737679118 },
+          "content": "Continue straight, go past the bridge.",
+          "name": "",
+          "id": "cherokee.pin_13.zone_13",
+          "notes": ""
+        }
+      ],
+      "id": "cherokee.pin_13",
+      "notes": "    [unnamed Pin]"
+    },
+    {
+      "name": "straight past bridge, Whittier",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.44720054077349, "lng": -83.38071584812043 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.001,
+            "min": 0.00040638517057506497
+          },
+          "sector": { "cut": true, "max": 3, "min": -1.1151834619081584 },
+          "content": "Continue straight, go past the bridge into Whittier.",
+          "name": "",
+          "id": "cherokee.pin_14.zone_14",
+          "notes": ""
+        }
+      ],
+      "id": "cherokee.pin_14",
+      "notes": "    [unnamed Pin]"
+    },
+    {
+      "name": "straight past bridge",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.452941659203375, "lng": -83.391113877791 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.001,
+            "min": 0.00046247119846576395
+          },
+          "sector": { "cut": true, "max": 3, "min": -2.3405631806105958 },
+          "content": "Continue straight, go past the bridge.",
+          "name": "",
+          "id": "cherokee.pin_15.zone_15",
+          "notes": ""
+        }
+      ],
+      "id": "cherokee.pin_15",
+      "notes": "    [unnamed Pin]"
+    },
+    {
+      "name": "straight past RR bridge",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.44866861885834, "lng": -83.40147256852562 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.002827200831665531,
+            "min": 0.002772319484516637
+          },
+          "sector": { "cut": true, "max": 3, "min": 0.4732391290120988 },
+          "content": "Continue past the ancient Railroad bridge.",
+          "name": "",
+          "id": "cherokee.pin_16.zone_16",
+          "notes": ""
+        }
+      ],
+      "id": "cherokee.pin_16",
+      "notes": "    [unnamed Pin]"
+    },
+    {
+      "name": "prepare to turn",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.44256224165329, "lng": -83.40044975533148 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.002992448404355008,
+            "min": 0.002943871880914379
+          },
+          "sector": { "cut": true, "max": 3, "min": -0.17909467867371914 },
+          "content": "Prepare to stop at the giddoo wah mound on your left",
+          "name": "",
+          "id": "cherokee.pin_17.zone_17",
+          "notes": ""
+        }
+      ],
+      "id": "cherokee.pin_17",
+      "notes": "    [unnamed Pin]"
+    },
+    {
+      "name": "park",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.440779207124834, "lng": -83.40071439820805 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": { "cut": false, "max": 0.001, "min": 0.001 },
+          "sector": { "cut": false, "max": 3, "min": 2 },
+          "content": "enter the grounds. Park anywhere. But never set foot on the Mound.",
+          "name": "",
+          "id": "cherokee.pin_18.zone_18",
+          "notes": "",
+          "isTrusted": true
+        }
+      ],
+      "id": "cherokee.pin_18",
+      "notes": "    [unnamed Pin]",
+      "isTrusted": true
+    },
+    {
+      "name": "left on the road",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.44343539684524, "lng": -83.40487003316868 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0049626833124490274,
+            "min": 0.004086017223504992
+          },
+          "sector": {
+            "cut": true,
+            "max": 0.11429047467874105,
+            "min": -1.5734219963928873
+          },
+          "content": "Get back on Ela Road, and continue left",
+          "name": "",
+          "id": "cherokee.pin_19.zone_19",
+          "notes": ""
+        }
+      ],
+      "id": "cherokee.pin_19",
+      "notes": "    [unnamed Pin]"
+    },
+    {
+      "name": "cross the tracks",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.435080275855356, "lng": -83.4127593060248 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0018189856783233488,
+            "min": 0.0015909684051846676
+          },
+          "sector": { "cut": true, "max": 3, "min": -0.3359353751261251 },
+          "content": "Cross the tracks",
+          "name": "",
+          "id": "cherokee.pin_20.zone_20",
+          "notes": ""
+        }
+      ],
+      "id": "cherokee.pin_20",
+      "notes": "    [unnamed Pin]"
+    },
+    {
+      "name": "left after bridge",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.43173493335097, "lng": -83.41405391650825 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0027830107969982042,
+            "min": 0.001978471659049413
+          },
+          "sector": {
+            "cut": true,
+            "max": 2.4432122193741823,
+            "min": 0.3353063964262156
+          },
+          "content": "turn left immediately after crossing the river",
+          "name": "",
+          "id": "cherokee.pin_21.zone_21",
+          "notes": ""
+        }
+      ],
+      "id": "cherokee.pin_21",
+      "notes": "    [unnamed Pin]"
+    },
+    {
+      "name": "straight after stop",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.432165807193684, "lng": -83.3999347656345 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": { "cut": false, "max": 0.002867229105364657, "min": 0.001 },
+          "sector": { "cut": true, "max": -1.3800541367874049, "min": 2 },
+          "content": "After the stop sign, continue straight on old Bryson City Road.",
+          "name": "",
+          "id": "cherokee.pin_22.zone_22",
+          "notes": ""
+        }
+      ],
+      "id": "cherokee.pin_22",
+      "notes": "    [unnamed Pin]"
+    },
+    {
+      "name": "look for bridge",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.43581999771826, "lng": -83.38932037136601 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": { "cut": false, "max": 0.005169476765801481, "min": 0.001 },
+          "sector": { "cut": true, "max": -1.8873707233004444, "min": 2 },
+          "content": "look carefully for a small bridge on the right",
+          "name": "",
+          "id": "cherokee.pin_23.zone_23",
+          "notes": ""
+        }
+      ],
+      "id": "cherokee.pin_23",
+      "notes": "    [unnamed Pin]"
+    },
+    {
+      "name": "right bridge left",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.43656589333233, "lng": -83.38354110413547 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0036263891471237314,
+            "min": 0.0009870529174804688
+          },
+          "sector": { "cut": true, "max": -1.8260211979930794, "min": 2 },
+          "content": "Turn right, cross the bridge then turn left right away.",
+          "name": "",
+          "id": "cherokee.pin_24.zone_24",
+          "notes": ""
+        }
+      ],
+      "id": "cherokee.pin_24",
+      "notes": "    [unnamed Pin]"
+    },
+    {
+      "name": "left",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.4346486956589, "lng": -83.38241100225333 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0010300279131138757,
+            "min": 0.0009750199697729905
+          },
+          "sector": { "cut": true, "max": 3, "min": 0.7253727066448095 },
+          "content": "turn left to stay on old bryson city road",
+          "name": "",
+          "id": "cherokee.pin_25.zone_25",
+          "notes": ""
+        }
+      ],
+      "id": "cherokee.pin_25",
+      "notes": "    [unnamed Pin]"
+    },
+    {
+      "name": "Slow",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.43499834000794, "lng": -83.37897777471427 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0012511671755993622,
+            "min": 0.0009973935267336021
+          },
+          "sector": { "cut": true, "max": 3, "min": 1.2422090527671412 },
+          "content": "Slow down for these tight curves.",
+          "name": "",
+          "id": "cherokee.pin_26.zone_26",
+          "notes": ""
+        }
+      ],
+      "id": "cherokee.pin_26",
+      "notes": "    [unnamed Pin]"
+    },
+    {
+      "name": "left under bridge",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.430871816519875, "lng": -83.36181163701896 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0019397843264167324,
+            "min": 0.0009968297859603873
+          },
+          "sector": { "cut": true, "max": -2.810819552462945, "min": 2 },
+          "content": "Turn left, under the highway bridge.",
+          "name": "",
+          "id": "cherokee.pin_27.zone_27",
+          "notes": ""
+        }
+      ],
+      "id": "cherokee.pin_27",
+      "notes": "    [unnamed Pin]"
+    },
+    {
+      "name": "right into whittier",
+      "class": "pin",
+      "tag": "default",
+      "latlng": { "lat": 35.434432349160836, "lng": -83.3605599412249 },
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0019220035483402684,
+            "min": 0.0007413642025076305
+          },
+          "sector": {
+            "cut": true,
+            "max": -1.3816417592484886,
+            "min": -2.8663907727367204
+          },
+          "content": "Turn right into the town of whittier.",
+          "name": "",
+          "id": "cherokee.pin_28.zone_28",
+          "notes": ""
+        }
+      ],
+      "id": "cherokee.pin_28",
+      "notes": "    [unnamed Pin]"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "pin": [
+  
+  {
+    "name": "Judy",
+    "session": 49,
+    "id": 577,
+    "radius":"200",
+    "audio":  {
+      "enter"  :"This is my Home",
+      "exit"   :"Goodbye Judy",
+      "timeout":"",
+      "return" :"",
+      "reverse":""
+      }
+  }
+    
+  
+        ]
+}

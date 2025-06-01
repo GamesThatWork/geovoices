@@ -1,0 +1,1320 @@
+{
+  "schema": "Open Geotour",
+  "version": 0.6,
+  "id": "Cherokee",
+  "agent": "cherokee editor",
+  "attribution": "c.2022 Museum of the Cherokee Indian",
+  "author": "D Jacobson",
+  "url": null,
+  "theme": null,
+  "lat": 35.5011179,
+  "lng": -83.2966019,
+  "zoom": null,
+  "pins": [
+    {
+      "id": "start",
+      "lat": 35.58831379806755,
+      "lng": -83.40558944276012,
+      "zones": [
+        {
+          "radius": 286.28437569062635,
+          "sweep": 0.07858321062602147,
+          "id": "webb_overlook_-_100_yds",
+          "slice": 0.8275416364493371,
+          "speak": "Prepare to turn left in to the Webb Overlook just ahead."
+        },
+        {
+          "id": "Zone_1",
+          "radius": 821.4018539329317,
+          "slice": 0.9199820362769866,
+          "sweep": 0.045928771400192615,
+          "speak": "The tour begins by viewing Kuwahi from the Webb Overlook about a quarter mile away on your left."
+        },
+        {
+          "id": "Zone_2",
+          "radius": 1143.6036866216289,
+          "slice": 0.3697549479004852,
+          "sweep": 0.04011862097832609,
+          "speak": "The tour begins by viewing Kuwahi from the Webb Overlook about a half mile away on your right."
+        },
+        {
+          "id": "Zone_3",
+          "radius": 12309.09436829999,
+          "slice": 0.4195020150784196,
+          "sweep": 0.01,
+          "speak": "Our tour will begins with a view of Kuwahi from the Webb Overlook, in North Carolina, about fifteen minutes away."
+        },
+        {
+          "id": "Zone_4",
+          "radius": 12092.176815980454,
+          "slice": 0.9328064211109882,
+          "sweep": 0.01,
+          "speak": "Our tour will begins with a view of Kuwahi from the Webb Overlook, about fifteen minutes up the mountain from here."
+        },
+        {
+          "id": "Zone_5",
+          "radius": 300,
+          "speak": "Prepare to pull off on the right at the Webb Overlook jusy ahead.",
+          "slice": 0.3300567107524729,
+          "sweep": 0.039021606816681875
+        },
+        {
+          "id": "Zone_6",
+          "radius": 79.57240649379592,
+          "speak": "Pull off now into the Webb Overlook to start the tour with a view of Kuwahi.",
+          "slice": -0.06366798472201818,
+          "sweep": 0.3109576412693106
+        },
+        {
+          "id": "Leaving_Webb_Overlook",
+          "radius": 51.474270340832504,
+          "speak": "Leave the overlook and turn right to follow our tour down the mountain.",
+          "exit": true,
+          "slice": -0.20104374384763313,
+          "sweep": 0.5642846398619396,
+          "next": "kuwahi_intro"
+        },
+        {
+          "id": "Zone_8",
+          "radius": 300,
+          "slice": 0.31615048156308756,
+          "sweep": 0.061162307082949924,
+          "exit": true,
+          "speak": "Whoops. It looks like you are going the wrong way. To follow our tour, find a safe place to turn around and drive down the mountain. If you have already visited the webb overlook drive past it now."
+        }
+      ]
+    },
+    {
+      "id": "first_fire_intro",
+      "lat": 35.589550847682936,
+      "lng": -83.37047910398415,
+      "zones": [
+        {
+          "radius": 174,
+          "sweep": 0.1188509603303343,
+          "audio": "guide/first-fire.mp3",
+          "id": "first_fire",
+          "slice": 0.3813349376808136,
+          "next": "first_fire"
+        }
+      ]
+    },
+    {
+      "id": "how_to_follow_directions_intro",
+      "lat": 35.56030382015346,
+      "lng": -83.32577975354035,
+      "zones": [
+        {
+          "radius": 127,
+          "audio": "guide/directions.mp3",
+          "id": "how_to_follow_directions",
+          "next": "how_to_folllow_directions"
+        }
+      ]
+    },
+    {
+      "id": "kuwahi_intro",
+      "lat": 35.59394800950972,
+      "lng": -83.40521693306756,
+      "zones": [
+        {
+          "radius": 240,
+          "sweep": 0.357,
+          "audio": "guide/kawahi.mp3",
+          "id": "kuwahi_1",
+          "slice": -0.363,
+          "next": "kuwahi_outro"
+        }
+      ]
+    },
+    {
+      "id": "kuwahi_outro",
+      "lat": 35.59619003359037,
+      "lng": -83.39732408447846,
+      "zones": [
+        {
+          "radius": 238,
+          "sweep": 0.168,
+          "audio": "guide/first-fire.mp3",
+          "id": "kuwahi_2",
+          "slice": 0.34,
+          "next": "straight_down"
+        }
+      ]
+    },
+    {
+      "id": "selu_and_kanate_intro",
+      "lat": 35.45781114626677,
+      "lng": -83.3624839825825,
+      "zones": [
+        {
+          "radius": 161.46033327719135,
+          "audio": "guide/selu-kanati.mp3",
+          "id": "selu_and_kanate",
+          "slice": -0.06162868404617988,
+          "sweep": 0.14194937506808314,
+          "next": "selu"
+        }
+      ]
+    },
+    {
+      "id": "ballgame_of_birds_and_animals",
+      "lat": 35.46485435458919,
+      "lng": -83.23898792704769,
+      "zones": [
+        {
+          "radius": 332,
+          "sweep": 0.227,
+          "audio": "story/ballgame-of-birds-and-animals.ogg",
+          "id": "ballgame_of_birds_and_animals",
+          "slice": 0.266
+        }
+      ]
+    },
+    {
+      "id": "first_fire",
+      "lat": 35.58575870456767,
+      "lng": -83.35872530937878,
+      "zones": [
+        {
+          "radius": 163,
+          "sweep": 0.293,
+          "audio": "story/first-fire-story.mp3",
+          "id": "first_fire",
+          "slice": 0.34,
+          "next": "how_to_follow_directions_intro"
+        }
+      ]
+    },
+    {
+      "id": "how_to_folllow_directions",
+      "lat": 35.555501757344594,
+      "lng": -83.3139337235691,
+      "zones": [
+        {
+          "radius": 127,
+          "audio": "story/how-to-follow-directions.mp3",
+          "id": "how_to_follow_directions",
+          "next": "exit_the_park"
+        }
+      ]
+    },
+    {
+      "id": "kanati",
+      "lat": 35.44758250691224,
+      "lng": -83.38304043247263,
+      "zones": [
+        {
+          "radius": 208,
+          "audio": "story/kanati.mp3",
+          "id": "kanati",
+          "slice": 0.8627847889163069,
+          "sweep": 0.18353008262922188,
+          "next": "straight_past_bridge_1"
+        }
+      ]
+    },
+    {
+      "id": "selu",
+      "lat": 35.45839360435171,
+      "lng": -83.36830616450244,
+      "zones": [
+        {
+          "radius": 231,
+          "audio": "story/selu.mp3",
+          "id": "selu",
+          "slice": 0.924295278025024,
+          "sweep": 0.11852812816174196,
+          "next": "straight_past_bridge_whittier"
+        }
+      ]
+    },
+    {
+      "id": "spear_finger",
+      "lat": 35.51137412502472,
+      "lng": -83.15849304287896,
+      "zones": [
+        {
+          "radius": 573,
+          "sweep": 0.331,
+          "audio": "story/spearfinger.ogg",
+          "id": "spearfinger",
+          "slice": -0.406
+        }
+      ]
+    },
+    {
+      "id": "kituwah_mound",
+      "lat": 35.43735482721607,
+      "lng": -83.39921236156898,
+      "zones": [
+        {
+          "radius": 311.3688080306544,
+          "id": "zone_00",
+          "audio": "guide/kituwah.mp3",
+          "slice": 0.35389920889997034,
+          "sweep": 0.13594406419599397
+        }
+      ]
+    },
+    {
+      "id": "socco_falls",
+      "lat": 35.492784497500196,
+      "lng": -83.16964566795265,
+      "zones": [
+        {
+          "radius": 128,
+          "sweep": 0.539,
+          "speak": "Pull off the road and enjoy the Falls.",
+          "id": "zone_00",
+          "slice": 0.24
+        }
+      ]
+    },
+    {
+      "id": "thomas_divide_overlook",
+      "lat": 35.520368753204615,
+      "lng": -83.24749767764276,
+      "zones": [
+        {
+          "radius": 217,
+          "sweep": 0.625,
+          "speak": "Get out of the car and take in the view.",
+          "id": "zone_00",
+          "slice": -0.16
+        }
+      ]
+    },
+    {
+      "id": "new_kituwah_academy",
+      "lat": 35.500859847895924,
+      "lng": -83.310050368749,
+      "zones": [
+        {
+          "radius": 132,
+          "sweep": 0.416,
+          "speak": "Pull off the road and hear the children.",
+          "id": "zone_00",
+          "slice": -0.413
+        }
+      ]
+    },
+    {
+      "id": "museum_of_the_cherokee",
+      "lat": 35.48440151259639,
+      "lng": -83.31588864370816,
+      "zones": [
+        {
+          "radius": 227,
+          "sweep": 0.309,
+          "speak": "Thank you for taking the Cherokee Legends Geo Tour.",
+          "id": "zone_00",
+          "slice": 0.156
+        }
+      ]
+    },
+    {
+      "id": "webb_overlook",
+      "lat": 35.588146279203364,
+      "lng": -83.40603125174918,
+      "zones": [
+        {
+          "radius": 93,
+          "sweep": 0.4256586513523054,
+          "id": "zone_00",
+          "slice": -0.1621789923684298,
+          "audio": "guide/welcome.mp3"
+        }
+      ]
+    },
+    {
+      "id": "straight_down",
+      "lat": 35.592293232906535,
+      "lng": -83.38260054599915,
+      "zones": [
+        {
+          "radius": 177,
+          "sweep": 0.254,
+          "speak": "Continue down the mountain for the next twenty minutes.",
+          "id": "zone_00",
+          "slice": 0.318,
+          "next": "first_fire_intro"
+        }
+      ]
+    },
+    {
+      "id": "exit_the_park",
+      "lat": 35.509633081852066,
+      "lng": -83.30669403077536,
+      "zones": [
+        {
+          "radius": 144,
+          "sweep": 0.435,
+          "speak": "We are now leaving the park. Watch out for people and elk.",
+          "id": "zone_00",
+          "slice": 0.042,
+          "next": "look_for_sign"
+        }
+      ]
+    },
+    {
+      "id": "look_for_sign",
+      "lat": 35.49951489506704,
+      "lng": -83.30158710480079,
+      "zones": [
+        {
+          "radius": 181,
+          "sweep": 0.147,
+          "speak": "Watch carefully for a sign on your left. It is hard to see but it will say Big Cove. That is where we turn.",
+          "id": "zone_00",
+          "slice": 0.015,
+          "next": "left_across_bridge"
+        }
+      ]
+    },
+    {
+      "id": "left_across_bridge",
+      "lat": 35.49939990724764,
+      "lng": -83.30309629429735,
+      "zones": [
+        {
+          "radius": 139.0369552206964,
+          "sweep": 0.224,
+          "speak": "Take a left turn and follow the road across the bridge toward Big Cove.",
+          "id": "zone_00",
+          "slice": -0.058,
+          "next": "cross_bridge_then_right"
+        },
+        {
+          "id": "Zone_1",
+          "radius": 59.58386678463057,
+          "slice": -0.03227102724378189,
+          "sweep": 0.10468423996423523,
+          "speak": "Turn Left"
+        }
+      ]
+    },
+    {
+      "id": "cross_bridge_then_right",
+      "lat": 35.49877086736255,
+      "lng": -83.29988837231554,
+      "zones": [
+        {
+          "radius": 79.81784601043714,
+          "sweep": 0.1594083618784185,
+          "speak": "After crossing the bridge, turn right on Big Cove Road.",
+          "id": "zone_00",
+          "slice": 0.3098562291898693,
+          "next": "left_at_t"
+        }
+      ]
+    },
+    {
+      "id": "left_at_t",
+      "lat": 35.49880575292313,
+      "lng": -83.30628097057685,
+      "zones": [
+        {
+          "radius": 127,
+          "sweep": 0.172,
+          "speak": "At the T intersection, turn left onto Acquoni Road.",
+          "id": "zone_00",
+          "slice": -0.085
+        },
+        {
+          "id": "Zone_1",
+          "radius": 491.42579637825617,
+          "slice": 0.9476800053198053,
+          "sweep": 0.029730121895372094,
+          "speak": "continue on until the road ends - -in a Tee",
+          "next": "Yellow_Hill"
+        }
+      ]
+    },
+    {
+      "id": "straight_through_roundabout",
+      "lat": 35.484425532263785,
+      "lng": -83.31445097922598,
+      "zones": [
+        {
+          "radius": 191,
+          "sweep": 0.11922827950081807,
+          "speak": "Go straight through the roundabout.",
+          "id": "zone_00",
+          "slice": 0.13045662736023816,
+          "next": "past_islands_park"
+        }
+      ]
+    },
+    {
+      "id": "past_islands_park",
+      "lat": 35.48082564244356,
+      "lng": -83.31748008899923,
+      "zones": [
+        {
+          "radius": 154.41991662868472,
+          "sweep": 0.1580684936590142,
+          "speak": "Continue past Islands Park.",
+          "id": "zone_00",
+          "slice": 0.0565700326487828,
+          "next": "right_onto_19"
+        }
+      ]
+    },
+    {
+      "id": "right_onto_19",
+      "lat": 35.47663721583121,
+      "lng": -83.31930041264401,
+      "zones": [
+        {
+          "radius": 117.44180657488006,
+          "sweep": 0.11561592852057465,
+          "speak": "At the light, turn right onto Route 19.",
+          "id": "zone_00",
+          "slice": 0.1694725353732952,
+          "next": "straight_thru_light"
+        }
+      ]
+    },
+    {
+      "id": "straight_thru_light",
+      "lat": 35.47700444830579,
+      "lng": -83.32062721341119,
+      "zones": [
+        {
+          "radius": 104,
+          "sweep": 0.08816719262334055,
+          "speak": "Cross the river, go through the light and straight up the hill,",
+          "id": "zone_00",
+          "slice": 0.9166623688380988,
+          "next": "straight_through_lights"
+        }
+      ]
+    },
+    {
+      "id": "straight_through_lights",
+      "lat": 35.475381636999494,
+      "lng": -83.32862556068335,
+      "zones": [
+        {
+          "radius": 111,
+          "sweep": 0.64,
+          "speak": "Continue throuogh the lights, straight on 19.",
+          "id": "zone_00",
+          "slice": -0.163,
+          "next": "birdtown"
+        }
+      ]
+    },
+    {
+      "id": "straight_past_bridge",
+      "lat": 35.48013478862332,
+      "lng": -83.35458755400397,
+      "zones": [
+        {
+          "radius": 111,
+          "sweep": 0.159,
+          "speak": "Continue straight, go past the bridge.",
+          "id": "zone_00",
+          "slice": 0.318
+        }
+      ]
+    },
+    {
+      "id": "straight_past_bridge_0",
+      "lat": 35.4589988779859,
+      "lng": -83.35805654439811,
+      "zones": [
+        {
+          "radius": 105.39779408136798,
+          "sweep": 0.501,
+          "speak": "Continue straight, go past the bridge.",
+          "id": "zone_00",
+          "slice": -0.024,
+          "next": "selu_and_kanate_intro"
+        }
+      ]
+    },
+    {
+      "id": "straight_past_bridge_whittier",
+      "lat": 35.44715573704073,
+      "lng": -83.38058710204677,
+      "zones": [
+        {
+          "radius": 111,
+          "sweep": 0.22339937879432425,
+          "speak": "Continue straight, go past the bridge into Whittier.",
+          "id": "zone_00",
+          "slice": -0.06867705435793725,
+          "next": "kanati"
+        }
+      ]
+    },
+    {
+      "id": "straight_past_bridge_1",
+      "lat": 35.452941659203375,
+      "lng": -83.391113877791,
+      "zones": [
+        {
+          "radius": 111,
+          "sweep": 0.2776553985814193,
+          "speak": "Continue straight, go past the bridge.",
+          "id": "zone_00",
+          "slice": 0.7985430873432976,
+          "next": "straight_past_rr_bridge"
+        }
+      ]
+    },
+    {
+      "id": "straight_past_rr_bridge",
+      "lat": 35.448590585070264,
+      "lng": -83.40143680828989,
+      "zones": [
+        {
+          "radius": 314,
+          "sweep": 0.12103559519223334,
+          "speak": "Continue on Ela Road, as you go past the ancient Railroad bridge.",
+          "id": "zone_00",
+          "slice": 0.13079858706257014,
+          "next": "prepare_to_turn"
+        }
+      ]
+    },
+    {
+      "id": "prepare_to_turn",
+      "lat": 35.441415499059445,
+      "lng": -83.40072512745338,
+      "zones": [
+        {
+          "radius": 332,
+          "sweep": 0.17006399569927638,
+          "speak": "Prepare to stop at the giddoo wah mound on your left",
+          "id": "zone_00",
+          "slice": 0.10987731648680149,
+          "next": "Enter_the_Mound"
+        }
+      ]
+    },
+    {
+      "id": "park",
+      "lat": 35.438295133697174,
+      "lng": -83.40140104304056,
+      "zones": [
+        {
+          "radius": 228.66048321693768,
+          "sweep": 0.0831761270195816,
+          "speak": "enter the grounds. Cross the tracks. Park anywhere. But never set foot on the Mound itself.",
+          "id": "zone_00",
+          "slice": 0.394629019003694,
+          "next": "kituwah_mound"
+        },
+        {
+          "id": "Zone_1",
+          "radius": 194.93522255810979,
+          "exit": true,
+          "slice": 0.4087448927831759,
+          "sweep": 0.08420454547529543,
+          "speak": "Get back up on the road and turn left to continue the tour.",
+          "next": "cross_the_tracks"
+        }
+      ]
+    },
+    {
+      "id": "cross_the_tracks",
+      "lat": 35.43386115435869,
+      "lng": -83.4134101908876,
+      "zones": [
+        {
+          "radius": 59.35871893949069,
+          "sweep": 0.5368527711819514,
+          "speak": "Cross the tracks",
+          "id": "zone_00",
+          "slice": -0.08777693426752536,
+          "next": "left_after_bridge"
+        }
+      ]
+    },
+    {
+      "id": "left_after_bridge",
+      "lat": 35.43099454982218,
+      "lng": -83.41444015914932,
+      "zones": [
+        {
+          "radius": 187.2582431197774,
+          "sweep": 0.14989435449574887,
+          "speak": "turn left immediately after crossing the river",
+          "id": "zone_00",
+          "slice": 0.12454310596157947
+        },
+        {
+          "id": "Zone_1",
+          "radius": 313.7971662790605,
+          "slice": 0.8243049778636069,
+          "sweep": 0.043764871676504946,
+          "speak": "Continue along the southern shore of the Tuckaseegee River",
+          "next": "straight_after_stop",
+          "exit": true
+        }
+      ]
+    },
+    {
+      "id": "straight_after_stop",
+      "lat": 35.43438238409855,
+      "lng": -83.39838981790764,
+      "zones": [
+        {
+          "radius": 353.8000529955355,
+          "sweep": 0.09910485657980758,
+          "speak": "After the stop sign, continue straight on old Bryson City Road.",
+          "id": "zone_00",
+          "slice": 0.5988205430729319
+        },
+        {
+          "id": "Zone_1",
+          "radius": 56.06702737315616,
+          "slice": 0.44218584539813,
+          "sweep": 0.17471613279143444,
+          "speak": "Go straight after the stop sign, to stay on Old Bryson City Road",
+          "next": "look_for_bridge"
+        }
+      ]
+    },
+    {
+      "id": "look_for_bridge",
+      "lat": 35.43615646949735,
+      "lng": -83.38662743621627,
+      "zones": [
+        {
+          "radius": 586.028488591245,
+          "sweep": 0.01586071138969485,
+          "speak": "look carefully for a small inconspicuous bridge coming up soon on the right.",
+          "id": "zone_00",
+          "slice": 0.5115449270492414,
+          "next": "right_bridge_left"
+        }
+      ]
+    },
+    {
+      "id": "right_bridge_left",
+      "lat": 35.43656589333233,
+      "lng": -83.38354110413547,
+      "zones": [
+        {
+          "radius": 270,
+          "sweep": 0.053298493075580156,
+          "speak": "Turn right, cross the bridge then turn left right away.",
+          "id": "zone_00",
+          "slice": 0.4853621791578203,
+          "next": "left"
+        },
+        {
+          "id": "Zone_1",
+          "radius": 42.91530190787951,
+          "slice": 0.3569380136429252,
+          "sweep": 0.17236070997595615,
+          "speak": "Here is the bridge. Turn right."
+        }
+      ]
+    },
+    {
+      "id": "left",
+      "lat": 35.43419255965981,
+      "lng": -83.38233768955662,
+      "zones": [
+        {
+          "radius": 195.39004640109889,
+          "sweep": 0.0987194060024097,
+          "speak": "turn left right up ahead to stay on old bryson city road",
+          "id": "zone_00",
+          "slice": 0.2787279810587343,
+          "next": "slow"
+        }
+      ]
+    },
+    {
+      "id": "slow",
+      "lat": 35.43499834000794,
+      "lng": -83.37897777471427,
+      "zones": [
+        {
+          "radius": 139,
+          "sweep": 0.09922648734018027,
+          "speak": "Slow down and drive carefully. these are very tight curves.",
+          "id": "zone_00",
+          "slice": 0.2706913218347322,
+          "next": "New Pin"
+        }
+      ]
+    },
+    {
+      "id": "left_under_bridge",
+      "lat": 35.430871816519875,
+      "lng": -83.36181163701896,
+      "zones": [
+        {
+          "radius": 163.73655998969798,
+          "sweep": 0.04282407927346224,
+          "speak": "Turn left, at the T, to approach the old town of Whittier.",
+          "id": "zone_00",
+          "slice": 0.44039315328333506
+        },
+        {
+          "id": "Zone_1",
+          "radius": 30,
+          "exit": true,
+          "speak": "Turn Left and drivr under the Bridge.",
+          "slice": 0.3473301126234608,
+          "sweep": 0.17362658189487187,
+          "next": "right_into_whittier"
+        }
+      ]
+    },
+    {
+      "id": "right_into_whittier",
+      "lat": 35.43539707584549,
+      "lng": -83.36019873661373,
+      "zones": [
+        {
+          "radius": 157.03840463509368,
+          "sweep": 0.08278915148602489,
+          "speak": "Turn right into the town of whittier.",
+          "id": "zone_00",
+          "slice": 0.6414823608203102
+        },
+        {
+          "id": "Zone_1",
+          "radius": 63.91920606971042,
+          "slice": 0.6098309769761123,
+          "sweep": 0.13034209980795208,
+          "speak": "Turn right now",
+          "next": "revis_store"
+        }
+      ]
+    },
+    {
+      "id": "revis_store",
+      "lat": 35.434270765784824,
+      "lng": -83.3577919040181,
+      "zones": [
+        {
+          "radius": 239.38965937163,
+          "sweep": 0.035768328580932256,
+          "speak": "Drive through the little town and turn left at Revis Store",
+          "id": "zone_00",
+          "slice": 0.44295403826177
+        },
+        {
+          "id": "Zone_1",
+          "radius": 35.812396942734466,
+          "slice": 0.4107445347904196,
+          "sweep": 0.10129728384009823,
+          "exit": true,
+          "speak": "Turn left - here at the Revis Store.",
+          "next": "shoal_creek_road"
+        }
+      ]
+    },
+    {
+      "id": "shoal_creek_road",
+      "lat": 35.43817483941081,
+      "lng": -83.35690856033125,
+      "zones": [
+        {
+          "radius": 256.50413063329484,
+          "sweep": 0.227,
+          "speak": "Turn off on Shoal Creek Road. Go right - away from the River.",
+          "id": "zone_00",
+          "slice": -0.424
+        },
+        {
+          "id": "Zone_1",
+          "radius": 56.598144079658084,
+          "speak": "This is Shoal Creek Road. Turn here.",
+          "next": "bear_left"
+        },
+        {
+          "id": "Zone_2",
+          "radius": 159.25550086564817,
+          "exit": true,
+          "slice": 0.26361588235189554,
+          "sweep": 0.19923139287057254,
+          "speak": "Ooops. You missed the turn to Shoal Creek Road. Turn around someplace safe."
+        },
+        {
+          "id": "Zone_3",
+          "radius": 345.07231719853024,
+          "slice": 0.3228722700310036,
+          "sweep": 0.10837590345312868,
+          "speak": "Turn left up ahead at Shoal Creek Road."
+        }
+      ]
+    },
+    {
+      "id": "bear_left",
+      "lat": 35.43770420215696,
+      "lng": -83.34435939914329,
+      "zones": [
+        {
+          "radius": 166.2406964705856,
+          "speak": "Bear a little left and follow the twisty road",
+          "id": "zone_00",
+          "slice": 0.41061468580429955,
+          "sweep": 0.11595007581911616,
+          "next": "continue_past_the_tiny_houses"
+        }
+      ]
+    },
+    {
+      "id": "continue_past_the_tiny_houses",
+      "lat": 35.44035477319789,
+      "lng": -83.3378648735834,
+      "zones": [
+        {
+          "radius": 187.07408050573665,
+          "speak": "bear right and continue past the tiny houses.",
+          "id": "zone_00",
+          "slice": 0.2610788567232022,
+          "sweep": 0.3056599393492583,
+          "next": "left_on_411"
+        }
+      ]
+    },
+    {
+      "id": "test_point",
+      "lat": 35.50094024457446,
+      "lng": -83.29841494515222,
+      "zones": [{ "radius": 82, "id": "zone_00" }]
+    },
+    {
+      "id": "birdtown",
+      "lat": 35.47009168045271,
+      "lng": -83.35015297274369,
+      "zones": [
+        {
+          "radius": 290.25414105165083,
+          "audio": "guide/birdtown.mp3",
+          "id": "selu_and_kanate",
+          "slice": 0.042379004381463636,
+          "sweep": 0.03149456835605317,
+          "next": "straight_past_bridge_0"
+        }
+      ]
+    },
+    {
+      "id": "ballgame_of_birds_and_animals.01",
+      "lat": 35.468164007927264,
+      "lng": -83.25567053538236,
+      "zones": [
+        {
+          "radius": 332,
+          "sweep": 0.227,
+          "audio": "story/ballgame-of-birds-and-animals.ogg",
+          "id": "ballgame_of_birds_and_animals",
+          "slice": 0.266
+        }
+      ]
+    },
+    {
+      "id": "selu.01",
+      "lat": 35.44506310778664,
+      "lng": -83.29448175718427,
+      "zones": [
+        {
+          "radius": 677.1396820544801,
+          "sweep": 0.07551471415509667,
+          "audio": "story/selu.mp3",
+          "id": "selu",
+          "slice": 0.49146155776097644,
+          "next": "right_at_y"
+        }
+      ]
+    },
+    {
+      "id": "spear_finger.01",
+      "lat": 35.51137412502472,
+      "lng": -83.15849304287896,
+      "zones": [
+        {
+          "radius": 573,
+          "sweep": 0.331,
+          "audio": "story/spearfinger.ogg",
+          "id": "spearfinger",
+          "slice": -0.406
+        }
+      ]
+    },
+    {
+      "id": "socco_falls.01",
+      "lat": 35.492784497500196,
+      "lng": -83.16964566795265,
+      "zones": [
+        {
+          "radius": 128,
+          "sweep": 0.539,
+          "speak": "Pull off the road and enjoy the Falls.",
+          "id": "zone_00",
+          "slice": 0.24
+        }
+      ]
+    },
+    {
+      "id": "thomas_divide_overlook.01",
+      "lat": 35.520368753204615,
+      "lng": -83.24749767764276,
+      "zones": [
+        {
+          "radius": 217,
+          "sweep": 0.625,
+          "speak": "Get out of the car and take in the view.",
+          "id": "zone_00",
+          "slice": -0.16
+        }
+      ]
+    },
+    {
+      "id": "new_kituwah_academy.01",
+      "lat": 35.500859847895924,
+      "lng": -83.310050368749,
+      "zones": [
+        {
+          "radius": 132,
+          "sweep": 0.416,
+          "speak": "Pull off the road and hear the children.",
+          "id": "zone_00",
+          "slice": -0.413
+        }
+      ]
+    },
+    {
+      "id": "museum_of_the_cherokee.01",
+      "lat": 35.48440151259639,
+      "lng": -83.31588864370816,
+      "zones": [
+        {
+          "radius": 227,
+          "sweep": 0.309,
+          "speak": "Thank you for taking the Cherokee Legends Geo Tour.",
+          "id": "zone_00",
+          "slice": 0.156
+        }
+      ]
+    },
+    {
+      "id": "left_on_411",
+      "lat": 35.43858315012201,
+      "lng": -83.32468128266555,
+      "zones": [
+        {
+          "radius": 294.5348955060531,
+          "sweep": 0.07140060188608714,
+          "speak": "At the stop sign, carefully make a left turn onto Highway Four Forty One",
+          "id": "zone_00",
+          "slice": 0.38501215652928156,
+          "next": "right_behind_santa"
+        },
+        {
+          "id": "Zone_1",
+          "radius": 46.21826746699284,
+          "speak": "Turn Left. Carefully.",
+          "slice": 0.2765243261181992,
+          "sweep": 0.29162510070978315
+        }
+      ]
+    },
+    {
+      "id": "right_behind_santa",
+      "lat": 35.44834746059497,
+      "lng": -83.30698013038274,
+      "zones": [
+        {
+          "radius": 817,
+          "speak": "Take a right turn behind the big billboard for pizza and Santa Land. Turn right on Camp Creek Road.",
+          "id": "zone_00",
+          "slice": 0.526740300031172,
+          "sweep": 0.12752620932947256
+        },
+        {
+          "radius": 104.40757153741049,
+          "id": "zone_01",
+          "speak": "Turn here onto Camp Creek.",
+          "next": "left_on_old_mission"
+        }
+      ]
+    },
+    {
+      "id": "left_on_old_mission",
+      "lat": 35.44322098912914,
+      "lng": -83.30160570334556,
+      "zones": [
+        {
+          "radius": 190,
+          "sweep": 0.223,
+          "speak": "Turn left into the valley on Old Mission Road",
+          "id": "zone_00",
+          "slice": 0.254,
+          "next": "selu.01"
+        }
+      ]
+    },
+    {
+      "id": "right_at_y",
+      "lat": 35.46204839134129,
+      "lng": -83.27587366038644,
+      "zones": [
+        {
+          "radius": 57.337326852016425,
+          "sweep": 0.29,
+          "speak": "Bear right at the branch.",
+          "id": "zone_00",
+          "slice": 0.482
+        }
+      ]
+    },
+    {
+      "id": "right_at_t",
+      "lat": 35.466653201149704,
+      "lng": -83.27550888061525,
+      "zones": [
+        {
+          "radius": 183.16360621321775,
+          "sweep": 0.3157891646900014,
+          "speak": "AUU",
+          "id": "zone_00",
+          "slice": 0.601111601815795
+        },
+        { "id": "Zone_1", "radius": 30, "speak": "Turn Right" }
+      ]
+    },
+    {
+      "id": "falls",
+      "lat": 35.49213966690709,
+      "lng": -83.17200136178145,
+      "zones": [
+        {
+          "radius": 111,
+          "sweep": 0.159,
+          "speak": "Prepare to stop at Socco Falls on your right.",
+          "id": "zone_00",
+          "slice": 0.318
+        }
+      ]
+    },
+    {
+      "id": "careful",
+      "lat": 35.49308219210037,
+      "lng": -83.16929769509443,
+      "zones": [
+        {
+          "radius": 111,
+          "speak": "Be very careful. There are many accidents right here.",
+          "id": "zone_00"
+        },
+        {
+          "radius": 498,
+          "speak": "You are approaching Socco Falls",
+          "id": "zone_01"
+        }
+      ]
+    },
+    {
+      "id": "pass",
+      "lat": 35.49176966972103,
+      "lng": -83.16075682638713,
+      "zones": [
+        {
+          "radius": 165,
+          "speak": "After leaving the falls, continue up Socco Pass.",
+          "id": "zone_00"
+        }
+      ]
+    },
+    {
+      "id": "right_blue_ridge",
+      "lat": 35.49515896458877,
+      "lng": -83.15691232718109,
+      "zones": [
+        {
+          "radius": 276,
+          "sweep": 0.2,
+          "speak": "Turn right to enter the Blue Ridge Parkway.",
+          "id": "zone_00",
+          "slice": 0.464
+        }
+      ]
+    },
+    {
+      "id": "left_smokies",
+      "lat": 35.495975823473486,
+      "lng": -83.1556069849762,
+      "zones": [
+        {
+          "radius": 115,
+          "sweep": 0.126,
+          "speak": "Turn left onto the Parkway toward the Great Smokey Mountains Park.",
+          "id": "zone_00",
+          "slice": -0.449
+        }
+      ]
+    },
+    {
+      "id": "straight_cherokee",
+      "lat": 35.50130764811517,
+      "lng": -83.15558910408072,
+      "zones": [
+        {
+          "radius": 111,
+          "sweep": 0.159,
+          "speak": "Go straight to Cherokee. ",
+          "id": "zone_00",
+          "slice": 0.318
+        }
+      ]
+    },
+    {
+      "id": "approaching_thomas",
+      "lat": 35.52553344292985,
+      "lng": -83.22981834406166,
+      "zones": [
+        {
+          "radius": 454,
+          "sweep": 0.089,
+          "speak": "Prepare to stop at the Thomas Divide Overlook on the right.",
+          "id": "zone_00",
+          "slice": -0.042
+        }
+      ]
+    },
+    {
+      "id": "continue",
+      "lat": 35.51924077857188,
+      "lng": -83.24739932948435,
+      "zones": [
+        {
+          "radius": 169,
+          "sweep": 0.257,
+          "speak": "enter the parkway and continue to the right",
+          "id": "zone_00",
+          "slice": 0.22
+        }
+      ]
+    },
+    {
+      "id": "caution",
+      "lat": 35.5115597164698,
+      "lng": -83.2716507904479,
+      "zones": [
+        {
+          "radius": 111,
+          "sweep": 0.485,
+          "speak": "Slow down on dangerous curves.",
+          "id": "zone_00",
+          "slice": -0.008
+        }
+      ]
+    },
+    {
+      "id": "right_in_park",
+      "lat": 35.50542941937382,
+      "lng": -83.30090403540454,
+      "zones": [
+        {
+          "radius": 107,
+          "sweep": 0.211,
+          "speak": "In the park, turn left and drive straight into town.",
+          "id": "zone_00",
+          "slice": 0.07
+        }
+      ]
+    },
+    {
+      "id": "prep_nka",
+      "lat": 35.50018132966722,
+      "lng": -83.30716967599075,
+      "zones": [
+        {
+          "radius": 203,
+          "sweep": 0.055,
+          "speak": "Prepare to stop at New Gidoo Wah Academy on the right.",
+          "id": "zone_00",
+          "slice": -0.039
+        }
+      ]
+    },
+    {
+      "id": "right",
+      "lat": 35.499090235040164,
+      "lng": -83.3107241398193,
+      "zones": [
+        {
+          "radius": 201,
+          "sweep": 0.301,
+          "speak": "After New Kituwah Academy, turn right and drive straight into town.",
+          "id": "zone_00",
+          "slice": 0.134
+        }
+      ]
+    },
+    {
+      "id": "prep_mci",
+      "lat": 35.487535024671544,
+      "lng": -83.31542015075684,
+      "zones": [
+        {
+          "radius": 113,
+          "sweep": 0.271,
+          "speak": "Prepare to stop at the Museum of the Cherokee.",
+          "id": "zone_00",
+          "slice": 0.115
+        }
+      ]
+    },
+    {
+      "id": "Yellow_Hill",
+      "lat": 35.49141929276412,
+      "lng": -83.31237681180446,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 300,
+          "speak": "Keep going - through the small community of Yellow Hill",
+          "next": "straight_through_roundabout",
+          "slice": 0.001444917795000611,
+          "sweep": 0.19219604052676725
+        }
+      ]
+    },
+    {
+      "id": "Enter_the_Mound",
+      "lat": 35.43923205872116,
+      "lng": -83.40569810416969,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 253.41870100266627,
+          "slice": -0.013796209956118743,
+          "sweep": 0.06335665265105384,
+          "speak": "Turn Left right here",
+          "next": "park"
+        }
+      ]
+    },
+    {
+      "id": "New Pin",
+      "lat": 35.43522008898641,
+      "lng": -83.37349536310667,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 188.94363807432396,
+          "slice": 0.4256991050633643,
+          "sweep": 0.3416324849022523,
+          "audio": "guide/3200-acre-tract.mp3",
+          "next": "left_under_bridge"
+        }
+      ]
+    }
+  ]
+}

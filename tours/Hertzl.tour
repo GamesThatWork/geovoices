@@ -1,0 +1,1014 @@
+{
+  "schema": "Open Geotour",
+  "version": 0.5,
+  "agent": "cherokee editor",
+  "attribution": "c.2022 Museum of the Cherokee Indian",
+  "author": "D Jacobson",
+  "url": null,
+  "theme": null,
+  "lat": 33.97523560148898,
+  "lng": -84.12763977203524,
+  "zoom": 17,
+  "pins": [
+    {
+      "lat": 33.984844637602784,
+      "lng": -84.18203759101745,
+      "zones": [
+        {
+          "id": "start",
+          "radius": 165.5079888926683,
+          "slice": 0.7765463777415171,
+          "sweep": 0.11616191101862888,
+          "exit": true,
+          "speak": "Let's go to HERTZ.Please turn Left toard Hilltop Lane.",
+          "next": "Hilltop"
+        },
+        {
+          "id": "Zone_1",
+          "radius": 177.04209086777703,
+          "speak": "You have arrived at the house of the jacobsons with a new car and a nice walk and a full tummy. time for a swim and a nap but maybe not in that order.",
+          "slice": 0.7012669270131466,
+          "sweep": 0.22640118422632693
+        },
+        {
+          "id": "Zone_2",
+          "radius": 168.25279001315508,
+          "exit": true,
+          "slice": 0.7124291999149512,
+          "sweep": 0.22705489813156937,
+          "speak": "make a right out of the driveway and we will pick up a new car, and go for a nice walk in the park and then go to an indian buffet and then come back home",
+          "next": "Hilltop"
+        }
+      ],
+      "id": "Jacobson"
+    },
+    {
+      "id": "Hilltop",
+      "lat": 33.98252103352482,
+      "lng": -84.18219637962467,
+      "tags": [],
+      "zones": [
+        {
+          "id": "left",
+          "radius": 91.86401904792672,
+          "slice": 0.14436155061010103,
+          "sweep": 0.056728041451625605,
+          "speak": "stay on lake shore drive",
+          "next": "New Pin"
+        }
+      ]
+    },
+    {
+      "id": "New Pin",
+      "lat": 33.981143006451276,
+      "lng": -84.18054306428533,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Continue",
+          "radius": 127.19936830541877,
+          "speak": "Continue on curvey lake shore drive",
+          "next": "Stop_Sign"
+        }
+      ]
+    },
+    {
+      "id": "Stop_Sign",
+      "lat": 33.97989045495287,
+      "lng": -84.17850136658674,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 67.49055978033522,
+          "speak": "please turn left at the stop sign onto ridge road",
+          "next": "Flute_Music",
+          "slice": 0.5124310593571858,
+          "sweep": 0.12102039160900234
+        },
+        {
+          "id": "Zone_1",
+          "radius": 70.78739345335619,
+          "speak": "Turn right to go home.",
+          "slice": 0.06967886611909596,
+          "sweep": 0.27146055085788984,
+          "next": "Hilltop"
+        },
+        {
+          "id": "Zone_2",
+          "radius": 786.9004596717436,
+          "speak": "Please drive slowly. My neighbors are all out walking their dogs and also there are deer and maybe even one or two children.",
+          "slice": 0.1396868546897967,
+          "sweep": 0.01
+        }
+      ]
+    },
+    {
+      "id": "Flute_Music",
+      "lat": 33.98371932218321,
+      "lng": -84.17604819975482,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 469.2704819758453,
+          "audio": "music/flute.mp3",
+          "next": "Interruption"
+        }
+      ]
+    },
+    {
+      "id": "Ridge_meets_NBL",
+      "lat": 33.98596088151475,
+      "lng": -84.1724250887888,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 46.988323424058756,
+          "slice": 0.5044893079931809,
+          "sweep": 0.14363712418387142,
+          "speak": "Make a Right Turn at the stop sign",
+          "next": "Pattons"
+        },
+        {
+          "id": "Zone_1",
+          "radius": 86.7326158954385,
+          "slice": 0.5323645130076972,
+          "sweep": 0.14065090814905917,
+          "speak": "make a quick left onto ridge road",
+          "next": "Stop_Sign"
+        }
+      ]
+    },
+    {
+      "id": "Interruption",
+      "lat": 33.98434839669836,
+      "lng": -84.17532818794336,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 50.956817392276776,
+          "speak": "Pardon me, but I am just checking.Do you enjoy the flute music?",
+          "next": "Ridge_meets_NBL"
+        }
+      ]
+    },
+    {
+      "id": "Pattons",
+      "lat": 33.985512084496335,
+      "lng": -84.17149930230333,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 33.59310753074966,
+          "speak": "Go straight through the light - when it turns green.",
+          "next": "Chunkey"
+        },
+        {
+          "id": "Zone_1",
+          "radius": 165.9282171251471,
+          "slice": 0.14564507047002978,
+          "sweep": 0.052664133956686926,
+          "speak": "Turn right when you het to the light to visit beautiful Berkeley Lake"
+        }
+      ]
+    },
+    {
+      "id": "Firestation",
+      "lat": 33.98273709972696,
+      "lng": -84.16924781274622,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 30,
+          "speak": "We are now passing the Gwinnett county Fire Station",
+          "slice": 0.3170989575062637,
+          "sweep": 0.01,
+          "next": "Walmart"
+        }
+      ]
+    },
+    {
+      "id": "Chunkey",
+      "lat": 33.97522482576768,
+      "lng": -84.16315228862977,
+      "tags": "story,",
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 1361.2616891950156,
+          "slice": 0.31897845326204805,
+          "sweep": 0.6684919057678945,
+          "next": "Firestation",
+          "audio": "story/evergreen.mp3"
+        }
+      ]
+    },
+    {
+      "id": "Walmart",
+      "lat": 33.96889663312219,
+      "lng": -84.14987790416943,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 90.49798151788518,
+          "speak": "Passing the Walmart Super Center",
+          "next": "NBL_meets_Pleasant_Hil",
+          "slice": 0.03844836298276161,
+          "sweep": 0.01
+        }
+      ]
+    },
+    {
+      "id": "NBL_meets_Pleasant_Hil",
+      "lat": 33.969501604576585,
+      "lng": -84.14639759123685,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 49.047656961953365,
+          "speak": "Drive straight through the light (when it turns green) and continue on Hill Street",
+          "slice": -0.06363607135129579,
+          "sweep": 0.1904674705109775,
+          "next": "Davenport"
+        }
+      ]
+    },
+    {
+      "id": "Davenport",
+      "lat": 33.972335222063805,
+      "lng": -84.13988491730014,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 38.10321651445477,
+          "speak": "We're gonna go stright through Davenport -- Stay on Hill Street",
+          "slice": 0.0017128297454784835,
+          "sweep": 0.01,
+          "next": "Indian_Music"
+        }
+      ]
+    },
+    {
+      "id": "Indian_Music",
+      "lat": 33.97326778044211,
+      "lng": -84.1353633740998,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 327.3682135486246,
+          "slice": 0.9805599845302085,
+          "sweep": 0.01,
+          "audio": "music/friendship-dance-2.mp3",
+          "next": "Cardinal_Lake"
+        }
+      ]
+    },
+    {
+      "id": "Cardinal_Lake",
+      "lat": 33.974630681439116,
+      "lng": -84.13241131592578,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 100.25656032008867,
+          "speak": "Welcome to Cardinal Lake.Turn right onto Cardinal Lake Drive.",
+          "next": "Cardinal_Lake_Turn"
+        }
+      ]
+    },
+    {
+      "id": "Cardinal_Lake_Turn",
+      "lat": 33.975200996836065,
+      "lng": -84.12778827935861,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 74.96873688235503,
+          "speak": "Please bear right to follow Cardinal Lake Circle around the shore.",
+          "next": "Wren"
+        }
+      ]
+    },
+    {
+      "id": "Oriole",
+      "lat": 33.98058096448794,
+      "lng": -84.12672615031624,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_1",
+          "speak": "Just follow Cardinal Lake Circle and pass Oriole Lane as we go around the lake shore",
+          "radius": 91.62964663575976,
+          "next": "Hummingbird"
+        }
+      ]
+    },
+    {
+      "id": "Robin_Lane",
+      "lat": 33.979628786021145,
+      "lng": -84.13264752577382,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 142.95887373792792,
+          "speak": "Okay that is enough Cardinal Lake! Let's move on to the Hertz Place before they close!nTake the next right turn on to Robin Lane.",
+          "slice": 0.7862555878788664,
+          "sweep": 0.24509624201854266,
+          "next": "Bob_White_Trail"
+        }
+      ]
+    },
+    {
+      "id": "Bob_White_Trail",
+      "lat": 33.98118491055102,
+      "lng": -84.12988221200733,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 55.707684542552045,
+          "speak": "Turn Left onto Bob White Trail.Bob white is a bird, not a dude.",
+          "next": "Meadow_Lark"
+        }
+      ]
+    },
+    {
+      "id": "Hummingbird",
+      "lat": 33.97913098196483,
+      "lng": -84.13070654849436,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 30.710125964411684,
+          "speak": "We're Passing Hummingbird Lane.",
+          "next": "Robin_Lane"
+        }
+      ]
+    },
+    {
+      "id": "Wren",
+      "lat": 33.97859101271944,
+      "lng": -84.12740850468255,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 30,
+          "speak": "We are passing Wren Avenue.",
+          "slice": 0.05267206186264162,
+          "sweep": 0.01,
+          "next": "Oriole"
+        }
+      ]
+    },
+    {
+      "id": "Meadow_Lark",
+      "lat": 33.9831864227532,
+      "lng": -84.13117110729219,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 36.68488885082564,
+          "speak": "Turn Right on Meadow Lark Drive",
+          "next": "Duluth_Highway"
+        }
+      ]
+    },
+    {
+      "id": "Duluth_Highway",
+      "lat": 33.98489429355203,
+      "lng": -84.12831830984943,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 46.572682602367095,
+          "speak": "When it is safe, turn right to enter Duluth Highway",
+          "next": "Socco_Gap"
+        }
+      ]
+    },
+    {
+      "id": "Socco_Gap",
+      "lat": 33.98119326740496,
+      "lng": -84.11738991639142,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 1207.844976003515,
+          "slice": 0.4183798342059474,
+          "sweep": 0.05580970265576772,
+          "audio": "guide/blue-ridge-gsm.mp3",
+          "next": "Bunten_Road"
+        }
+      ]
+    },
+    {
+      "id": "120_meets_Northmont",
+      "lat": 33.97870263333824,
+      "lng": -84.11122405483185,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 115.41012642175508,
+          "speak": "Nothing to Seee here -- Just keep driving",
+          "next": "Friendship_Dance_2",
+          "slice": 0.404402973753203,
+          "sweep": 0.07112187423726107
+        },
+        {
+          "id": "Zone_1",
+          "radius": 56.1016840123648,
+          "slice": 0.3911076415402007,
+          "sweep": 0.01,
+          "speak": "Make a left onto Duluth Highway",
+          "next": "Bunten_Road"
+        }
+      ]
+    },
+    {
+      "id": "120_meets_Satellite",
+      "lat": 33.97741286415037,
+      "lng": -84.09350538175205,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 92.87768248357068,
+          "slice": 0.4201243575624686,
+          "sweep": 0.07390765904879573,
+          "speak": "Make right hand turn onto satellite but you'll be making a left right away, so stay slow and get into the left turn lane.",
+          "next": "Stephens_Street"
+        }
+      ]
+    },
+    {
+      "id": "Friendship_Dance_2",
+      "lat": 33.97838565409206,
+      "lng": -84.10468697547914,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 300,
+          "audio": "music/friendship-dance-2.mp3",
+          "next": "120_meets_Satellite"
+        }
+      ]
+    },
+    {
+      "id": "Stephens_Street",
+      "lat": 33.975626453964495,
+      "lng": -84.09369420965962,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 52.76048888700278,
+          "speak": "Make a left at the next opportunity -- it is called Stephens Street",
+          "slice": 0.15866276711443522,
+          "sweep": 0.17482553966644113,
+          "next": "Parking_Lot"
+        }
+      ]
+    },
+    {
+      "id": "Parking_Lot",
+      "lat": 33.97562556430613,
+      "lng": -84.09317386111073,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 34.44462235181662,
+          "slice": 0.40524672173649606,
+          "sweep": 0.13190869338289635,
+          "speak": "Left Turn into the parking Lot -- and you know where Hertz is at!",
+          "next": "HERTZ"
+        }
+      ]
+    },
+    {
+      "id": "HERTZ",
+      "lat": 33.974915657653845,
+      "lng": -84.0930515521177,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 30,
+          "speak": "Mazel tov!! You made ir to Hertz1"
+        },
+        {
+          "id": "Zone_1",
+          "radius": 51.532345701659445,
+          "exit": true,
+          "speak": "make a left turn on to satellit boulevard",
+          "slice": 0.5667718984723049,
+          "sweep": 0.01,
+          "next": "Evergreen"
+        }
+      ]
+    },
+    {
+      "id": "Boggs",
+      "lat": 33.96961990873989,
+      "lng": -84.09770679631038,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 161.34096289548643,
+          "speak": "Go through the light at Boggs Road and we will make a right turn in a couple hundred feet.",
+          "slice": 0.5338825063806426,
+          "sweep": 0.01
+        }
+      ]
+    },
+    {
+      "id": "Evergreen",
+      "lat": 33.96494369210608,
+      "lng": -84.10774898686216,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 111.53591607075609,
+          "speak": "Right turn onto Evergreen",
+          "next": "Tease"
+        }
+      ]
+    },
+    {
+      "id": "Tease",
+      "lat": 33.96848464522153,
+      "lng": -84.10986900329591,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 158.47930814084305,
+          "speak": "We are gonna go for a walk on the celebrated McDaniel Farm Trail. It is 2.3 miles of shady tails through running streams and meadows. Easy and flat.We are gonna do this hike!",
+          "slice": 0.7715302529110428,
+          "sweep": 0.21016589471044939,
+          "next": "Untease"
+        }
+      ]
+    },
+    {
+      "id": "Northmont",
+      "lat": 33.97166485990223,
+      "lng": -84.11224651441444,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 97.64228823256114,
+          "speak": "Please Turn right onto Northmont Parkway.",
+          "text": "arkway",
+          "slice": 0.20096623863713897,
+          "sweep": 0.01,
+          "next": "dance_3"
+        }
+      ]
+    },
+    {
+      "id": "Untease",
+      "lat": 33.96997807545491,
+      "lng": -84.11122942285148,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 103.2435472707964,
+          "slice": 0.7550222395817052,
+          "sweep": 0.26097019322304404,
+          "speak": "But we re not gonna hike it today... that will be tomorrow's hike... Today we are visiting an old favorite. Bunten Road Paqrk.",
+          "next": "Northmont"
+        }
+      ]
+    },
+    {
+      "id": "Bunten_Road",
+      "lat": 33.98280915841794,
+      "lng": -84.12018477916719,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 265.0615560433741,
+          "speak": "in 200 yards you will turn right onto Bunten Road",
+          "slice": 0.24333734718537936,
+          "sweep": 0.01,
+          "next": "Park"
+        },
+        {
+          "id": "Zone_1",
+          "radius": 52.37334213462402,
+          "slice": 0.783810324518132,
+          "sweep": 0.24641250725825445,
+          "speak": "Make an easy right onto Bunten Road"
+        }
+      ]
+    },
+    {
+      "id": "dance_3",
+      "lat": 33.97262239345928,
+      "lng": -84.11134100006167,
+      "tags": "music,",
+      "zones": [
+        {
+          "id": "zone",
+          "radius": 122.37325672868567,
+          "audio": "music/friendship-dance-3.mp3",
+          "slice": 0.526486381239566,
+          "sweep": 0.23828456005898788,
+          "next": "120_meets_Northmont"
+        }
+      ]
+    },
+    {
+      "id": "Park",
+      "lat": 34.00085211313862,
+      "lng": -84.12192607076577,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 316.2558907147278,
+          "speak": "Turn right into the park in a few hundred feet.",
+          "slice": 0.7607516749703227,
+          "sweep": 0.10905743004330726
+        },
+        {
+          "id": "Zone_1",
+          "radius": 126.84221895662775,
+          "speak": "turn right",
+          "slice": 0.7300310819983308,
+          "sweep": 0.1624286131921185,
+          "next": "Enter_Park"
+        }
+      ]
+    },
+    {
+      "id": "Enter_Park",
+      "lat": 34.00001614780507,
+      "lng": -84.11988544601627,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 45.34728213734623,
+          "slice": -0.009611059060472549,
+          "sweep": 0.39723179354246724,
+          "speak": "go all the way around and then turn left"
+        },
+        {
+          "id": "Zone_1",
+          "radius": 115.03880421469442,
+          "slice": -0.006610368003479639,
+          "sweep": 0.39123041142848136,
+          "speak": "but do not turn right"
+        },
+        {
+          "id": "Zone_2",
+          "radius": 236.1742898828828,
+          "slice": 0.3314052955868752,
+          "sweep": 0.11942696123451739,
+          "speak": "stay to the right"
+        },
+        {
+          "id": "Zone_3",
+          "radius": 140.9246606772203,
+          "slice": 0.0734080997786089,
+          "sweep": 0.102511235449475,
+          "exit": true,
+          "speak": "park your rental vehicle and lets do the one mile hilly loop -- then we'll get lunch.."
+        },
+        {
+          "id": "Zone_4",
+          "radius": 52.66586461232441,
+          "speak": "yeah. turn left here.",
+          "exit": true,
+          "slice": 0.9031111320512919,
+          "sweep": 0.10000996385645498
+        }
+      ]
+    },
+    {
+      "id": "Exit_Park",
+      "lat": 33.99987338272933,
+      "lng": -84.11970198154451,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 170.60743504793584,
+          "speak": "Drive out of the park and make your first right into the goofy little circle",
+          "slice": 0.10368645269287591,
+          "sweep": 0.066133708405677
+        },
+        {
+          "id": "Zone_1",
+          "radius": 30,
+          "speak": "all the way around the circle please",
+          "slice": 0.7024240611040746,
+          "sweep": 0.4932397380732607
+        },
+        {
+          "id": "Zone_2",
+          "radius": 125.53570345819173,
+          "exit": true,
+          "speak": "make a right when you get out of the park",
+          "slice": 0.30052229356579085,
+          "sweep": 0.0715483714782379,
+          "next": "Old_Peachtree"
+        }
+      ]
+    },
+    {
+      "id": "Old_Peachtree",
+      "lat": 34.005464549771595,
+      "lng": -84.12413835525514,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 154.23738930772743,
+          "speak": "You will make left at the T.I hope you are getting hungry",
+          "slice": 0.37237345771931474,
+          "sweep": 0.01,
+          "next": "BuHi"
+        }
+      ]
+    },
+    {
+      "id": "BuHi",
+      "lat": 34.00870151010619,
+      "lng": -84.13128376007081,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 300,
+          "speak": "Don't turn - just drive safely",
+          "next": "Rogers_Bridge_meets_PIB",
+          "slice": 0.798432695395882,
+          "sweep": 0.22993406316642714
+        }
+      ]
+    },
+    {
+      "id": "Rogers_Bridge_meets_PIB",
+      "lat": 34.022832988222866,
+      "lng": -84.13786268181867,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 699.1223846515993,
+          "speak": "in a quarter mile you will make a left on Peachtree Industrial. I am mighty hungry. Are you?",
+          "slice": 0.7348354418438967,
+          "sweep": 0.09527133196760929
+        },
+        {
+          "id": "Zone_1",
+          "radius": 121.39468908943134,
+          "speak": "Left turn on PIB",
+          "slice": 0.4462540500715616,
+          "sweep": 0.28907863971235703,
+          "next": "Surreen"
+        }
+      ]
+    },
+    {
+      "id": "Surreen",
+      "lat": 34.022987761345405,
+      "lng": -84.1491279600905,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 758.2923360975796,
+          "speak": "Surreen indian-pakistani restaurant is 100 yards on the right.",
+          "slice": -0.004403604540196726,
+          "sweep": 0.02255240309698882
+        },
+        {
+          "id": "Zone_1",
+          "radius": 245.47876395493574,
+          "speak": "turn right into the restaurant in one block",
+          "slice": -0.04087585425792889,
+          "sweep": 0.10206928107191471
+        },
+        {
+          "id": "Zone_2",
+          "radius": 66.79819971107895,
+          "speak": "Turn right and let's eat indian buffet!!",
+          "slice": -0.041439863917815956,
+          "sweep": 0.1048362193675879
+        },
+        {
+          "id": "Zone_3",
+          "radius": 108.34135862567338,
+          "speak": "time to go home",
+          "slice": 0.44845595291374263,
+          "sweep": 0.24921894074472373,
+          "exit": true,
+          "next": "First_Fire"
+        }
+      ]
+    },
+    {
+      "id": "First_Fire",
+      "lat": 34.022402959226696,
+      "lng": -84.15655660275661,
+      "tags": "story,",
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 587.6793300035238,
+          "audio": "story/first-fire-story.mp3",
+          "slice": 0.9381670891925887,
+          "sweep": 0.1107218746553569,
+          "next": "Kroger"
+        }
+      ]
+    },
+    {
+      "id": "Kroger",
+      "lat": 34.00437960417876,
+      "lng": -84.17011999972603,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 723.6333667658595,
+          "speak": "Check the time. If it ain't 2 oclock then take a right turn and go to the post office",
+          "next": "Pattons",
+          "slice": -0.10316502722326515,
+          "sweep": 0.9316837847636366
+        }
+      ]
+    },
+    {
+      "id": "New Pin.01",
+      "lat": 34.01993456074526,
+      "lng": -84.16027004350224,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 282.9334986969209,
+          "speak": "Detour. we ae going to the library now. Please turn left at the light onto Abbott's Bridge Road. Left at the light.",
+          "slice": 0.054193512948445044,
+          "sweep": 0.14584667664827244,
+          "next": "Story_Time"
+        }
+      ]
+    },
+    {
+      "id": "Duluth_Downtown",
+      "lat": 34.00334677188359,
+      "lng": -84.14376117565368,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 104.87919119315535,
+          "slice": 0.16928488505087247,
+          "sweep": 0.29951147566411296,
+          "speak": "Bear right now to proceed down Main Street. Let's go to the new library building.",
+          "next": "Duluth"
+        }
+      ]
+    },
+    {
+      "id": "Library",
+      "lat": 34.00072326638813,
+      "lng": -84.14746146587322,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 54.31164775814953,
+          "speak": "Park the car and step into the new Duluth Brank of the Gwinnett Public Library System."
+        },
+        {
+          "id": "Zone_1",
+          "radius": 107.3443445343553,
+          "exit": true,
+          "speak": "Leaving the library, drive aacross the tracks",
+          "slice": 0.5575376936889724,
+          "sweep": 0.2562090182316457,
+          "next": "Flute"
+        }
+      ]
+    },
+    {
+      "id": "Cross_tracks",
+      "lat": 33.997615745579,
+      "lng": -84.14749648525141,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 128.93095410496645,
+          "slice": 0.15061149850998615,
+          "sweep": 0.2557546727908828,
+          "speak": "Left turn onto Buford Highway.",
+          "next": "Flute"
+        }
+      ]
+    },
+    {
+      "id": "Head_Home",
+      "lat": 33.976410514116665,
+      "lng": -84.16320287811968,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 148.42218343090076,
+          "slice": -0.06939993573406467,
+          "sweep": 0.35920409947759446,
+          "speak": "Okay the library detour is over. please turn right on North Berkeley Lake Road. Go home, Judy!",
+          "next": "Pattons"
+        }
+      ]
+    },
+    {
+      "id": "Duluth",
+      "lat": 34.00290506968657,
+      "lng": -84.14456513925009,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 40.29713810117376,
+          "speak": "Straight through the light/",
+          "next": "Library"
+        }
+      ]
+    },
+    {
+      "id": "Flute",
+      "lat": 33.99736688970024,
+      "lng": -84.14793579617515,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 60.6795306687243,
+          "audio": "music/flute.mp3",
+          "next": "Tecumseh"
+        }
+      ]
+    },
+    {
+      "id": "Tecumseh",
+      "lat": 33.98929674896706,
+      "lng": -84.15319725889242,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 818.7943078395497,
+          "audio": "guide/thomas-overlook.mp3",
+          "next": "Head_Home"
+        }
+      ]
+    },
+    {
+      "id": "Story_Time",
+      "lat": 34.01838421185761,
+      "lng": -84.15703411597461,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 300,
+          "audio": "story/selu.mp3",
+          "next": "Duluth_Downtown"
+        }
+      ]
+    }
+  ],
+  "id": "Hertz"
+}

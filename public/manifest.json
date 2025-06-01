@@ -1,0 +1,62 @@
+{
+  "name": "Cherokee Legend GeoTour",
+  "app_name": "Cherokee Legend GeoTour",
+  "short_name": "Cherokee GeoTour",
+  "description": "Driving tour of the lands and legends of the Cherokee.. Two hours of travel through twelve thousand years of history, story and fable geolocated on a sixty mile route through the beautiful mountains and valleys of our homeland.",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#f60e0e",
+  "background_color": "#d60e0e",
+  "scope": "/",
+  "start_url": "/",
+  "shortcuts" : [
+  {
+    "name": "Cherokee Land and Lore",
+    "url": "/",
+    "description": "Start Cherokee Tour"
+  }],
+  "categories": ["entertainment", "education", "navigation", "travel"],
+  "screenshots": [{
+    "src": "https://cdn.glitch.global/82396493-cf04-4e83-9abb-cf8ed0317c6d/GeotourScreenShot.PNG?v=1661872197379",
+    "sizes": "393x848",
+    "type": "image/PNG",
+    "platform": "narrow",
+    "label": "Cherokee GeoTour Navigation"
+  }],
+  "related-applications":[],
+  "iarc_rating_id":"",
+  "icons": [
+    {
+      "src": "https://cdn.glitch.com/eb91c95e-0ab7-4dca-bea8-9d13e48bdbde%2Ficon-192x192.png?v=1600674220629",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn.glitch.com/eb91c95e-0ab7-4dca-bea8-9d13e48bdbde%2Ficon-256x256.png?v=1600674220690",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn.glitch.com/eb91c95e-0ab7-4dca-bea8-9d13e48bdbde%2Ficon-384x384.png?v=1600674221470",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn.glitch.global/82396493-cf04-4e83-9abb-cf8ed0317c6d/maskable_icon_x384.png?v=1654711957530",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://cdn.glitch.com/eb91c95e-0ab7-4dca-bea8-9d13e48bdbde%2Ficon-512x512.png?v=1600674221265",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn.glitch.global/82396493-cf04-4e83-9abb-cf8ed0317c6d/maskable_icon_x512.png?v=1661871321544",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

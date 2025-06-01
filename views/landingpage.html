@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>GeoVoices: Home</title>
+        <link rel="icon" href="/favicon.ico" sizes="any"><!-- 32×32 -->
+        <link rel="icon" href="https://cdn.glitch.global/82396493-cf04-4e83-9abb-cf8ed0317c6d/favicon.ico?v=1668702036428" sizes="any">
+        <meta name="description" content="This app uses gps and audio technology to creat an self-driving tour of indigenous homelands and oral tradition around Cherokee, North Carolina. Listen to ancient stories and tales of tomorrow as you explore the Cherokee homeland. Tribal storytellers introduce monsters and heros as you drive sixty miles through mountain roads, across swift rivers and small towns. Give yourself two hours or more. There is much to discover, whether you are a new visitor or lifelong member of the community. Our tour begins with a view of the Qualla Bundary from the Kituwah Mound to Kuwahi Mountain (Clingman's Dome), high in the Great Smoky Mountain National Park."
+        <meta name="robots" content="index, nofollow">
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+        <meta charset="UTF-8">
+
+<style>
+    
+/*
+@import url('https://fonts.googleapis.com/css2?family=Cherry+Swash:wght@400;700&family=Noto+Sans+Cherokee:wght@400;500;700;900&family=Share+Tech+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,500;0,700;1,500;1,700&display=swap');
+img src="https://geo-tour.s3.us-west-2.amazonaws.com/logo.png">
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Asap:ital,wght@0,500;0,600;1,500;1,600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@300,400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@300,400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Saira+Extra-Condensed:wght@300,400;500;700&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@700&family=Saira+Extra+Condensed:wght@400;500;600;700;800&family=Saira+Semi+Condensed:wght@400;500;700&display=swap');
+
+:root {    --border-color:  #c6860d;}
+
+*   {  box-sizing: border-box;}
+
+body {
+    margin: 0;
+    /* font-family:"Roboto slab", sans-serif;
+    font-family: 'Asap', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
+font-family: 'Saira Semi Condensed', sans-serif;
+font-family: 'Saira Condensed', sans-serif; 
+font-family: 'Saira Extra Condensed', sans-serif;  */
+font-family: 'Saira Extra Condensed', sans-serif;
+    font-size: 2vh;
+    font-weight:500;
+    background-color: rgb(142, 194, 211);
+    }
+
+#page{
+    position: absolute;
+    width: 100vw; height: 100vh;
+    left:0; top:0;
+
+    display: flex;
+    flex-direction: column;
+    justify-items: flex-end;
+    align-items: center;
+    }   
+
+/*#home,
+#cherokee,
+  #pitch {}*/
+#page >div:not(#logo) { 
+    padding:2vmin;
+    flex: 1 1;
+    width:fit-content;
+    max-width:96%;
+    box-shadow: 9px 7px 24px rgba(27, 9, 88, 0.169);
+    }
+#cherokee {
+    color: rgb(6, 34, 128);
+    font-weight:600;
+    font-size: .95em;
+    line-height:1.1; 
+    margin: 2vmin;
+    background-color: rgba(255, 255, 255, 0.386);
+    border: 3px solid rgb(199, 242, 255);
+    box-shadow: 9px 7px 24px rgba(27, 9, 88, 0.4);
+
+    }
+#pitch{
+    color:rgb(0, 70, 93);
+    font-weight: 400;
+    font-size: .8em;
+    }
+#logo{
+    width:  100vw;  
+    flex: 0 1 56vmin;
+    background-image:    linear-gradient(rgb(142, 194, 211), rgb(26, 71, 109));
+    }
+#logo diV {
+    background-image:     url(https://geo-tour.s3.us-west-2.amazonaws.com/logo.png);
+    background-size:contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    height:100%;
+    margin: 0 auto;
+    }
+
+p{ margin: 1vmin 0;}
+
+h1 {text-align: center;
+    text-shadow: -1px -1px 5px gold, 5px 8px 8px rgba(27, 9, 88, 0.3) ;
+    font-weight: 900;
+  }
+ /* background-color:gold;}*/
+ a {
+    color: rgb(6, 34, 128);
+    background-color: rgba(255, 255, 255,   0.4 );
+    box-shadow: 3px 2px 8px rgba(28, 9, 88, 0.2 );
+    padding: 0.5vmin;
+    border-radius: 1vmin;
+    border: thin dotted white;
+    text-decoration:none;
+    }
+    
+a:hover {
+    background-color: rgba(255, 255, 255, .92);
+    box-shadow: 9px 12px 12px rgba(28, 9, 88, 0.5);
+    position:relative;
+    left: -1vmin;
+    top: -1vmin;
+    border: thin solid white;
+    z-level:99;
+    }
+    
+
+.credit {
+    width: fit-content;
+    margin: auto;
+    color: rgb(6, 34, 128);
+    font-weight:500;
+    font-size: .85em;
+    }
+i{
+    text-decoration: none;
+    font-style: normal;
+    font-weight:800;
+    }
+
+
+p.alert {
+    color: rgb(73, 4, 4);
+    padding: 1vmin;
+    margin:2vmin 1vmin;
+    text-align:center;
+    font-weight:700;
+    border: 0.3vmin solid white;
+    font-size: 1em;
+    transition: background-color 1s;
+    background-color: white; /*rgba(244, 158, 158, 0.489); */
+    }
+
+
+  
+div:hover > p.alert {
+    color: black;
+    background-color: gold; /*rgba(244, 158, 158, 0.489); */
+    }
+
+
+    
+div#cherokee:hover  {
+    color: black;
+    border-color: gold; /*rgba(244, 158, 158, 0.489); */
+    }
+
+
+  
+  
+  
+    
+#page {
+    position: absolute;   right:  0vw;  bottom:  0vh;  
+                          width:100vw;  height:  100vh;
+    }
+
+
+</style>
+
+      
+      
+            <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-996106619"></script>
+
+      
+      
+<script defer>
+
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker
+    .register("/sw.js", { scope: "/", type:"module"})
+    .then((registration) => {
+      // registration worked
+      console.log("Registration succeeded.");
+      registration.unregister().then((boolean) => {
+        console.log( "unregister is successful", boolean);
+      });
+    })
+    .catch((error) => {
+      // registration failed
+      console.error(`Registration failed with ${error}`);
+    });
+}
+
+
+  
+
+  
+  
+ 
+  
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+ 
+  gtag('js', new Date());
+  gtag('config', 'AW-996106619');
+  
+ 
+  window.onload= ()=>
+    document.querySelector("a#start").addEventListener( "click", ()=>
+       gtag('event', 'conversion', 
+            {'send_to': 
+            //'AW-996106619/ColvCIL5hIMYEPvC_doD' // Start Tour
+              'AW-996106619/aVVhCILOyIMYEPvC_doD' // Geotour Cherokeee
+   }));
+      </script>
+      </script>
+  
+      
+</head>
+    <body>
+    <div id="page">
+        <h1>GeoVoices</h1>
+        <div id="home">
+            <p>Authentic voices speak in real places.</p>
+            <!-- <p>We built this app to help build communities.</p>
+            <p>Visitors hear voices, right on the spot.</p> -->
+            </div>
+        <div>
+            <p>On a GeoVoices tour, you drive through a special land, listening to its stories.</p>
+            <p>We help a community hear its inner voices. We help it welcome visitors.</p>
+            <!-- <p>Visitors hear voices, right on the spot.</p> -->
+            </div>        
+        <div id="cherokee">
+                    <p>
+                      Our first tour presents Cherokee voices at the Qualla Boundary -  high in the Smoky Mountains.
+                    </p><p></p>  Here is <strong>Kituwah</strong>, ancestral mother land and home forever to the Cherokee people.
+                    </p><p>
+                        To hear their voices: 
+                    </p><ul><li>
+                        First drive to the peak of the 
+                        <a href="https://www.google.com/maps/place/Cherokee+GeoVoices+starting+point/@35.5886587,-83.4054761,12z/data=!4m5!3m4!1s0x88595b2495c504a1:0x46eb7d00470d7b27!8m2!3d35.5884683!4d-83.4053493">
+                                Great Smoky Mountains</a>. 
+                    </li><li>
+                         Then launch <a id="start" href="https://Cherokee.GeoVoices.org">Cherokee.GeoVoices.org</a>                            
+                    </li><li>Listen through your car sound system and enjoy a few hours driving through a different world.
+                    </li></ul><p class="alert">Cherokee GeoVoices is currently in Beta Test. It's 100% FREE now. (and ad-free)
+                   </p>
+                    <div class="credit">
+                        <p>Created by <i> Tribal storytellers, musicians, scholars, artists.</i></p>
+                        <p>Produced by the <i>Museum of the Cherokee People</i>.</p>
+                        <p>Powered by <i>GamesThatWork</i>.</p>
+                        <p>Funded by the <i>North Carolina Council on the Arts</i>.</p>
+                    </div>
+                    </div>
+         <div id="pitch"><p>
+                Do you want to produce your own GeoVoices tour? <a href="mailto:Dov@GeoVoices.org?subject=New GeoVoices Project&body=I have an idea.">✉</a> 
+           </p></div>
+        <div id="logo"><div></div></div>
+    
+    </div>
+    </body>
+</html>

@@ -1,0 +1,1222 @@
+{
+  "name": "Duluth Post Office",
+  "class": "tour",
+  "notes": "",
+  "author": "D Jacobson",
+  "id": "cherokee",
+  "status": "open",
+  "center": { "lat": 33.983667, "lng": -84.181541 },
+  "schema": "Open Geotour",
+  "version": 0.4,
+  "agent": "cherokee editor",
+  "pins": [
+    {
+      "name": "Valero",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_0",
+      "latlng": { "lat": 33.98531562119347, "lng": -84.17105555534364 },
+      "notes": "        Gas Station",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_0.zone_0",
+          "notes": "",
+          "play": false,
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.001143264613766229,
+            "min": 0.001123903157805513
+          },
+          "sector": {
+            "cut": true,
+            "max": 2.921953392660641,
+            "min": 2.1375786481717025
+          },
+          "content": "Turn right at the light as you pass Patton's Meat Market"
+        },
+        {
+          "class": "zone",
+          "name": "Zone 0",
+          "id": "cherokee.pin_0.zone_0",
+          "notes": "",
+          "content": "Turn left at the light to visit beautiful Berkeley Lake.",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0016349263384836507,
+            "min": 0.00159899389148401
+          },
+          "sector": {
+            "cut": true,
+            "max": -1.5184364492350666,
+            "min": -2.199114857512855
+          }
+        }
+      ],
+      "lat": 0.035,
+      "lng": 0.105
+    },
+    {
+      "name": "Casa Jacobson",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_0",
+      "latlng": { "lat": 33.983833169007184, "lng": -84.18158948421458 },
+      "notes": "              A modest house on beautiful Berkeley Lake.",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_0.zone_0",
+          "notes": "",
+          "content": "Leaving the driveway make a left turn on the road.",
+          "status": "close",
+          "trigger": { "in": true, "out": true, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0005030542579949694,
+            "min": 0.00038627380524613726
+          },
+          "sector": {
+            "cut": false,
+            "max": 2.478367537831948,
+            "min": 0.7853981633974483
+          },
+          "isTrusted": true
+        }
+      ],
+      "lat": 0.035,
+      "lng": 0.105,
+      "isTrusted": true
+    },
+    {
+      "name": "Ridge Rd",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_1",
+      "latlng": { "lat": 33.98874051621329, "lng": -84.18053984642029 },
+      "notes": "              A modest house on beautiful Berkeley Lake.",
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "name": "Zone 1",
+          "id": "cherokee.pin_1.zone_1",
+          "notes": "",
+          "content": "make a left hand turn at the stop sign",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0013115343154868847,
+            "min": 0.0010061085159899388
+          },
+          "sector": {
+            "cut": true,
+            "max": -1.6755160819145563,
+            "min": -2.600540585471551
+          },
+          "isTrusted": true
+        },
+        {
+          "class": "zone",
+          "name": "Zone 2",
+          "id": "cherokee.pin_1.zone_2",
+          "notes": "",
+          "content": "turn right at the stop sign on to lakeshore",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0010150916277398491,
+            "min": 0.0007545813869924542
+          },
+          "sector": {
+            "cut": true,
+            "max": 2.6878070480712672,
+            "min": 1.9547687622336491
+          },
+          "isTrusted": true
+        }
+      ],
+      "isTrusted": true,
+      "lat": 0.035,
+      "lng": 0.105
+    },
+    {
+      "name": "Howell Mill Rd",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_2",
+      "latlng": { "lat": 33.99966389249974, "lng": -84.16791200637819 },
+      "notes": "              A modest house on beautiful Berkeley Lake.",
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "name": "Zone 3",
+          "id": "cherokee.pin_2.zone_3",
+          "notes": "",
+          "content": false,
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": 180 },
+          "radius": {
+            "max": 0.003785737378191002,
+            "min": 0.0009460167930615716,
+            "cut": false
+          },
+          "sector": {
+            "max": -0.8228105807090531,
+            "min": -2.215643539971872,
+            "cut": true
+          },
+          "isTrusted": true
+        },
+        {
+          "class": "zone",
+          "name": "Zone 4",
+          "id": "cherokee.pin_2.zone_4",
+          "notes": "",
+          "content": false,
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": 180 },
+          "radius": {
+            "max": 0.0044240703182527406,
+            "min": 0.0027605397068702193,
+            "cut": false
+          },
+          "sector": {
+            "max": 0.6348933811089226,
+            "min": 0.0487284583976818,
+            "cut": true
+          },
+          "isTrusted": true
+        },
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_2.zone_5",
+          "notes": "",
+          "content": false,
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": 180 },
+          "radius": {
+            "max": 0.0008802739061535877,
+            "min": 0.00036853026146024906,
+            "cut": false
+          },
+          "sector": {
+            "max": 2.3559131295786253,
+            "min": 0.7853981633974483,
+            "cut": false
+          }
+        }
+      ],
+      "isTrusted": true,
+      "lat": 0.035,
+      "lng": 0.105
+    },
+    {
+      "name": "KpMv",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_3",
+      "latlng": { "lat": 34.00206541226861, "lng": -84.16284799575807 },
+      "notes": "              A modest house on beautiful Berkeley Lake.",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_3.zone_6",
+          "notes": "",
+          "content": false,
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": 180 },
+          "radius": {
+            "max": 0.0015220441498575985,
+            "min": 0.0014957018436653983,
+            "cut": false
+          },
+          "sector": {
+            "max": 2.1135127904244246,
+            "min": 2.331305176307266,
+            "cut": false
+          }
+        }
+      ],
+      "lat": 0.035,
+      "lng": 0.105
+    },
+    {
+      "name": "PO",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_4",
+      "latlng": { "lat": 34.0031549682912, "lng": -84.16172146797182 },
+      "notes": "           A modest house on beautiful Berkeley Lake.",
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "name": "Zone 7",
+          "id": "cherokee.pin_4.zone_7",
+          "notes": "",
+          "content": false,
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": 180 },
+          "radius": {
+            "max": 0.0010217503449865013,
+            "min": 0.0006078083359927328,
+            "cut": false
+          },
+          "sector": {
+            "max": -2.0392636310950145,
+            "min": -3.068360397966954,
+            "cut": true
+          },
+          "isTrusted": true
+        }
+      ],
+      "isTrusted": true,
+      "lat": 0.035,
+      "lng": 0.105
+    },
+    {
+      "name": "Return",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_5",
+      "latlng": { "lat": 34.00366638772673, "lng": -84.1599351167679 },
+      "notes": "             A modest house on beautiful Berkeley Lake.",
+      "status": "close",
+      "zones": [
+        {
+          "class": "zone",
+          "name": "Zone 8",
+          "id": "cherokee.pin_5.zone_8",
+          "notes": "",
+          "content": false,
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": 180 },
+          "radius": {
+            "max": 0.001368041445483218,
+            "min": 0.0006507964138872635,
+            "cut": false
+          },
+          "sector": {
+            "max": -0.7648184850968845,
+            "min": -1.798546098379723,
+            "cut": true
+          },
+          "isTrusted": true
+        },
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_5.zone_9",
+          "notes": "",
+          "content": false,
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": 180 },
+          "radius": {
+            "max": 0.0006468425713221409,
+            "min": 0.0006327030991959766,
+            "cut": false
+          },
+          "sector": {
+            "max": 1.3917919095361475,
+            "min": 0.7853981633974483,
+            "cut": false
+          }
+        }
+      ],
+      "isTrusted": true,
+      "lat": 0.035,
+      "lng": 0.105
+    },
+    {
+      "name": "South Berkeley  Lake",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_0",
+      "latlng": { "lat": 33.97312077760834, "lng": -84.18419122911475 },
+      "notes": "           [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_0.zone_0",
+          "notes": "",
+          "content": "We are about to pass South Berkeley Lake Road",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": 180 },
+          "radius": {
+            "max": 0.0021075970572376258,
+            "min": 0.002079745248706131,
+            "cut": false
+          },
+          "sector": {
+            "max": 2.4888875842318816,
+            "min": 0.7853981633974483,
+            "cut": false
+          }
+        }
+      ],
+      "lat": 0.035,
+      "lng": 0.105
+    },
+    {
+      "name": "Funeral Home",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_1",
+      "latlng": { "lat": 33.969912835116695, "lng": -84.22142743802398 },
+      "notes": "   [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_1.zone_3",
+          "notes": "",
+          "content": "leaving the vicinity of a Q T ",
+          "status": "close",
+          "trigger": { "in": false, "out": true, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0010150916277398491,
+            "min": 0.0010061085159899388
+          },
+          "sector": {
+            "cut": false,
+            "max": -2.0245819323134224,
+            "min": 2.9845130209103035
+          },
+          "isTrusted": true
+        }
+      ],
+      "isTrusted": true,
+      "lat": 0.035,
+      "lng": 0.105
+    },
+    {
+      "name": "Lidl",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_2",
+      "latlng": { "lat": 33.977685161932094, "lng": -84.21769380589924 },
+      "notes": "         [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_2.zone_1",
+          "notes": "",
+          "content": "Turn in to the right gto shop at Lidl",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.002737890195255282,
+            "min": 0.0017696730147323033
+          },
+          "sector": {
+            "cut": true,
+            "max": -1.8486638232851373,
+            "min": -2.426007660272118
+          },
+          "isTrusted": true
+        },
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_2.zone_2",
+          "notes": "",
+          "content": "Make a left at the light onto peachtree parkway",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.001545095220984549,
+            "min": 0.0007366151634926339
+          },
+          "sector": {
+            "cut": true,
+            "max": 0.017453292519943295,
+            "min": -0.5235987755982988
+          },
+          "isTrusted": true
+        }
+      ],
+      "isTrusted": true,
+      "lat": 0.035,
+      "lng": 0.105
+    },
+    {
+      "name": "Racetrac",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_3",
+      "latlng": { "lat": 33.96124901199945, "lng": -84.22649860403911 },
+      "notes": " [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_3.zone_2",
+          "notes": "",
+          "content": "Race track gas station. The home of inexpensive super sized drinks. Also gasoline.",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0018326425056471862,
+            "min": 0.001643909450233561
+          },
+          "sector": {
+            "cut": true,
+            "max": 1.5707963267948966,
+            "min": 0.8552113334772214
+          },
+          "isTrusted": true
+        },
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_3.zone_0",
+          "notes": "",
+          "content": "Leaving racetrac!!  Hopefully with a big frikkin drink",
+          "status": "close",
+          "trigger": { "in": false, "out": true, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0038178224937118217,
+            "min": 0.0022457779374775422
+          },
+          "sector": {
+            "cut": false,
+            "max": 2.6354471705114375,
+            "min": 0.7853981633974483
+          },
+          "isTrusted": true
+        }
+      ],
+      "isTrusted": true,
+      "lat": 0.035,
+      "lng": 0.105
+    },
+    {
+      "name": "Sling Shot",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_4",
+      "latlng": { "lat": 33.94405336887037, "lng": -84.24077511663201 },
+      "notes": "           [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_3.zone_2",
+          "notes": "",
+          "content": "Below us is a Sling Shot entertainment center and another Race track gas station.",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": 180 },
+          "radius": {
+            "max": 0.0014000499029498622,
+            "min": 0.0013242946192580161,
+            "cut": false
+          },
+          "sector": {
+            "max": 2.592811465706051,
+            "min": 2.1265091854724414,
+            "cut": false
+          }
+        }
+      ],
+      "lat": 0.035,
+      "lng": 0.105
+    },
+    {
+      "name": "Colony",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_5",
+      "latlng": { "lat": 33.93605764342566, "lng": -84.25449013993786 },
+      "notes": "           [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_3.zone_2",
+          "notes": "",
+          "content": "A pretty office park called colony is on your left. It has its very own lake.",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0044915558749550845,
+            "min": 0.0022457779374775422
+          },
+          "sector": {
+            "cut": false,
+            "max": 2.356194490192345,
+            "min": 0.7853981633974483
+          },
+          "isTrusted": true
+        }
+      ],
+      "lat": 0.035,
+      "lng": 0.105,
+      "isTrusted": true
+    },
+    {
+      "name": "Bush",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_5",
+      "latlng": { "lat": 33.98568435940543, "lng": -84.18929636532997 },
+      "notes": "            [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_3.zone_2",
+          "notes": "",
+          "content": "turn left at the flashing light onto Bush Road",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0007305301418587528,
+            "min": 0.0005439056055378148
+          },
+          "sector": {
+            "cut": true,
+            "max": 2.6491532927166075,
+            "min": 1.0322783949847572
+          },
+          "isTrusted": true
+        },
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_5.zone_1",
+          "notes": "",
+          "content": "at  the light turn left and go around the lake",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.001275601868487244,
+            "min": 0.0002605102407473949
+          },
+          "sector": {
+            "cut": true,
+            "max": -2.1642082724729685,
+            "min": -3.0892327760299634
+          },
+          "isTrusted": true
+        }
+      ],
+      "lat": 0.035,
+      "lng": 0.105,
+      "isTrusted": true
+    },
+    {
+      "name": "Colony",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_5",
+      "latlng": { "lat": 33.98269574019743, "lng": -84.19668674468996 },
+      "notes": "             [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_3.zone_2",
+          "notes": "",
+          "content": "exit from teh corner of bush and lou ivy",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0025871361839741288,
+            "min": 0.0024164570607258353
+          },
+          "sector": {
+            "cut": true,
+            "max": 0.4886921905584123,
+            "min": 0.19198621771937624
+          },
+          "isTrusted": true
+        },
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_5.zone_0",
+          "notes": "",
+          "content": "turn left onto Lou Ivy road",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0044915558749550845,
+            "min": 0.0022457779374775422
+          },
+          "sector": {
+            "cut": false,
+            "max": 2.356194490192345,
+            "min": 0.7853981633974483
+          }
+        }
+      ],
+      "lat": 0.035,
+      "lng": 0.105,
+      "isTrusted": true
+    },
+    {
+      "name": "End of Bush",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_5",
+      "latlng": { "lat": 33.98185078990016, "lng": -84.21222925142503 },
+      "notes": "              [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_3.zone_2",
+          "notes": "",
+          "content": "At the light, you want to make a right turn.",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0018541057834931933,
+            "min": 0.001382174523634988
+          },
+          "sector": {
+            "cut": true,
+            "max": 0.807246287696043,
+            "min": 0.11343646354316135
+          },
+          "isTrusted": true
+        }
+      ],
+      "lat": 0.035,
+      "lng": 0.105,
+      "isTrusted": true
+    },
+    {
+      "name": "roundabout",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_5",
+      "latlng": { "lat": 33.978580833405864, "lng": -84.21139955564287 },
+      "notes": "               [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_3.zone_2",
+          "notes": "",
+          "content": "go only ninety degrees through the roundabout",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0010959396334890405,
+            "min": 0.00034135824649658643
+          },
+          "sector": {
+            "cut": true,
+            "max": 2.478367537831948,
+            "min": 1.0995574287564276
+          },
+          "isTrusted": true
+        }
+      ],
+      "lat": 0.035,
+      "lng": 0.105,
+      "isTrusted": true
+    },
+    {
+      "name": "chattahooch",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_5",
+      "latlng": { "lat": 33.9973091691751, "lng": -84.20217990875244 },
+      "notes": "[unnamed Pin]",
+      "status": "open",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_3.zone_2",
+          "notes": "",
+          "content": "You have just crossed the river.",
+          "status": "close",
+          "trigger": { "in": false, "out": true, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0005300035932446999,
+            "min": 0.0005300035932446999
+          },
+          "sector": {
+            "cut": false,
+            "max": 1.4311699866353502,
+            "min": 2.3387411976724017
+          },
+          "isTrusted": true
+        },
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_5.zone_0",
+          "notes": "",
+          "content": "you are about to cross the chattahoochie river",
+          "status": "open",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.000952209845490478,
+            "min": 0.0008713618397412863
+          },
+          "sector": {
+            "cut": false,
+            "max": 2.4958208303518914,
+            "min": 2.373647782712288
+          }
+        }
+      ],
+      "lat": 0.035,
+      "lng": 0.105,
+      "isTrusted": true
+    },
+    {
+      "name": "Pre Hootch",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_5",
+      "latlng": { "lat": 33.986322769359774, "lng": -84.21151936054231 },
+      "notes": "                 [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_3.zone_2",
+          "notes": "",
+          "content": "Prepare to cross the river",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0033593456320434576,
+            "min": 0.0028234607354424806
+          },
+          "sector": {
+            "cut": true,
+            "max": -1.8908129348341127,
+            "min": -2.1680618477382914
+          },
+          "isTrusted": true
+        }
+      ],
+      "lat": 0.035,
+      "lng": 0.105,
+      "isTrusted": true
+    },
+    {
+      "name": "Hootch",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_5",
+      "latlng": { "lat": 33.995302064104024, "lng": -84.2054861781253 },
+      "notes": "        [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_3.zone_2",
+          "notes": "",
+          "content": "Cross the mioghty Chattahoochee River.",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.003376333260496193,
+            "min": 0.0032135994969541577
+          },
+          "sector": {
+            "cut": true,
+            "max": -1.8908129348341127,
+            "min": -2.3019307807755376
+          },
+          "isTrusted": true
+        }
+      ],
+      "lat": 0.035,
+      "lng": 0.105,
+      "isTrusted": true
+    },
+    {
+      "name": "State Bridge",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_5",
+      "latlng": { "lat": 34.017335132043925, "lng": -84.19014929764673 },
+      "notes": "         [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_3.zone_2",
+          "notes": "",
+          "content": "Go straight through the light at State Bridge Road.",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.003824804603888367,
+            "min": 0.0032135994969541577
+          },
+          "sector": {
+            "cut": true,
+            "max": -1.5614467922437365,
+            "min": -2.3019307807755376
+          },
+          "isTrusted": true
+        }
+      ],
+      "lat": 0.035,
+      "lng": 0.105,
+      "isTrusted": true
+    },
+    {
+      "name": "JC Pkway",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_5",
+      "latlng": { "lat": 34.05726124083384, "lng": -84.17397022007209 },
+      "notes": "          [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_3.zone_2",
+          "notes": "",
+          "content": "Turn to the east onto Johns Creek Parkway.",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.004877261614670866,
+            "min": 0.004616617422344263
+          },
+          "sector": {
+            "cut": true,
+            "max": -1.5364038022817819,
+            "min": 0.06704277463336639
+          },
+          "isTrusted": true
+        }
+      ],
+      "lat": 0.035,
+      "lng": 0.105,
+      "isTrusted": true
+    },
+    {
+      "name": "JC Pkway - driving",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_5",
+      "latlng": { "lat": 34.055658890485695, "lng": -84.17188882751361 },
+      "notes": "           [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_3.zone_2",
+          "notes": "",
+          "content": "Go straight now.. but go slowly here.",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0020292440627221455,
+            "min": 0.0007550786294002313
+          },
+          "sector": {
+            "cut": true,
+            "max": -2.1134076709070158,
+            "min": -2.9100327541637245
+          },
+          "isTrusted": true
+        }
+      ],
+      "lat": 0.035,
+      "lng": 0.105,
+      "isTrusted": true
+    },
+    {
+      "name": "Curion",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_5",
+      "latlng": { "lat": 34.056320499815286, "lng": -84.16934251632485 },
+      "notes": "            [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_3.zone_2",
+          "notes": "",
+          "content": "You are here. Pull in.",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0019388201831090311,
+            "min": 0.0012507024906590581
+          },
+          "sector": {
+            "cut": true,
+            "max": -2.570149572689796,
+            "min": 2.8311077075829463
+          },
+          "isTrusted": true
+        }
+      ],
+      "lat": 0.035,
+      "lng": 0.105,
+      "isTrusted": true
+    },
+    {
+      "name": "Curion",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_5",
+      "latlng": { "lat": 33.98275421771202, "lng": -84.1691744349373 },
+      "notes": "             [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_3.zone_2",
+          "notes": "",
+          "content": "You are here. Pull in.",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0008156299836280682,
+            "min": 0.0008073772187098625
+          },
+          "sector": {
+            "cut": true,
+            "max": 2.649447415635533,
+            "min": 1.8087596671593607
+          },
+          "isTrusted": true
+        }
+      ],
+      "lat": 0.04,
+      "lng": 0.12,
+      "isTrusted": true
+    },
+    {
+      "name": "Curion",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_5",
+      "latlng": { "lat": 33.98107622608592, "lng": -84.16812300900347 },
+      "notes": "              [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_3.zone_2",
+          "notes": "",
+          "content": "You are here. Pull in.",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0008156299836280682,
+            "min": 0.0008073772187098625
+          },
+          "sector": {
+            "cut": true,
+            "max": 2.649447415635533,
+            "min": 1.8087596671593607
+          },
+          "isTrusted": true
+        }
+      ],
+      "lat": 0.045,
+      "lng": 0.135,
+      "isTrusted": true
+    },
+    {
+      "name": "Curion",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_5",
+      "latlng": { "lat": 33.977545220573944, "lng": -84.16483283272102 },
+      "notes": "               [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_3.zone_2",
+          "notes": "",
+          "content": "You are here. Pull in.",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0010653524535816916,
+            "min": 0.0006042264684911641
+          },
+          "sector": {
+            "cut": true,
+            "max": 2.649447415635533,
+            "min": -2.5369530891766323
+          },
+          "isTrusted": true
+        }
+      ],
+      "lat": 0.049999999999999996,
+      "lng": 0.15000000000000002,
+      "isTrusted": true
+    },
+    {
+      "name": "Curion",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_5",
+      "latlng": { "lat": 33.97391367765949, "lng": -84.15840625861165 },
+      "notes": "                [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_3.zone_2",
+          "notes": "",
+          "content": "You are here. Pull in.",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0005309698147686135,
+            "min": 0.0005301798620611389
+          },
+          "sector": {
+            "cut": true,
+            "max": 2.958895121736513,
+            "min": -2.5369530891766323
+          },
+          "isTrusted": true
+        }
+      ],
+      "lat": 0.05499999999999999,
+      "lng": 0.16500000000000004,
+      "isTrusted": true
+    },
+    {
+      "name": "Curion",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_5",
+      "latlng": { "lat": 33.96906265340242, "lng": -84.14885044076073 },
+      "notes": "                 [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_3.zone_2",
+          "notes": "",
+          "content": "You are here. Pull in.",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0007558431751157184,
+            "min": 0.0006957743761047907
+          },
+          "sector": {
+            "cut": true,
+            "max": 2.958895121736513,
+            "min": 3.0662041244543863
+          },
+          "isTrusted": true
+        }
+      ],
+      "lat": 0.05999999999999999,
+      "lng": 0.18000000000000005,
+      "isTrusted": true
+    },
+    {
+      "name": "Curion",
+      "class": "pin",
+      "tag": "default",
+      "id": "cherokee.pin_5",
+      "latlng": { "lat": 33.99508427411816, "lng": -84.16779756524194 },
+      "notes": " [unnamed Pin]",
+      "status": "close",
+      "zones": [
+        {
+          "name": "",
+          "class": "zone",
+          "id": "cherokee.pin_3.zone_2",
+          "notes": "",
+          "content": "story/ballgame-of-birds-and-animals.ogg",
+          "status": "close",
+          "trigger": { "in": true, "out": false, "cycle": "180" },
+          "radius": {
+            "cut": false,
+            "max": 0.0007558431751157184,
+            "min": 0.0006957743761047907
+          },
+          "sector": {
+            "cut": true,
+            "max": 2.958895121736513,
+            "min": 3.0662041244543863
+          },
+          "isTrusted": true
+        }
+      ],
+      "lat": 0.06499999999999999,
+      "lng": 0.19500000000000006,
+      "isTrusted": true
+    }
+  ]
+}

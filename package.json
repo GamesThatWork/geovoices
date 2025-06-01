@@ -1,0 +1,31 @@
+{
+  "name": "Cherokee-Legend-Geotour",
+  "version": "0.0.1",
+  "description": "progressive web app: tracks your position on server [ geoloc, sqlLite3, Leaflet, pwa ]",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "sqlite3": "^4.1.1",
+    "http-proxy-middleware": "^1.0.5",
+    "@aws-sdk/client-s3": "^3.137.0",
+    "body-parser": "^1.20.0",
+    "fs": "^0.0.2",
+    "express-fileupload": "^1.4.0"
+  },
+  "engines": {
+    "node": "14.x"
+  },
+  "repository": {
+    "url": "https://glitch.com/edit/#!/hello-sqlite"
+  },
+  "license": "MIT",
+  "keywords": [
+    "node",
+    "glitch",
+    "express"
+  ]
+}

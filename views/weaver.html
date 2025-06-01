@@ -1,0 +1,666 @@
+<!DOCTYPE html>    <?xml version="1.0" standalone="no"?>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="xxxxxviewport" content="width=device-width, initial-scale=1.0">
+    <meta name='viewport' content='initial-scale=1, viewport-fit=cover'>
+    <title>weaver</title>
+
+    <link rel="apple-touch-icon"      sizes="180x180" href="https://storage.googleapis.com/geovoices/icons/weaver_180.png">
+    <link rel="icon" type="image/png" sizes="32x32"   href="https://storage.googleapis.com/geovoices/icons/weaver_32.png">
+    <link rel="icon" type="image/png" sizes="16x16"   href="https://storage.googleapis.com/geovoices/icons/weaver_16.png">
+    <meta name="theme-color" content="#C1892F"/>
+    <link rel="manifest" href="weaver.webmanifest">
+</head>
+<body>
+    <div id="view"> </div>
+    <div><div id="gui" >
+
+<!-- 
+<div id="credits">
+    <h4>Credits</h4>
+    <p><span class="role">guide</span>       <span class="talent">Stephan Walkingstick</span></p></p>
+    <p><span class="role">writer</span>      <span class="talent">Shenelle Feather</span></p>
+    <p><span class="role">ballgame</span>    <span class="talent">Jarett Wildcatt</span></p>
+    <p><span class="role">chunkey</span>     <span class="talent">Nola Teesatuskie</span></p>
+    <p><span class="role">evergreen</span>   <span class="talent">Nola Teesatuskie</span></p>
+    <p><span class="role">first</span>       <span class="talent">Freeman Owle</span></p>
+    <p><span class="role">how</span>         <span class="talent">John John Toineeta</span></p>
+    <p><span class="role">kanati</span>      <span class="talent">Freeman Owle</span></p>
+    <p><span class="role">selu</span>        <span class="talent">Freeman Owle</span></p>
+    <p><span class="role">spearfinger</span> <span class="talent">Kathi Littlejohn</span></p>
+</div> -->
+
+
+    </div></div>
+    <button id="menu" draggable="true"> menu </button>
+    <audio  autoplay ></audio>
+
+            
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Cherry+Swash&family=Share+Tech+Mono&display=swap');
+  
+  
+ * {  overflow: hidden; /* Hide scrollbars */ }
+
+:root {
+    /* --color-0:hsl( 64, 47%, 87%); 
+    --color-1:hsl(70, 31%, 61%); 
+    --color-2:hsl(39, 76%, 61%); 
+    --color-3:hsl(0, 63%, 54%); 
+    --color-4:hsl(  8, 71%, 20%); */
+    --color-0:  hsl(44, 55%, 80%);
+    --color-1:  hsl(59, 31%, 63%); 
+    --color-2:  #c1892f; 
+    --color-3:  hsl(26, 100%, 34%); 
+    --color-4:  hsl(37,10%,15%);
+    --plainbg: rgba(255, 255, 255, 0.715);
+    }   
+
+
+body {
+     background-color: rgb(6, 87, 87);
+     font-family: "Share Tech Mono", Roboto, Tahoma, sans;
+     font-size: 2vh;
+     }
+
+rect, button{
+    box-shadow: -3px -3px 7px rgba(255, 249, 168, 0.61), 7px 7px 72px rgba(2,3,3,0.91);
+     }
+h3, h2, h1 {
+    font-weight: 400;
+    background-color:var(--plainbg);
+    border: thick solid black;
+    margin: 0 auto;
+    text-align: center;
+    }
+    h1{    font-size: 2vh;}
+    h2{    font-size: 1.6vh; }
+    h3{    font-size: 1.1vh; }
+
+rect:hover {
+    stroke: rgb(242, 242, 181);
+    stroke-width:0.175;
+    }
+
+#tools { width:100%;
+         display: flex; flex-direction: column; justify-content: space-around; align-items: center;  
+        } 
+   
+#svg { width:100%;
+       display: flex; flex-direction: row; justify-content: space-around; align-items: center;  
+     }          
+
+:has(  #gui ) { 
+    z-index: 1;
+    display: flex; flex-direction: column; justify-content: space-around; align-items: center;  
+    } 
+
+
+#menu { position: absolute; right:1%; top:1%;   z-index: 22; width:fit-content;}
+
+ol        { margin: 0 auto;   text-align: center; color:white; }
+li        { font-size: 1.5vh; font-weight:700; background-color: var(--plainbg);     margin:.2vh;   color:black;  } 
+li.active {                                    background-color:rgba(18, 183, 32, 0.673);} 
+li:hover  {                   font-weight:900; background-color:rgba(255, 255, 0, 0.757);} 
+button {       font-size: 1.05em;  color:rgb(113, 31, 31); background-color: beige; margin: .2em;}
+button:hover { color:white; background-color: brown;}
+
+:has( select ){ color:white; background-color: brown; padding:20px 20px 90px 20px; }  
+select  {    font-size: 1.6vh;     }
+
+
+/*                    --color-0:hsl( 64, 47%, 87%); 
+                    --color-1:hsl( 70, 48%, 54%); 
+                    --color-2:hsl( 39, 61%, 56%); 
+                    --color-3:hsl(  0, 56%, 48%); 
+                    --color-4:hsl(  8, 71%, 20%);*/
+                    
+
+:root {
+                    --color-0:hsl( 64, 47%, 87%); 
+                    --color-1:hsl(83, 53%, 60%); 
+                    --color-2:hsl( 39, 61%, 56%); 
+                    --color-3:hsl(  0, 56%, 48%); 
+                    --color-4:hsl(  8, 71%, 20%);
+                    --color-5:hsl(98, 55%, 32%);
+                    } 
+</style>
+
+
+
+
+
+
+
+<script type="module" defer>
+
+
+
+
+import   newWeave       from './weave.js';
+import { titleCase }    from './util.js';
+
+
+
+
+window.addEventListener('load', ()=> navigator.serviceWorker?.register('./weaver_serviceworker.js') );
+
+
+const reqfullscreen= ()=> {
+    document.body.removeEventListener('click', reqfullscreen);
+
+    let check = ()=> console.log( "Fullscreen: ",  document.fullscreenElement??document.webkitFullscreenElement??document.mozFullScreenElement??document.msFullscreenElement??'no fullscreen' );
+
+    let el = document.documentElement??document.body;     
+    const response = el.requestFullscreen?.(      {navigation:"hide"}  )  // chrome
+                  ?? el.webkitRequestFullscreen?.({navigation:"hide"}  );
+    if( response?.then ) response.then( check );
+    else check();
+    setTimeout( ()=> window.scrollTo(0, 1), 2000);
+    };  
+
+if(/Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent))
+  document.body.addEventListener('click', reqfullscreen, {once:true});
+    
+
+
+
+
+
+// const draggableElement = document.querySelector('[draggable="true"]');
+// draggableElement.addEventListener("dragstart", (event) =>{
+//   event.dataTransfer.setData("text/plain", "This text may be dragged");
+//   event.dataTransfer.effectAllowed = "move";
+//   }
+// );
+// const dropElement = document.body;//getElementById("gui");
+
+// dropElement.addEventListener("dragenter", (event) => {
+//   event.preventDefault();
+// });
+
+// dropElement.addEventListener("dragover", (event) => {
+//   event.preventDefault();
+// });
+
+  
+// dropElement.addEventListener("drop", (event) => {
+//   const data = event.dataTransfer.getData("text/plain");
+//   event.target.textContent = data;
+//   console.log( data );
+//   event.preventDefault();
+// })
+
+// draggableElement.addEventListener("drop", (event) => {
+//   const data = event.dataTransfer.getData("text/plain");
+//   event.target.textContent = data;
+//   console.log( data );
+//   event.preventDefault();
+// })
+// // add drop event listener and update to new position  
+  
+  
+  
+
+
+
+// // function takes a DOM element and saves content as a jpg file
+const snapshot = filename=>{
+
+    const  el= document.querySelector("#gui");
+    filename ??= "weave.jpg";
+
+    htmlToImage.toPng( el )
+        .then(function (dataUrl) {
+            var img = new Image();
+            img.src = dataUrl;
+            document.body.appendChild(img);
+            })
+        .catch(function (error) {
+                console.error('oops, something went wrong!', error);
+                });
+}
+
+
+
+
+
+
+
+
+
+// // function takes a DOM element and saves content as a jpg file
+// const download= (filename)=>{
+
+//     const  el= document.querySelector("#gui");
+//     const  filename= "weave.jpg";
+
+//     html2image(el, filename)
+//         .then( ()=> saveAs(filename) )
+//         .catch( err=> console.log(err) );
+// }   
+// const save= ()=>{
+
+//     const  el= document.querySelector("#gui");
+//     const  filename= "weave.jpg";
+
+//     html2image(el, filename)
+//         .then( ()=> download(filename) )
+//         .catch( err=> console.log(err) );
+// }
+
+
+
+
+// var canvas = document.getElementById("my-canvas");
+// canvas.toBlob(function(blob) {
+//     saveAs(blob, "pretty image.png");
+// });
+
+
+
+
+
+const collection={};  // object that stores all the weaves
+var   names=[];       // (array)  list of names of weaves in collection (same as keys of collection)
+var   active;         // (string) name of the active weave
+var   weave;          // object that manages a single weave display
+
+const listNames =  (c =collection) => names = Object.keys(c).sort(); 
+
+
+//get artist from query string in this page url and if available store it locally
+localStorage.setItem(                              "artist",( 
+    new URL(window.location.href).searchParams.get("artist") ??
+    localStorage.getItem(                          "artist") ??
+                                                    "Rando" ).split("@")[0]);
+
+
+
+
+
+
+
+ 
+// pausue utility to insert into a promise chain  
+const delay2s = val => new Promise( resolve=> setTimeout( ()=>resolve(val),2000) );
+
+
+// play a sound file
+const playAudio = choice=>{
+        setMetadata( choice ) 
+        let src = `https://geo-tour.s3-us-west-2.amazonaws.com/cherokee/${choice}.mp3`;
+        const audioplayer= document.querySelector("audio");
+        audioplayer.addEventListener( "canplay", e=>{
+            audioplayer.play();
+            audioplayer.addEventListener( "ended", ()=>{
+                }); 
+            });
+        audioplayer.src=src;
+        }   
+
+// set the MediaSession metadata for the audio player
+    const setMetadata   = choice=>{
+        const artist = choice=>{
+            var key  = choice.split('/')[0];
+            if( key=="story") key = choice.split('/')[1].split('-')[0];
+            return {
+                guide:"Stephan Walkingstick w. Shenelle Feather",
+                ballgame:"Jarett Wildcatt",
+                chunkey: "Nola Teesatuskie",
+                evergreen: "Nola Teesatuskie",
+                first: "Freeman Owle",
+                how: "John John Toineeta",
+                kanati: "Freeman Owle",
+                selu:  "Freeman Owle",
+                spearfinger: "Kathi Littlejohn",
+                }[ key ]
+            }
+          navigator.mediaSession.metadata = new MediaMetadata(
+                choice.artist? 
+                    choice                    // param is full metadata object
+               :{                             // or param is special name 
+                    title:  titleCase( choice.split('/').pop().replaceAll('-',' ') ),
+                    artist: artist( choice ),
+                    album:  "Cherokee GeoVoices",
+                    artwork: [
+                        { src: "https://storage.googleapis.com/geovoices/icons/weaver_192.png", sizes: "192x192",   type: "image/png", purpose: "any maskable" },
+                        { src: "https://storage.googleapis.com/geovoices/icons/weaver_512.png", sizes: "512x512",   type: "image/png", purpose: "any maskable" }
+                        ]
+                    });
+        console.log( navigator.mediaSession.metadata );
+        }
+
+
+
+
+// make 11 charcter date code for weave name
+const dateCode= ( hyphen )=>{
+    const formatter = new Intl.DateTimeFormat('en-us',{ year:"2-digit",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hour12:false});
+    const o={}, f= formatter.formatToParts( Date.now() );
+    f.forEach( i=> o[i.type]=i.value );
+    return o.year +o.month +o.day+ (hyphen?'-':'') +o.hour +o.minute;
+    }
+// decode a date code into a human readable string    
+const decode = t => {
+    const dateparts = t.match(/_(\d\d)(\d\d)(\d\d)-(\d\d)(\d\d)/);
+    const [ dummy, year, month, day, hour, minute ] = dateparts||[];
+   // console.log({ dateparts, year, month, day, hour, minute }); 
+    return year?`${(hour%12)||'12'}:${minute}${hour<12?"a":"p"}m &nbsp;&nbsp; ${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][month-1]} ${day}, 20${year}` :t;
+    };
+
+    // standardize the collection so it contains 36 weaves, each with 19 columns and 66 row
+
+const standardize = (coll=collection)=>{
+    //  return;
+    if( coll.blank ) delete coll.blank;
+
+    let x = Object.keys(coll).sort();
+    x.filter( n=> n.match(/\_/)).forEach( n=> delete coll[n])
+    console.log(  Object.keys(coll).sort().join('\n') )
+
+
+    let len = Object.keys(coll).length;    
+    if( len >36 ) coll = Object.keys(coll).sort().slice(0,36).reduce( (o,n)=>{ o[n]=coll[n]; return o; },{} );
+
+    let gap = 36- Object.keys(coll).length;
+    for( let i=0; i<gap; i++) 
+        coll[`~ extra scrap ${i+1} ~`] = new Array(19).fill( new Array(66).fill([4,0,4,5,1,5,2,3,2][i]) ) ;  
+    listNames(coll);
+    names.forEach( n=>{
+        coll[n] = coll[n].slice(0,19);
+        coll[n].forEach( (column,c)=> coll[n][c]= column.slice(0,66) ) 
+        })
+    };
+
+
+
+
+document.querySelector("#menu").hidden=true;
+ 
+newWeave( { collection } )
+    .then( w=> (weave=w).show("guide/birdtown"))
+    .then( ()=>{
+
+        document.querySelector("#menu").hidden=false;
+        const gui= document.querySelector("#gui");
+
+        const ungui    = ()=>gui.innerHTML= "";  // no dashboard
+  //      const unshowAll= ()=>{ while( miniweave.length) miniweave.pop().remove()};
+
+        const miniweave=[];
+        const activatemini = ()=>
+                miniweave.forEach( (w,i)=>  {
+                    w.show( names[i] );
+
+                    document.querySelector(`#g-weave_${i%6}_${Math.floor(i/6)}`).addEventListener("click", e=>{ 
+                        unshowAll();
+                        weave.show( active=names[i] );
+                        })
+                    // w.rectgroup.addEventListener("click", e=>{ 
+                    //     unshowAll();
+                    //     weave.show( active=names[i] );
+                    //     })
+                });
+        const showAll= ()=>{    
+            ungui();            // no dashboard
+            weave.background(); // no big weave  
+            unhideAll();  
+            if( miniweave.length) activatemini(); 
+            else Promise.all(
+                names.map( (n,i) =>  newWeave( { scale:1/6, i:i%6, j:Math.floor(i/6), collection }  ) )
+                )
+                .then( w=> miniweave.push(...w) )
+                .then( activatemini )
+            }
+
+        const unshowAll= ()=> miniweave.forEach( w=>w.hide() );
+        const unhideAll= ()=> miniweave.forEach( w=>w.unhide() );
+
+
+            // ).forEach( ( n,i)=> 
+                   
+            //             .then( w=> miniweave.push(w)));
+            // miniweave.forEach( (w,i)=> {
+            //         w.show( names[i] ); 
+            //         w.rectgroup.addEventListener("click", e=>{ 
+            //             unshowAll();
+            //             weave.show( active=names[i] );
+            //             })
+            //         })
+            //}
+        
+   
+   const  color={ fg:3, bg:0 };
+
+
+    const edit={
+        showAll,
+
+        gui:  e=>{
+                e.preventDefault();
+                unshowAll();
+                let w = document.querySelector("div.portrait").offsetWidth;
+             //   console.log( weave );
+                let pallette =[0,2,3,4,5,1,0];
+                let sqr = Math.floor( w/(pallette.length*1.505));
+                gui.innerHTML=   gui.innerHTML? "" :
+                   `<h1>Screen Weaver v1.02.7</h1>
+                    <h2>artist:${localStorage.getItem("artist")}</h2>
+                    
+                    
+                    <div id="tools">
+                         <svg width="${pallette.length*sqr*1.5}" height="${sqr*1.5}">${
+                            pallette.map( (c,i)=>
+                                    `<rect  data-color ="${c}" class="fill-${c}-0-0"  
+                                        x="${sqr*(.25+i*1.5)}" y = "${sqr*.25}" width="${sqr}" height = "${sqr}" rx="${sqr*.1}" ry= "${sqr*.1}" stroke-width="4" stroke="black"/>`
+                                ).join("")
+                            }</svg>
+
+                        <div>${[ 'silence','shift','invert','tint','clear','load','save','copy','paste','showAll','?' ].map( k=>`<button>${k}</button>`).join("")}</div>
+                    </div> 
+
+                    <h3>Cherokee GeoTour Illustrations</h3>        
+                    <ol>${
+                       names.map( p=>
+                        `<li  data-key="${p}" ${p===active?`class="active"`:``} >${p.replaceAll("-"," ").replace('guide/','(narrator) ').replace('story/','(storyteller) ')}</li>`
+                            ).join("")}</ol> `
+                    // audio asset link generator for use outside this app
+                    //+`  <div style="background-color:white; color:black;">${
+                    //    names.map( p=>`<p><a href="https://geo-tour.s3-us-west-2.amazonaws.com/cherokee/${p}.mp3" >${ p.replaceAll("-"," ").replace('guide/','(narrator) ').replace('story/','(storyteller) ')}</a></p>`)
+                    //                 .join("")}</div> `
+                ;
+                
+                gui.querySelectorAll("button").forEach( p=>p.addEventListener("mousedown", edit[ p.innerText ]));
+                gui.querySelectorAll("button").forEach( p=>p.addEventListener("mouseup",   ungui              ));
+                        
+                gui.querySelectorAll("li").forEach( p=>p.addEventListener("click", e=> { 
+                    active = p.dataset.key;    
+                    ungui();
+                    weave.show( active );
+                    playAudio(  active );
+                    }));
+
+                gui.querySelectorAll("rect").forEach( p=>p.addEventListener("click", e=> { 
+                    ungui();standardize
+                    color.bg= color.fg;
+                    color.fg= Number(p.dataset.color);
+                    }))
+                },
+
+            silence: ()=> document.querySelector("audio").pause(),
+            
+            clear:   ()=> {
+                collection[active].forEach(column=> column.fill(color.fg));
+                weave.show( active );
+                }, 
+            remember: ()=>{ 
+                localStorage.setItem( "weave.active",     active);
+                localStorage.setItem( "weave.collection", JSON.stringify( collection ));
+                },
+            resume: ()=>{
+                if( !active || Object.keys(collection).length <= 1) {
+                    active       =              localStorage.getItem( "weave.active"     )       ?? "guide/birdtown";
+                    let savedColl=  JSON.parse( localStorage.getItem( "weave.collection" )??"" ) ??  collection;
+                    Object.assign( collection, savedColl );
+                    standardize();
+                    listNames();
+                    }
+                weave.show(  active );
+                },
+            save: ()=>
+                fetch( `https://geotour.glitch.me/weave/${ localStorage.getItem('artist')}_${dateCode(true)}`, 
+                        { method:'post', body:JSON.stringify(
+                            { collection, 
+                              artist: new URL(window.location.href).searchParams.get("artist") ?? "unknown"
+                            } ) } )
+                    .then(  response => response.text() )
+                    .then( text=>gui.innerHTML= `<h3>${text}</h3>`)
+                    .then( delay2s )
+                    .then( delay2s )
+                    .then( ungui   ),   
+            load: ()=>
+                fetch( `https://geotour.glitch.me/weaves/` )
+                    .then(  response =>  response.json()               )// get remote file list
+                    .then(  edit.choose )
+                    .then(  file=>fetch( `https://geotour.glitch.me/weave/${file}`) )
+                    .then(  response => response.json() )
+                    .then(  data=> Object.assign( collection, data.collection) )
+                    .then(  standardize )
+                    .then(  listNames  )
+                    .then(  showAll    )
+                    .then(  ungui      )
+                    .catch( err=>gui.innerHTML=`<h2>File load failure: ${err}</h2>`)
+                    ,   
+                     
+            
+            choose: items=> new Promise( resolve=>{
+                let artists = Array.from( new Set ( items.map( f=>f.split("_")[0] ))).sort();
+                gui.innerHTML=`<div><select>${['Choose artist'].concat( artists ).map(a=>`<option value="${a}" >${a}</option>`).join()}</select><div>`;
+                gui.querySelector("select").addEventListener("change", e=>{
+                    let versions = items.filter( f=>f.includes( e.target.value ));
+                    gui.innerHTML= `<div><select><option>Choose version</option>${ versions.sort().reverse().map( v=>`<option value="${v}">${ decode(v) }</option>`).join() }</select></div>
+                                    <div><button>latest version</button></div>`;
+                    gui.querySelector("button").addEventListener("click",  e=> resolve( versions.sort().pop() ));
+                    gui.querySelector("select").addEventListener("change", e=> resolve( e.target.value ));
+                    gui.querySelector("select").addEventListener("blur",   e=> resolve( e.target.value ));
+                    });
+                    }),
+
+            shift:()=> {   
+                gui.innerHTML=['left','right','up','down','done'].map( k=>`<button>${k}</button>`).join("");
+                gui.querySelectorAll("button").forEach( p=>p.addEventListener("mousedown", edit[ p.innerText ]));
+                },     
+            right: ()=>{
+                collection[ active ].unshift( collection[ active ].pop()    );
+                weave.show();
+                },  
+            left: ()=>{
+                collection[ active ].push(    collection[ active ].shift()  );
+                weave.show();
+                },   
+            down: ()=>{
+                collection[ active ].forEach( column=> column.unshift( column.pop()   ));
+                collection[ active ].forEach( column=> column.unshift( column.pop()   ));
+                weave.show();
+                },      
+            up: ()=>{
+                collection[ active ].forEach( column=> column.push(    column.shift() ));
+                collection[ active ].forEach( column=> column.push(    column.shift() ));
+                weave.show();
+                },   
+            invert: ()=>{
+                collection[ active ].forEach( column=> column.forEach( (v,i,a)=>a[i]=[4,5,3,2,0,1][v] ));
+                weave.show();
+                },   
+
+            tint: ()=>{
+                collection[ active ].forEach( column=> column.forEach( (v,i,a)=>a[i]=[0,2,1,5,4,3][v] ));
+                weave.show();
+                },   
+            copy: ()=>      
+                  navigator.permissions.query({name: "clipboard-write"})
+                     .then( result =>   result.state === "granted" || result.state === "prompt")
+                     .then( permitted=>                           
+                            navigator.clipboard.writeText( JSON.stringify(collection[ active ]) ))
+                     .catch( console.err ),
+      
+            paste: ()=>      
+                  navigator.clipboard.readText()
+                    .then( json =>{
+                      let data = JSON.parse( json );
+                    //  console.log( data );
+                      collection[ active ].forEach( (column,c)=> column.forEach( (row,r) => collection[ active ][c][r]= data[c][r]  ));
+                      weave.show();
+                      }),      
+            '?': ()=> window.open("https://docs.google.com/document/d/1yGWzg-iB1KzsdnhEtLn_LMUvRehJtuqN4fFx8rOF6Gk","help"),
+                          
+                          
+            snapshot,   
+
+
+
+            done: ungui,
+            
+    }
+
+
+
+    const toggle = e =>{
+        const               { u, v }  =  e.target.dataset;  
+        collection[ active ][ u][v ]  =  collection[ active ][u][v]==color.fg? color.bg : color.fg;
+        weave.one(            u, v );
+        edit.remember();
+        } 
+
+    const draw = e =>{
+        preventBehavior(e);
+        if( e.buttons ){
+            const             {u, v}  =  e.target.dataset;  
+            collection[ active ][u][v] = e.buttons&2? color.bg : color.fg;
+            weave.one(         u, v );
+            edit.remember();
+            }
+        }
+    function preventBehavior(e) {
+    if( e.touches?.length<2 ) {
+        e.preventDefault();
+        }
+    let menu= document.querySelector("#menu");
+    if(  menu )  menu.innerText=e.touches?.length??"menu";
+      
+    };
+
+    //document.addEventListener("touchstart", preventBehavior, {passive: false});
+
+    
+
+    const start = ()=>{
+        document.querySelector("#menu"    )?.removeEventListener("click",       start    );
+        document.querySelector("#menu"    )?.addEventListener(   "click",       edit.gui );
+        document.querySelector(":has(svg)")?.addEventListener(   "contextmenu", edit.gui );
+        document.querySelector("body"     ).addEventListener(   "contextmenu", ()=>document.querySelector("#menu")?.remove() );
+        // console.log(  document.querySelectorAll("rect") );
+        // console.log(  document.querySelectorAll("#weave rect") );
+        document.querySelectorAll("#weave rect").forEach( r=>{
+            r.addEventListener("click",      toggle, { capture:true, passive:false} )
+            r.addEventListener("mouseenter", draw,   { capture:true, passive:false} )
+            });
+        edit.resume();
+        }
+
+    window.addEventListener("resize",  ()=> setTimeout( start,        3000 ));
+    window.addEventListener("resize",  ()=> setTimeout( activatemini, 5000 ));
+    document.querySelector("#menu"    ).addEventListener("click", start );
+
+    ungui();
+    start();    
+    })
+    
+
+        </script>
+    </body>
+</html>

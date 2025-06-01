@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin="anonymous"></script>
+        <link rel="manifest" href="/manifest.json">  
+        <link rel="stylesheet" href="prism.css"/>
+        <script src="prism.js" ></script>
+    
+     
+
+    </head>
+    <body>
+            <div id="geotour" >   
+
+              <div id="gui">
+                <button id="start">START</button>
+                <button id="stop">STOP</button>
+                <button id="logs">LOGS</button>
+                <button id="save">SAVE</button>
+                <button id="reset">RESET</button>
+              </div>
+              <div id="dataviz" scrollable="true" ></div>    
+              
+              
+              <div id="editor" scrollable="true" hidden ></div>    
+
+              <audio id="audioplayer" autoplay></audio>
+            <div id="mapid"></div>
+            <div id="dbg"  draggable="true">
+                <div class="handle" ></div>
+                <div id="json" scrollable="true"></div>
+            </div>    
+        </div>    
+
+<script>
+const url = {   local:  { car:"car.png", guibg:"./subtletexture1.jpg", bell:"" },
+                online: { bell:"",
+                          car:"https://cdn.glitch.com/82396493-cf04-4e83-9abb-cf8ed0317c6d%2Fcar.png?v=1610361026290",
+                          guibg:"https://cdn.glitch.com/82396493-cf04-4e83-9abb-cf8ed0317c6d%2Fsubtletexture1.jpg?v=1610206007889" },
+                active:  null
+            };
+
+url.active=url.online;
+
+//const defaultPin = L.latLng( [35.5011179,-83.2966019] );
+const defaultPin = L.latLng( [33.983667, -84.181541]);
+
+
+const l2m   =  l => l*111000;
+const m2l   =  m => m/111000;
+const l2p   =  l => Math.round(
+                    map.project( [     defaultPin.lat, defaultPin.lng] ).y -
+                    map.project( [ l + defaultPin.lat, defaultPin.lng] ).y); 
+const perill = (c,r,θ) =>[ c.lat + r * Math.sin( θ+4*Math.PI ), c.lng + r * Math.cos( θ+4*Math.PI ) ];
+const xy2ll  =  p  => map.unproject( L.point(  p  ).add(       map.getPixelBounds().min ).round() );    
+const ll2xy  =  w  => map.project(             w  ).subtract(  map.getPixelBounds().min ).round()  ;    
+const opacity= {    zero: {opacity:0,   fillOpacity:0  }, 
+                    thin: {opacity:1,   fillOpacity:0.2},
+                    full: {opacity:0.4, fillOpacity:1 }   };
+
+
+
+
+const dbg=  e => {
+  const dom = {
+      unit: document.querySelector("#dbg"),
+      json: document.querySelector("#json"),
+      from: e.target
+      };
+  var fromStyleDisplay  = dom.from.style.display;
+
+  const self = {
+    open: e=>{
+        dom.from.style.display= 'none';
+        dom.unit.style.display="block";  
+        dom.json.innerHTML = 
+             `<DIV    class="msg"     ></DIV>
+              <BUTTON class="edit"    >edit</BUTTON>
+              <BUTTON class="close"   >close</BUTTON>
+              <PRE    class="language-javascript"
+                          data-src="plugins/toolbar/prism-toolbar.js"
+                          data-label="Tour in JSON"><CODE  contentEditable>${JSON.stringify( tour.dna,null,2)}</CODE></PRE>`;
+        dom.code= dom.json.querySelector("CODE");
+        dom.json.querySelector(".close"  ).addEventListener("click", self.close  );
+     // dom.json.querySelector(".save"   ).addEventListener("click", self.memo   );
+     // dom.json.querySelector(".load"   ).addEventListener("click", self.omem   );
+        dom.json.querySelector(".edit"   ).addEventListener("click", self.edit   );
+        dom.json.querySelector(".refresh").addEventListener("click", self.refresh);
+        dragEnable( "#dbg"  );
+        },
+    close: e=>{ 
+        e.stopPropagation();
+        dom.json.querySelector(".close"  ).removeEventListener("click", self.close  );
+    //  dom.json.querySelector(".save"   ).removeEventListener("click", self.memo   );
+    //  dom.json.querySelector(".load"   ).removeEventListener("click", self.omem   );
+        dom.json.querySelector(".edit"   ).removeEventListener("click", self.edit   );
+        dom.json.querySelector(".refresh").removeEventListener("click", self.refresh);
+        dom.json.innerHTML=null; 
+        dom.unit.style.display ="none";  
+        dom.from.style.display = fromStyleDisplay;
+      },
+    edit:    e=>  tour= newTour(  {json: dom.json.querySelector("CODE").innerText } ),
+    refresh: e=>  dom.code.innerText =JSON.stringify( tour.dna,null,2 ),
+    memo:    e=>  localStorage.setItem('tour',  dom.code.innerHTML    ),
+    omem:    e=>  dom.code.innerHTML = localStorage.getItem('tour'    )
+    }
+  self.open();
+}
+
+const idcounter= { tour:0, pin:0, zone:0 };
+
+
+  
+  
+  
+  
+  
+  
+  
+/*
+Lifecycle
+
+init
+|   open
+|   |   start
+|   |   |   live
+|   |   end
+|   close
+|   hide
+|
+|   spawn
+|   unspawn
+|
+remove
+
+Content
+    self - my node in the tree of editobjects
+    dna  - my node in the tree of workproduct
+    map  - my node in the tree of map graphics
+    dom  - my node in the tree of html
+*/
+
+
+const proto = {
+
+    tour: {              // object encapsulating the complete definition of the tour
+        name: "Test for Cherokee Tour",
+        class: "tour",
+        notes: "",
+        author:  "Dov Jacobson",
+        id: "cherokee",
+        status: "open",
+        center:  defaultPin,
+        schema: "Open Geotour",
+        version: 0.4,
+        agent:   "cherokee editor",
+        pins: []
+        },
+    zone: {
+        name: "", 
+        class: "zone",
+        id: "zone",
+        notes: "" ,
+        content: false,
+        trigger: {
+            in: true,
+            out: false,
+            cycle: 180
+            },
+        radius: {
+            max: .008,
+            min: .004,
+            cut: true
+            },
+        sector: {
+            max: .75*Math.PI,
+            min: .25*Math.PI,
+            cut: false
+            },
+        status: "close"
+        }
+}
+
+
+
+const say = text=> window.speechSynthesis.speak(new SpeechSynthesisUtterance( text ));
+
+
+
+document.body.addEventListener( "click", ()=>say("Lets map the quality of the Geolocation service."), {once:true}); 
+  
+  
+  
+const testdrive = (newTour, useGPS)  =>{ // both optional
+    const gps = useGPS;
+    var car, currentTour, active;
+    const bit = .0005;
+    var gpsWatch = false;
+    const dom={};
+    const count={ ok:0,fail:0 };
+    const move={ now:{lat:0,lng:0} };
+    const positionOptions   =   {
+        enableHighAccuracy: false,
+        timeout:    5000,
+        maximumAge:    0,
+        gpsTTL:        3,
+        gpsWatch:      0
+        } ;
+    const msg= text =>  dom.unit.innerText=text;
+    var self = {
+        process: event => {
+            move.then= move.now;
+            move.now =
+                    event.latlng            // leaflet/mouseevent
+                || {                        // gps event
+                    lat: event.coords.latitude,
+                    lng: event.coords.longitude,
+                    };
+  //          mapbase.setView( move.now, gps? 17:16);
+            if( car ) car.remove();
+            car = L.imageOverlay(  url.active.car, [[ move.now.lat-bit, move.now.lng-bit],[  move.now.lat+bit, move.now.lng+bit]] )
+               .addTo( mapbase ); ;
+            currentTour.children.forEach(  pin => 
+                pin.children.forEach( zone=> 
+                    zone.trigger( move ) ));
+          // msg( `${++count.ok} OK  || ${  count.fail} FAIL` );
+            },
+        fail: error=>{
+            msg( `${  count.ok} OK  || ${++count.fail} FAIL [${error.message}]` );
+            },
+        install: t =>{
+            if( gps  )
+                gpsWatch= navigator.geolocation.watchPosition( self.process, self.fail, positionOptions );
+            else{
+                mapbase.on(  "mousemove", self.process );
+                document.getElementById('mapid').style.cursor = 'none';
+                }
+            currentTour = t || tour;
+            currentTour.close();
+            dom.unit = document.createElement("div");     
+            currentTour.dom.unit.appendChild( dom.unit)  
+ 
+          
+          
+          
+          
+ 
+            dom.carbutton = document.createElement("button");     
+            dom.carbutton.innerText="CENTER CAR";
+            currentTour.dom.unit.appendChild( dom.carbutton);
+            dom.carbutton.addEventListener("click", e=>
+                    mapbase.setView( move.now, 17    ));/*
+            dom.spacerbutton = document.createElement("div");
+            dom.spacerbutton.innerText="adjustments";
+            currentTour.dom.unit.appendChild( dom.spacerbutton);
+          */
+            dom.cachebutton = document.createElement("button");     
+            dom.cachebutton.innerText="CACHE";
+            currentTour.dom.unit.appendChild( dom.cachebutton);
+            dom.cachebutton.addEventListener("click", e=> 
+                    window.open("cachemenu", "cache"      ));
+   
+            dom.timebutton = document.createElement("button");     
+            dom.timebutton.innerText= positionOptions.timeout;
+            currentTour.dom.unit.appendChild( dom.timebutton);
+            dom.timebutton.addEventListener("click", e=>{
+                    positionOptions.timeout = (positionOptions.timeout+=500)%8000;
+                    dom.timebutton.innerText=  positionOptions.timeout;
+                    navigator.geolocation.clearWatch(gpsWatch);
+                    gpsWatch= navigator.geolocation.watchPosition( self.process, self.fail, positionOptions );
+                    });
+   
+            dom.accubutton = document.createElement("button");     
+            dom.accubutton.innerText= positionOptions.enableHighAccuracy? "HIGH ACCURACY":"LOW ACCURACy";
+            currentTour.dom.unit.appendChild( dom.accubutton);
+            dom.accubutton.addEventListener("click", e=>{
+                    positionOptions.enableHighAccuracy = !positionOptions.enableHighAccuracy;
+                          dom.accubutton.innerText= positionOptions.enableHighAccuracy? "HIGH ACCURACY":"LOW ACCURACy";
+                    navigator.geolocation.clearWatch(gpsWatch);
+                    gpsWatch= navigator.geolocation.watchPosition( self.process, self.fail, positionOptions );
+                    });
+   /*   
+            dom.button = document.createElement("button");     
+            dom.button.innerText="END DRIVE";
+            currentTour.dom.unit.appendChild( dom.button);
+            dom.button.addEventListener("click", self.toggle );
+   
+          
+  currentTour.dom.unit.parent.querySelector("#editor").style.display="none";
+   */         msg( gps? "GPS Installed":"GPS simulator");
+            active= true;
+            },
+        exstall: ()=>{
+            msg( "====Test Drive Ended======");
+            if( gpsWatch) {
+                navigator.geolocation.clearWatch(gpsWatch);
+                gpsWatch= null;
+                }
+            if (!gps ){
+                document.getElementById('mapid').style.cursor = 'grab';
+                mapbase.off( "mousemove", self.process );
+                }
+
+            if( car ) car.remove();
+            //msg( "");
+            dom.unit.remove();
+            dom.button.removeEventListener("click", self.toggle );
+            dom.button.remove();
+            dom.unit=dom.button= null;
+            currentTour.open();
+            active= false;
+            },
+        toggle: e=> active? self.exstall() : self.install( newTour ),     
+        }
+    return self.toggle;
+    }
+
+
+function traceStep( self, label ){   
+    if( window.trace ) console.log( `%c[${label}]:`, "color:green", self.name, self );
+    }
+
+
+function handleEvents( dom, event, func, add=true ){
+/*    let action =  add? "addEventListener":"removeEventListener";
+    Object.keys( dom ).forEach( k=>{
+        if( typeof k==='object' )   
+                Object.keys( dom[k] ).forEach( kk=>
+                    dom[ k ][ kk ][ action ]( event, func)  )
+        else        dom[ k       ][ action ]( event, func)  
+        });
+    */
+       }
+  
+
+
+
+const newTour =  context=> {
+
+    if( tour && tour.destruct )  tour.destruct(); //singularity for now
+
+    const dna =  context.tour
+        || (context.json? JSON.parse(context.json):false ) // deprecate this!
+        || proto.tour;
+    const dom ={            // all DOM nodes that display tour components
+        root: context.dom || document.querySelector("#editor"), // pre-exisiting DOM anchor
+        unit: false,        // contains interactive html representation of this tour
+        head: false,         // miminimized html representation
+        body: false,         // head+body = maximized representation
+        field:{}             // a graph of data fields
+        };
+    const map={};    
+    const self=   {
+        parent:         null,        // maybe we will edit multiple tours one day
+        siblings:       [],          // maybe we will edit multiple tours one day    
+        children:       [],
+        
+        get dna()         {  return dna  }, 
+        get dom()         {  return dom  }, 
+        get id()          {  return dna.id  || dna.author+".tour_"+idcounter.tour++      }, 
+        get name()        {  return String(dna.name || dna.notes || dna.id || "Tour" ).substring(0,24)  }, 
+        get notes() {  return dna.notes ||    "[unnamed tour]"          },
+        get lat()      { return dna.center.lat; },
+        get lng()      { return dna.center.lng; },
+        get latlng()   { return dna.center;     },
+        set lat(l)     { dna.center.lat= l; },
+       set lng(l)     { dna.center.lng= l; },
+        set latlng(ll) { dna.center    =ll; },
+
+        construct: ()=>{
+       
+          
+          
+            traceStep( self, 'construct');
+            map.base = mapbase;
+            if( dna.center )   map.base.setView( dna.center, 13);
+            
+            dom.unit = document.createElement("div");
+            dom.unit.id= self.id;
+            dom.unit.className= "tour form";
+            dom.unit.innerHTML=`
+                <div class="head handle" >
+                    <h2 class="name">${self.name}</h2>
+                    </div>
+                <div class="body" >
+                    <div    class="row">
+                        <button class="realdrive"  >DRIVE </button>
+                        <br/><br/><br/>
+                        <button class="testdrive"  >TEST DRIVE </button>
+                        <button class="add pin-add">ADD PIN</button>
+                        <button class="json"       >JSON </button>
+                        <button class="audio"     >TEST SOUND </button>
+                        <button class="upload"     >UPLOAD </button>
+                        <span class="pin-count"></span>
+                        </div>
+                    <ul  class="pin-list"></ul>
+                    </div>`;
+            while (dom.root.firstChild) dom.root.removeChild( dom.root.firstChild );  // clean root before rooting
+            dom.root.appendChild( dom.unit );
+            dom.head = dom.unit.querySelector(".head");
+            dom.body = dom.unit.querySelector(".body");
+            dom.field.name = dom.unit.querySelector(".handle");
+            dom.field.name.addEventListener("click", e=>console.log(self) );
+            dom.unit.querySelector(".realdrive").addEventListener( "click", testdrive( self, true  ) ); // called at construct time, not click time
+            dom.unit.querySelector(".testdrive").addEventListener( "click", testdrive( self, false ) ); // returns a function
+            dom.unit.querySelector(".audio"    ).addEventListener( "click", testaudio                ); // returns a function
+            dom.body.querySelector(".pin-add"  ).addEventListener( "click", self.spawn               );
+            dom.body.querySelector(".upload"   ).addEventListener( "click", self.upload              );
+            dom.body.querySelector(".json"     ).addEventListener( "click", dbg                      );
+         
+            dragEnable( "#editor"  );
+            map.base.on('contextmenu', self.spawnhere );
+            self.close();
+            },
+        open: ()=>{
+            traceStep( self, 'open');
+            self.render( {status:"open"} );
+            self.children.forEach( p=>p.open());
+            dom.head.removeEventListener( 'click',     self.open  );
+            dom.head.addEventListener(    'click',     self.close );   
+            //handleEvents( dom.field, "change", self.exform, true );
+
+/*            Object.keys( dom.field ).forEach( k=>{
+                if( typeof k==='object' )   
+                        Object.keys( dom.field[k] ).forEach( kk=>
+                            dom.field[k][kk].addEventListener( "change", self.exform ))
+                else        dom.field[k].addEventListener( "change", self.exform ) 
+                });*/
+            },
+        start: ()=>{
+            traceStep( self, 'start');
+            },
+        update: ()=>{
+            traceStep( self, 'update');
+            },
+        end: ()=>{
+            traceStep( self, 'end');
+            },
+        close: ()=>{
+            traceStep( self, 'close');
+            self.render( {status:"close"} );
+            self.children.forEach( p=>p.close()); 
+            dom.head.removeEventListener(  'click',     self.close  );   
+            map.base.off( 'contextmenu', self.spawnhere );
+            dom.head.addEventListener(     'click',     self.open   );
+            //handleEvents( dom.field, "change", self.exform, false );
+            },
+        hide: ()=>{
+            traceStep( self, 'hide');
+            self.render( {status:"hide"} );
+            },
+        destruct: ()=>{
+            traceStep( self, 'destruct');
+            self.close();
+            self.children.forEach(p =>p.destruct()); 
+            dom.head.removeEventListener( 'click',         self.close  );   
+            dom.head.removeEventListener( 'click',         self.open   );   
+            dom.head.removeEventListener( 'mousedown',     self.start  );
+            if( dom.unit ) dom.unit.remove();
+            dom.unit=null;
+            },
+        render: dnaUpdate =>{
+            traceStep( self, 'render');
+            Object.assign(   dna, self.exform(), dnaUpdate || {} );
+            self.inform( dna );
+            dom.unit.style.display = (dna.status=="hide" )?'none':'block';  
+            dom.body.style.display = (dna.status=="close")?'none':'block';  
+            self.children.forEach( p=> p.render() );
+            },
+        exform: ()=> {
+            return  dom.unit?  {
+                //id:"",
+                name: dom.field.name.innerText
+                // notes =dom.unit.querySelector(".notes").innerText;
+                // dna.tag        =dom.unit.querySelector(".tag").value;
+                // status: "neutral",  // initial state of play or edit-state
+                // zone: [],       
+                }:{};
+             },
+        inform: d=>{
+            //id:"",
+            dom.field.name.innerText = d.name;
+            // notes =dom.unit.querySelector(".notes").innerText;
+            // dna.tag        =dom.unit.querySelector(".tag").value;
+            // status: "neutral",  // initial state of play or edit-state
+            // zone: [],       
+            },
+
+        spawnhere: e=> self.spawn( { class:"pin", name:"Pin "+idcounter.pin, latlng:e.latlng   } ),
+
+        spawn: newdna=> {
+            traceStep( self, 'spawn');
+            if( "pin" !==   newdna.class   )  newdna={}; // no Event objects, etc
+            if( !dna.pins.includes( newdna )) dna.pins.push( newdna);
+            let p= newPin(  {
+                dna:       newdna,
+                parent:    self,        
+                siblings:  self.children,
+                dom:       dom.unit.querySelector(".pin-list"), 
+                map:       map.base
+                });
+            self.children.push ( p );
+            p.open();
+            },
+        upload: ()=>
+            fetch(`https://geotour.glitch.me/tour/upload/${self.name}`, { method:'post', body:JSON.stringify(dna) })
+                .then( response => response.text() )
+                .then(      msg => alert(msg)),
+        }
+    self.construct();
+    dna.pins.forEach( pdna => self.spawn( pdna ));
+    self.open();
+    return self;
+    } 
+
+const newPin =  context =>{
+
+    var radius;
+   /*
+        {              // object encapsulating the complete definition of this pin
+        name:"Casa Jacobson",// human readable identifier (not unique)
+        class: "pin",
+        tag: "default",
+        id: parent.id+".pin_" + idcounter.pin++, // unique identifier 
+        latlng:  L.latLng( defaultPin ),  // location of the pin in degrees
+        notes: "",     // longer explanatory text
+        status: "neutral",   // initial state of play or edit-state
+        zones: []             // all zones belonging to this pin
+        }, {...def}) ; //will overwrite only empty fields       
+
+*/
+ /*   const iconOptions = (color, size)  =>{ return {
+        iconUrl:
+       `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon${size?"-2x":""}-${color}.png`,
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+        }};
+ */
+    const tags= ['default','stop','story','guide','nav'];
+    const colorcode={
+        stop: "red",
+        story: "violet",
+        history: "blue",
+        guide: "blue",
+        nav: "grey",
+        open: "green",
+        touch: "orange",
+        update: "yellow",/*gold*/
+        live: "yellow",/*gold*/
+        close: "grey",
+        hide: "grey",
+        active: "green",
+        start: "orange",
+        edit: "yellow",
+        neutral: "grey",
+        error: "grey",
+        spent: "black",
+        default: "grey",
+    }
+    const  statusIcon = {
+/*        active:  new L.Icon( Object.assign( iconOptions("gold"), {} )),
+        start:   new L.Icon( Object.assign( iconOptions("orange"), {} )),
+        edit:    new L.Icon( Object.assign( iconOptions("black" ), {} )),
+        neutral: new L.Icon( Object.assign( iconOptions("blue"  ), {} )),
+        error:   new L.Icon( Object.assign( iconOptions("red"   ), {} ))
+    */       };
+
+    let iconDoubleSize=false;
+    Object.keys( colorcode ).forEach( c=>
+        statusIcon[c] = new L.Icon({
+                iconUrl:
+            `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon${iconDoubleSize?"-2x":""}-${colorcode[c]}.png`,
+                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
+                } ) );
+     const dna =  context.dna
+        || (context.json? JSON.parse(context.json):false ) // deprecate this!
+        || proto.pin;
+    dna.name        = dna.name    || "Casa Jacobson";// human readable identifier (not unique)
+    dna.class       = dna.class   || "pin";
+    dna.tag         = dna.tag     || "default";
+    dna.id          = dna.id      || context.parent.id+".pin_" + idcounter.pin++; // unique identifier 
+    dna.latlng      = dna.latlng  || L.latLng( defaultPin ),  // location of the pin in degrees
+    dna.notes = dna.notes         || ""; //explanatory text
+    dna.status      = dna.status  || "neutral";   // initial state of play or edit-state
+    dna.zones       = dna.zones   || [] ;            // all zones belonging to this pin
+
+    const dom ={            // all DOM nodes that display tour components
+        root: context.dom || document.querySelector(".pin-list"),  // preexisiting DOM node to which the pin attaches  
+        unit:  false,        // contains interactive html representation of this tour
+        head: false,         // miminimized html representation
+        body: false,         // head+body = maximized representation
+        field:{}             // a graph of data fields
+        };
+
+    const map ={           // everything that displays the pin on the map   
+        base:   context.map,
+        handle: false,
+        };
+    
+    const self=   {
+        parent:         context.parent,     // the tour to which this pin belongs
+        siblings:       context.siblings,   // maybe we will edit multiple tours one day    
+        children:       [],                 // all zones belonging to this pin
+        
+        get dna()         {  return dna  }, 
+        get id()          {  return dna.id  || self.parent.id +".Pin_"+idcounter.tour++      }, 
+        get name()        {  return String(dna.name || dna.notes || dna.id || "Pin" ).substring(0,64)  }, // wwas 24, mqde it 64
+        get notes() {  return dna.notes ||    "[unnamed Pin]"          },
+        get latlng()      {  return dna.latlng; },
+        get lat()         {  return dna.latlng.lat; },
+        get lng()         {  return dna.latlng.lng; },
+        set latlng(ll) { dna.latlng= ll; },
+        set lat(l)     { dna.latlng.lat= l; },
+        set lng(l)     { dna.latlng.lng= l; },
+    
+
+    construct: ()=>{
+        traceStep( self, 'construct');
+        dom.unit = document.createElement("div");
+        dom.unit.id= dna.id;
+        dom.unit.className=  "pin form";
+        dom.unit.innerHTML= // no ids in this html because it is not unique
+        `   <h2           class=  "head" >  
+            <span       class=    "id" >                                 ${dna.id}:       </span>
+            <span       class=    "name"        contenteditable="true" > ${self.name}      </span>
+            </h2>
+            <div          class=  "body" >
+            <div        class=    "notes" contenteditable="true" > ${self.notes}</div>
+            <div        class=    "row">
+                <span     class=      "label" > TAG</span>
+                <select   class=      "tag">${tags.map( s=>`<option>${s}</option>`).join()}</select>
+                </div>
+            <div        class=    "row">
+                <span     class=      "label" > 
+                <span   class=         "zone-count">No </span> Zones</span> 
+                <button class=      "zone-add add">ADD ZONE</button>
+                </div>        
+                <ul       class=    "zone-list"></ul>
+            </div>    
+        `; 
+        dom.root.appendChild( dom.unit );
+        dom.head = dom.unit.querySelector("h2");
+        dom.body = dom.unit.querySelector(".body");
+        dom.body.querySelector(".zone-add").addEventListener("click", self.spawn );
+        },
+    open: ()=>{
+        traceStep( self, 'open');
+        self.siblings.forEach( p=>p.close() );
+        self.render( {status:"open"} );
+        //------------------  
+        map.handle.off(                'click',     self.open  );
+        dom.head.removeEventListener(  'click',     self.open  );
+        //------------------  
+     // map.base.on(                   'click',     self.close );
+        dom.head.addEventListener(     'click',     self.close );   
+        map.handle.on(                 'mousedown', self.start );   
+        dom.unit.addEventListener("change", self.render );
+        //handleEvents(       dom.field, "change",    self.exform, true );
+        map.base.dragging.enable();
+        dom.unit.scrollIntoView( );
+
+        },
+    start: ()=>{
+        traceStep( self, 'start');
+        self.render( {status:"start"} );
+        //------------------  
+        map.handle.off(                'mousedown', self.start  );
+        //------------------  
+        map.base.on(                   'mousemove', self.update );
+        map.base.on(                     'mouseup', self.end    );
+        map.base.dragging.disable();
+        },
+    update: e=>{
+        traceStep( self, 'update');
+        self.latlng = e.latlng;
+        self.render( { status:"update" } );
+        },
+    end: ()=>{
+        traceStep( self, 'end');
+        map.base.off(            'mouseup',   self.end    );
+        map.base.off(            'mousemove', self.update );
+        self.open();
+        radius= dna.zones.reduce( (biggest, z) => (z.radius.max >biggest)? z.radius.max:biggest, 0  );
+        },
+    close: ()=>{
+        traceStep( self, 'close');
+        self.children.forEach( z=> z.close() );
+        self.render( {status:"close"} );
+        map.base.dragging.enable();
+    //------------------                   
+        map.base.off(               'mouseup',     self.end     );
+        map.base.off(             'mousemove',     self.update );
+        map.base.off(                 'click',     self.close  );
+        map.handle.off(         'contextmenu',     self.spawnhere );
+        dom.head.removeEventListener( 'click',     self.close  );   
+        dom.unit.removeEventListener("change", self.render); 
+      //handleEvents(     dom.field, "change",     self.exform, false );
+    //------------------  
+        map.handle.on(                'click',     self.open   );
+        dom.head.addEventListener(    'click',     self.open   );
+        },
+
+    hide: ()=>{
+        traceStep( self, 'hide');
+        self.render( { status:"hide" } );
+        },
+    destruct: ()=>{
+        traceStep( self, 'destruct');
+        self.close();
+        self.children.forEach( z=>z.destruct() );
+        map.base.off(                       'click',         self.close );
+        map.base.off(                       'mousemove',     self.update   );
+        map.base.off(                       'mouseup',       self.end     );
+        if( map.handle ){
+            map.handle.off(  'mousedown', self.start  );
+            map.handle.off(  'click',     self.open  );
+            map.base.removeLayer( map.handle  );
+            map.handle = false;
+            }
+        if( dom.unit ) { 
+            dom.head.removeEventListener( 'click',    self.open );   
+            dom.head.removeEventListener( 'click',    self.close);   
+            dom.head.removeEventListener( 'mousedown',self.start);
+            dom.head.remove();   
+            dom.body.remove();   
+            dom.unit.remove();   
+            dom.unit = false;
+            }
+        },
+    render: dnaUpdate =>{
+        traceStep( self, 'render');
+        Object.assign( dna, self.exform(), dnaUpdate || {} );
+        self.inform( dna  );        dom.unit.style.display = (dna.status=="hide" )?'none':'block';  
+        dom.body.style.display = (dna.status=="close")?'none':'block';  
+        self.children.forEach( z=> z.render() );
+    //extends tour
+        if( map.handle )  map.base.removeLayer( map.handle  );
+        let colorCode= (dna.status=="close")? dna.tag : (dna.status ||"error");
+      console.log( colorCode, " tag:"+dna.tag, " status"+dna.status )
+        map.handle  = L.marker( dna.latlng, {icon:statusIcon[ colorCode ] }).addTo( map.base )
+          .bindTooltip(dna.name,   {permanent:dna.tag!=="nav",  direction:'bottom', className:"lbl-"+colorCode });
+        map.handle.on('contextmenu', self.spawnhere );
+        },
+
+    spawnhere: e=>  self.spawn( { class:"zone", name:"Zone "+idcounter.zone  } ),
+     /* { var pop = L.popup()
+            .setLatLng(e.latlng)
+            .setContent(`<select id="pinspawn">${tags.map( s=>`<option>${s}</option>`).join()}</select>`)
+            .addTo(mapbase)
+            .openOn(mapbase);
+        var gui = document.querySelector("#pinspawn");
+        console.log( pop, gui);
+        gui.addEventListener("change", pop.remove );
+        },*/
+    spawn: newdna =>{
+        traceStep( self, 'spawn');
+        if( "zone" !==   newdna.class   ) newdna={}; // no Event objects, etc
+        if( !dna.zones.includes( newdna)) dna.zones.push( newdna );
+        let z= newZone(  {
+            dna:      newdna,
+            parent:   self,        
+            siblings: self.children,
+            dom:      dom.unit.querySelector(".zone-list"), 
+            map:      map.base
+            });
+        self.children.push (z);
+        z.open();
+        self.inform();
+        },
+    exform: ()=> {
+        // dna.id
+        dna.name =dom.unit.querySelector(".name").innerText || "zone";
+        // latlng:  L.latLng( defaultPin ), 
+        dna.notes =dom.unit.querySelector(".notes").innerText;
+        dna.tag   =dom.unit.querySelector(".tag").value;
+      console.log( dna.tag);
+        // status: "neutral",  // initial state of play or edit-state
+        // zone: [],       
+        },
+    inform: d=>{
+        dom.unit.querySelector(".name").innerText       = dna.name;
+        dom.unit.querySelector(".zone-count").innerText = dna.zones? dna.zones.length: "No";
+        }
+    }
+
+    self.construct(); // must build DOM before spawning zones
+    self.close();
+    if( dna.zones)  dna.zones.forEach( zdna  => self.spawn( zdna ));
+    return self;
+    } 
+
+const newZone = context =>{
+    const dna =  context.dna; // inition ||//     (context.json? JSON.parse(context.json):false) || 
+        dna.name         = dna.name          || ""; 
+        dna.class        = dna.class         || "zone";    
+        dna.id           = dna.id            ||  context.parent.id+".zone_"+idcounter.zone++;
+        dna.notes        = dna.notes         ||  "" ;
+        dna.content      = dna.content       ||  false ;
+        dna.status       = dna.status        || "close";   // initial state of play or edit-state
+        dna.trigger      = dna.trigger       ||{};
+        dna.trigger.in   = dna.trigger.in    ||  true;
+        dna.trigger.out  = dna.trigger.out   ||  false;
+        dna.trigger.cycle= dna.trigger.cycle ||  180;
+        dna.radius       = dna.radius        ||{};
+        dna.radius.max   = dna.radius.max    ||  .00448933782; //degrees. =500m
+        dna.radius.min   = dna.radius.min    ||  dna.radius.max/2;
+        dna.radius.cut   = dna.radius.cut    ||  true;
+        dna.sector       = dna.sector        ||{};
+        dna.sector.max   = dna.sector.max    ||  .75*Math.PI;
+        dna.sector.min   = dna.sector.min    ||  .25*Math.PI;
+        dna.sector.cut   = dna.sector.cut    ||   false;
+        
+    
+    const dom ={            // all DOM nodes that display tour components
+        root: context.dom,  // pre-exisiting DOM anchor
+        unit: false,        // contains interactive html representation of this tour
+        head: false,        // miminimized html representation
+        body: false,        // head+body = maximized representation
+        field:{}            // a graph of data fields
+        };
+    
+    const map ={           // everything that displays the pin on the map   
+        root:   context.map ||  document.querySelector('#mapid' ),
+        marker: false,          
+        handle: {},   // various hotpoints to manipulate the zone on the map 
+        arc: false   // the visual display of the actual zone footprint
+        }
+
+    var handling = false;
+    
+    const  statusStyle = {
+        close:  { smoothFactor:.3, fillColor:"blue",   color:"blue",   weight:.7, interactive:true  },
+        open:   { smoothFactor:.3, fillColor:"green",  color:"white",  weight:1,  interactive:false },
+        start:  { smoothFactor:.3, fillColor:"orange", color:"black",  weight:1,  interactive:false },
+        update: { smoothFactor:.3, fillColor:"yellow", color:"black",  weight:1,  interactive:false },
+        spent:  { smoothFactor:.3, fillColor:"black",  color:"black",  weight:2,  interactive:false },
+        error:  { smoothFactor:.3, fillColor:"red",    color:"red",    weight:1,  interactive:false },
+        };
+
+ 
+    const self=   {
+        parent:     context.parent,  // the pin to which this zone belongs
+        siblings:   context.siblings,
+        children:   [],                  // maybe zones will have sub objects someday?
+
+        
+        get dna()         {  return dna  }, 
+        get id()          {  return dna.id  || self.parent.id+".zone_"+idcounter.zone++      }, 
+        get name()        {  return String(dna.name || dna.content || dna.id || "Zone" ).substring(0,24)  }, 
+        get notes() {  return dna.notes ||    "[unnamed zone]"          },
+        get lat()         {  return self.parent.lat;   },
+        get lng()         {  return self.parent.lng;   },
+        get latlng()      {  return self.parent.latlng;},
+        set lat(l)        {  self.parent.lat= l; },
+        set lng(l)        {  self.parent.lng= l; },
+        set latlng(ll)    {  self.parent.latlng =ll; },
+
+
+    construct: ()=>{
+        traceStep( self, 'construct');
+                
+        if( dom.unit ) return;
+        dom.unit = document.createElement("li");
+        dom.unit.id= dna.id;
+        dom.unit.innerHTML=`
+<div class=              "zone">
+    <h3            class=  "head handle" >  
+        <span      class=    "id" >                                 ${dna.id}:   </span>
+        <span      class=    "name"        contenteditable="true" > ${self.name} </span>    </h3>
+    <div           class=  "body">
+        <div       class=    "row">
+            <span  class=     "class"></span>
+            <span  class=     "status"></span>
+            </div>
+        <div       class=    "notes" contentEditable></div>
+        <div       class=    "row">
+            <span  class=       "left">content</span>
+            <button class=       "play">▶</button>
+            <div   class=       "content  pseudo-input" contenteditable> </div>
+            </div>
+        <div       class=   "row">
+          <div     class=     "z-field"> cycle (seconds)</div>
+            <input class=        "trigger cycle" type="number" min="-1" value="0" />  
+          <label   class=     "z-field">
+            <input class=        "trigger in" type="checkbox"/></input>INWARD</label>
+          <label   class=     "z-field">
+            <input class=        "trigger out" type="checkbox"/></input>OUTWARD</label>
+            </div>
+        <div       class=    "row">
+            <div   class="z-field"> RADIUS (meters) </div>
+            <label class="z-field"> <input type ="number" class="radius max" ></input> Max </label>
+            <label class="z-field"> <input type ="number" class="radius min" ></input> Min </label> 
+            <input type="checkbox" class="radius cut" data-prop="radius"   />
+            </div>
+        <div class="row">
+            <div class="z-field"> SECTOR (degrees) </div>
+            <label class="z-field"> <input type ="number" class="sector max" ></input> Max </label>
+            <label class="z-field"> <input type ="number" class="sector min" ></input> Min </label>
+            <input type="checkbox" class="sector cut" data-prop="sector"  />
+            </div>
+        </div>
+    </div>`;
+        dom.root.appendChild( dom.unit );
+        dom.head = dom.unit.querySelector("h3");
+        dom.body = dom.unit.querySelector(".body");
+
+        dom.field ={ trigger:{}, radius:{}, sector:{} };    
+        ["name","class","id","notes","content","status","play"].forEach( k=>
+            dom.field[ k ]= dom.unit.querySelector( `.${k}`));
+        ["radius","sector"].forEach( rs=>
+            ["max","min","cut"].forEach( mmc=>
+                dom.field[rs][mmc]=dom.unit.querySelector(`.${rs}.${mmc}`)));     
+        ["in","out","cycle"].forEach( ioc=>
+            dom.field.trigger[ioc]=dom.unit.querySelector(`.trigger.${ioc}`));     
+        const chk = e=> {
+            let prop = e.target.dataset.prop;
+            dna[ prop ].cut = !!e.target.checked;
+            dom.unit.querySelector(`.min.${prop}`).style.opacity= dna[ prop ].cut? 1.0: 0.3;
+            dom.unit.querySelector(`.max.${prop}`).style.opacity= dna[ prop ].cut? 1.0: (prop=='radius'? 1 :0.3);
+            self.render();                   
+            }
+        dom.field.radius.cut.addEventListener( "change", chk );
+        dom.field.radius.cut.dispatchEvent( new Event( "change") );
+        dom.field.sector.cut.addEventListener( "change", chk );
+        dom.field.sector.cut.dispatchEvent( new Event( "change") );
+        dom.field.play.addEventListener( "click", self.perform );
+        self.inform( dna );
+    },
+    open: ()=>{
+        traceStep( self, 'open');
+
+        self.siblings.forEach( z=>z.close() );
+        self.render( {status:"open"} );
+              
+        dom.head.removeEventListener("click", self.open );   
+        if(map.arc)     map.arc.off( 'click', self.open );
+
+        ["max","min","ctr"].forEach( x=> map.handle[x].setStyle( opacity.thin ).on( "mousedown", self.start ) );
+        dom.head.addEventListener(   "click", self.close );   
+        //handleEvents( dom.field,    "change", self.exform, true);
+        //name","class","id","notes","content","status"].forEach( k=> dom.field[ k ].addEventListener("change", self.render));
+        dom.unit.addEventListener("change", self.render);
+
+        map.root.on(                 'click', self.close );
+        map.root.dragging.enable();
+        },
+    start: e=>{
+        traceStep( self, 'start');
+        handling    = e.target.options.name;
+        self.render( {status:"start"} );
+        ["max","min","ctr"].forEach( x=> map.handle[x].off( "mousedown", self.start ) );
+        map.root.off( 'click',     self.close );
+        map.root.on( 'mousemove',  self.update );
+        map.root.on( 'mouseup',    self.end    );
+        map.root.dragging.disable();
+        ["max","min","ctr"].forEach( x=> map.handle[x].setStyle(  (x==handling)? opacity.full : opacity.zero ));
+        },
+    update: e=>{
+        traceStep( self, 'update');
+        let n = { status:"update" };
+        if( handling=="ctr")   self.parent.update(e);    //self.parent.latlng=e.latlng; //todo render (update?)) self.parent
+        else{    
+            let d ={ lat: e.latlng.lat - self.parent.lat, lng: e.latlng.lng - self.parent.lng   } 
+            n[ handling ]={
+                sector: Math.atan2( d.lat,d.lng ),
+                radius: Math.sqrt(  d.lat*d.lat + d.lng*d.lng )
+                };
+            }    
+        self.render( n );
+        },
+    end: ()=>{
+        traceStep( self, 'end');
+        map.root.off( 'mouseup',   self.end    );
+        map.root.off( 'mousemove', self.update );
+        self.open();
+        },
+    close: ()=>{
+        traceStep( self, 'close');
+        dna.status= "close";
+        self.inform( dna );  
+        self.render( {status:"close"} );
+
+        map.root.off( 'mousemove', self.update );
+        map.root.off( 'mouseup',   self.end    );
+        map.root.off( 'click',     self.close  );
+  /*      ["max","min","ctr"].forEach(  x=> {
+            if( map.handle[x] )
+                map.handle[x].setStyle( opacity.zero ).off( "mousedown", self.start );
+            });*/
+        dom.head.removeEventListener("click", self.close );   
+        //handleEvents( dom.field, "change",    self.exform, false );
+        // ["name","class","id","notes","content","status"].forEach( k=> dom.field[ k ].removeEventListener("blur", self.xxform));
+        dom.unit.removeEventListener("change", self.render); 
+
+        map.arc.on(                'click', self.open );
+        dom.head.addEventListener( 'click', self.open );
+        map.root.dragging.enable();
+        },
+    hide: ()=>{
+        traceStep( self, 'hide');
+        },
+    destruct: ()=>{
+        traceStep( self, 'destruct');
+        self.close();
+        dom.unit.remove();
+        delete dom.unit;
+        delete dom.head;
+        delete dom.body;
+        delete dom.field;
+        //todo        
+        map.root.off( 'mouseup',   self.end    );
+        map.root.off( 'mousemove', self.update );
+        if( map.arc )        map.arc.remove();
+        if( map.handle.ctr ) map.handle.ctr.remove();   map.handle.ctr=false;
+        if( map.handle.max ) map.handle.max.remove();   map.handle.max=false;
+        if( map.handle.min ) map.handle.min.remove();   map.handle.min=false;
+        delete map.handle;
+        delete map.arc;
+
+        },
+    render: update =>{
+     //   traceStep( self, 'render');
+
+        if (!update)    update={};
+        let u= { max:update.max, min:update.min };
+        delete update.max;
+        delete update.min;
+        
+        Object.assign( dna, self.exform(), {...dna}, update || {} );
+            
+        if( u.max ) { dna.radius.max=u.max.radius; dna.sector.max=u.max.sector; }
+        if( u.min ) { dna.radius.min=u.min.radius; dna.sector.min=u.min.sector;  }
+        let r      =    Math.max( dna.radius.min, dna.radius.max);
+        dna.radius.min =Math.min( dna.radius.max, dna.radius.min); 
+        dna.radius.max =r; 
+        let θMax = dna.sector.max + ((dna.sector.max>dna.sector.min)? 0 : 2*Math.PI);
+        let θMin = dna.sector.min;
+        let chord = 2*Math.PI/120;
+        let outlines=[ [] ]; // an arrray of arrays (to support holes))
+        let outline= outlines[0]; 
+        if( !dna.sector.cut ) {
+            θMin=-1.5*Math.PI; 
+            θMax= 0.5*Math.PI;
+            } 
+                    // draw arc
+        for ( let   θ=θMin;   θ<θMax;  θ+= chord)
+            outline.push(      perill( self.parent, dna.radius.max, θ ));
+        outline.push(         perill( self.parent, dna.radius.max, θMax ));
+        if(   !dna.radius.cut &&  dna.sector.cut )  outline.push( perill( self.parent, 0, 0 ));
+        if(    dna.radius.cut && !dna.sector.cut )  outlines.push( outline=[] );
+        if(    dna.radius.cut  )  { 
+            for ( let   θ=θMax;   θ>θMin;  θ-= chord)
+                outline.push( perill( self.parent, dna.radius.min, θ ));
+            outline.push(     perill( self.parent, dna.radius.min, θMin ));
+            }    
+
+        if( map.arc ) map.arc.remove();
+        if( map.handle.ctr ) map.handle.ctr.remove();
+        if( map.handle.max ) map.handle.max.remove();
+        if( map.handle.min ) map.handle.min.remove();
+
+        map.arc = L.polygon( outlines, statusStyle[ dna.status ] ).addTo( map.root );frecord
+        map.arc.on(                'click', self.open );
+
+        let closed = !" open start update end".match( dna.status );
+        if( closed )         
+            dom.body.style.display = 'none';
+        else   {        
+            map.handle.ctr =L.circle( self.parent, {radius: l2m(dna.radius.max/35), color:"black",  name:"ctr"}).addTo(map.root);
+            map.handle.max =L.circle(perill( self.parent, dna.radius.max, dna.sector.max), {radius: l2m(dna.radius.max/35), color:"blue",  name:"max"}).addTo(map.root);
+            map.handle.min =L.circle(perill( self.parent, 
+                dna.radius.cut? dna.radius.min : dna.radius.max ,
+                dna.sector.cut? dna.sector.min : dna.sector.max),
+                { radius: (dna.radius.cut || dna.sector.cut)? l2m(dna.radius.max/35):0, 
+                color:"orange", name:"min"  }).addTo(map.root);
+
+            dom.body.style.display = 'block';
+            dom.field.radius.max.classList.toggle( 'highlight', u.max );
+            dom.field.radius.min.classList.toggle( 'highlight', true || u.min );
+            dom.field.sector.max.classList.toggle( 'highlight', u.max );
+            dom.field.sector.min.classList.toggle( 'highlight', u.min );
+            }
+
+       self.inform( dna );
+        },
+    
+    spawn: newdna =>{
+        traceStep( self, 'spawn');
+        // there are currently no sub objects
+        },
+    inform: d=>{
+        const scale ={ radius: d=>d*111320, sector: r=>(450-(r*180/Math.PI))%360 };
+
+        ["name","class","id","notes","content","status"].forEach( k=>
+            dom.field[ k ].innerText= d[k] || "" );
+
+        if( d.trigger ){
+            dom.field.trigger.cycle.value = d.trigger.cycle;
+            ["in","out"].forEach( io=>
+                dom.field.trigger[io].checked= d.trigger[io] );     
+            }
+        if( d.radius && d.sector ){
+            ["radius","sector"].forEach( rs=>
+                dom.field[rs]["cut"].checked = !!d[rs]["cut"]);
+
+            ["radius","sector"].forEach( rs=>
+                ["max","min"].forEach( mmc=>
+                    dom.field[rs][mmc].value = 
+                        Math.round( scale[rs]( d[rs][mmc] ))));
+            }                
+        },
+    xxform: ()=> Object.assign( dna, self.exform()  ),    
+    exform: ()=>{ 
+        const scale ={ radius: m=>m/111320, sector: d=>((630-d)%360-180)/(180/Math.PI) };
+        let d={ radius:{}, sector:{},trigger:{} };
+
+        ["radius","sector"].forEach( rs=>
+            d[rs]["cut"]= !!dom.field[rs]["cut"].checked );
+        ["radius","sector"].forEach( rs=>
+            ["max","min"].forEach( mmc=>
+                d[rs][mmc]= scale[rs]( dom.field[rs][mmc].value )));
+
+        ["name","class","id","notes","content","status"].forEach( k=>
+                d[k] = dom.field[ k ].innerText);
+        ["in","out"].forEach( io=>
+            d.trigger[io] =  dom.field.trigger[io].checked);     
+        d.trigger.cycle   =  dom.field.trigger.cycle.value;
+
+        
+    //    console.log("exform:", dom, d);
+        return d;
+        //return { trigger:{in:true, out:true, cycle:-9999} };// { trigger:d.trigger };
+        },    
+ 
+    detect: p =>{  // in LatLan space
+        let dLat = p.lat - self.parent.lat; //pin.latlng.lat;  
+        let dLng = p.lng - self.parent.lng; //pin.latlng.lng;      ;
+        let r  = Math.sqrt(  dLat*dLat + dLng*dLng );
+        let s  = Math.atan2( dLat,dLng )  ;
+        return                         (r< dna.radius.max) 
+            &&   (!dna.radius.cut ||   (r> dna.radius.min) )
+            &&   (!dna.sector.cut || ( (s> dna.sector.min) 
+                                    && (s< dna.sector.max) ) );
+        },
+
+    detectVector: v =>{  // in LatLan space
+        let dLat = v.now.lat - self.parent.lat; //pin.latlng.lat;  
+        let dLng = v.now.lng - self.parent.lng; //pin.latlng.lng;      
+        let r  = Math.sqrt(  dLat*dLat + dLng*dLng );
+        let s  = Math.atan2( dLat,dLng )  ;
+        let oLat = v.then.lat - self.parent.lat; //pin.latlng.lat;  
+        let oLng = v.then.lng - self.parent.lng; //pin.latlng.lng;      
+
+        return                         (r< dna.radius.max) 
+            &&   (!dna.radius.cut ||   (r> dna.radius.min) )
+            &&   (!dna.sector.cut || ( (s> dna.sector.min) 
+                                    && (s< dna.sector.max) )
+            && ((dLat*dLat+dLng*dLng)<0.95*(oLat*oLat+oLng*oLng))
+            );
+        },
+
+    perform: () =>{
+        self.exform();//let t = String( dna.content  )
+        if( dna.content.endsWith(".mp3")||dna.content.endsWith(".ogg")||dna.content.endsWith(".wav") ) 
+            document.querySelector("audio").src= "https://geo-tour.s3-us-west-2.amazonaws.com/cherokee/"+dna.content;
+        else
+            window.speechSynthesis.speak(new SpeechSynthesisUtterance(dna.content));
+            console.log(  dna.content );
+            },  
+    
+    trigger: probe =>  {
+        if( dna.status!="spent" 
+            && (    (probe.now && self.detectVector( probe ))
+                 || (probe.lat && self.detect( probe ))      )   ){        
+            self.perform( dna.content );
+            if( dna.trigger.cycle ) 
+                setTimeout( ()=>self.render( {status:"close"}), dna.trigger.cycle*300 )//1000
+            self.render( {status:"spent"});
+            }
+        }
+    };
+    self.construct();
+    self.close();
+    return self;
+    } 
+
+
+
+const dragEnable = (selector, handleselector=".handle") => {
+    var x=0, y=0, dx=0, dy=0;
+    var element= document.querySelector( selector );
+    var handle = element.querySelector(  handleselector ) || element.firstChild || element;
+console.log("DRAG HANDLE", element, handle)
+    var drag= {
+        mouseDown:  e => {
+            e = e || window.event;
+            e.preventDefault();
+            x = e.clientX;
+            y = e.clientY;
+            document.onmouseup   = drag.end;
+            document.onmousemove = drag.update;
+            },
+        update:     e=> {
+            e = e || window.event;
+            e.preventDefault();
+            dx = e.clientX - x;    x = e.clientX;  
+            dy = e.clientY - y;    y = e.clientY;
+            element.style.left  = (element.offsetLeft + dx ) + "px";
+            element.style.top   = (element.offsetTop  + dy ) + "px";
+            },
+        end:  e=>  document.onmouseup =  document.onmousemove = null
+        }
+        handle.onmousedown = drag.mouseDown;
+    } 
+    
+
+  
+var tour = null; 
+var mapbase = null;
+
+  
+  
+  
+  
+window.onload= ()=>{
+    mapbase= L.map('mapid').setView( defaultPin, 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>contributors'})
+        .addTo( mapbase );
+    
+  
+    fetch('https://geotour.glitch.me/tours')
+        .then(  response =>  response.json()               )// get remote file list
+        .then(  files    =>  document.querySelector("#editor").innerHTML= 
+              ` <span     class=      "label" >TOUR</span>
+                <select   class=      "tourname"><option >Choose a Tour.</option>${files.map( f=>`<option class="tourname">${f}</option>`).join()}</select>
+                </div>` )
+        .then( ()=>
+            document.querySelector("select").addEventListener( "change", e=>
+                  fetch(`https://geotour.glitch.me/tour/${e.target.value}`)
+                      .then(  response =>  response.text()               )  // get remote file
+                      .catch( ()       =>  localStorage.getItem('tour' ) )// or local storage
+     .then(  json     =>  tour = newTour( {json})   )   ));
+ 
+ // put(); //anything in the persistent cache from earlier sessions?
+  
+  console.log('page is fully loaded' );
+  if ('serviceWorker' in navigator)  
+    navigator.serviceWorker.register('sw.js', {scope:'/'})
+      .then(   reg =>console.log(' serviceworker loaded:', reg) )
+      .catch(  err =>console.log(' serviceworker FAILURE', err) )
+  
+  if ('Notification' in window) 
+    Notification.requestPermission()
+    .then( permission =>{
+          if( permission == 'granted') 
+            navigator.serviceWorker.getRegistration()
+            .then(reg => {if(reg) reg.showNotification('TUESDAY: Welcome to Cherokee GeoTour')})
+          else console.log("Notification Permission Denied")
+          })
+  
+  
+  
+  
+  
+  
+  
+  const statusIcon=[]; 
+  const colorcode={
+        stop: "red",
+        story: "violet",
+        history: "blue",
+        guide: "blue",
+        nav: "grey",
+        open: "green",
+        touch: "orange",
+        update: "yellow",/*gold*/
+        live: "yellow",/*gold*/
+        close: "grey",
+        hide: "grey",
+        active: "green",
+        start: "orange",
+        edit: "yellow",
+        neutral: "grey",
+        error: "grey",
+        spent: "black",
+        default: "grey",
+        qos0:   "blue",
+        qos1:   "green",
+        qos2:   "green",
+        qos3:   "yellow",
+        qos4:    "orange",
+        qos5:    "red",
+        ok:      "green",
+        deny:    "black",
+        error:   "orange",
+        timeout: "violet"
+    }; 
+  
+  
+  
+    let iconDoubleSize=false;
+    Object.keys( colorcode ).forEach( c=>
+        statusIcon[c] = new L.Icon({
+                iconUrl:
+            `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon${iconDoubleSize?"-2x":""}-${colorcode[c]}.png`,
+                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
+                } ) );
+
+  
+  
+const instrument = {
+  lastTime: Date.now(),
+  count:0,
+  storage:[],
+  
+  options: {  enableHighAccuracy: true,  timeout: 5000,  maximumAge: 0 },
+   
+  read: fix=>{
+    const { timestamp: fixTime, coords } = fix;
+    const { latitude: lat, longitude: long, accuracy } = coords;
+    const responseTime = fixTime - instrument.lastTime;
+    instrument.lastTime= fixTime;
+    instrument.record({ fixTime, responseTime, lat, long, accuracy, error:0, message:"ok"});  
+    instrument.next();
+    },
+  fail: err=>{
+    const { code:error, message } = err;
+    const fixTime = Date.now();
+    const responseTime = fixTime - instrument.lastTime;
+    instrument.lastTime= fixTime;
+    instrument.record({ fixTime, responseTime, lat:null, long:null, accuracy:null, error, message });  
+    instrument.next();
+    },
+  record: data=>{
+    
+    const aMin=5, aMax=65, rMin=1000, rMax=10000, degrees=6;
+//    instrument.dom.innerHTML+= `<p><code>${JSON.stringify(data)}</code></p>`,
+    const qos =  data.error?  [ "ok", "deny", "error", "timeout"][data.error] :
+        "qos"+
+           Math.floor( 
+           ( (Math.max( aMin, Math.min( data.accuracy, aMax ))-aMin)/(aMax-aMin)
+            +
+            (Math.max( rMin, Math.min( data.accuracy, rMax ))-rMin)/(rMax-rMin)
+           ) *0.5 * degrees );
+    if( data.lat && data.long ) 
+      L.marker( [data.lat, data.long] , {icon:statusIcon[ qos]}).addTo( mapbase );
+  
+  //  , {icon:statusIcon[ colorCode ]}
+    
+      
+    const html =
+          `<p class="${qos}">
+            <span class="lbl">${instrument.storage.length}</span><span class="datum">${ qos        }</span>
+            <span class="lbl">error</span><span class="datum">${ data.error        }</span>
+            <span class="lbl">time</span><span class="datum">${ data.responseTime }</span>
+            <span class="lbl">slop</span><span class="datum">${ data.accuracy     }</span>
+            <span class="lbl">latt</span><span class="datum">${ data.lat          }</span>
+            <span class="lbl">long</span><span class="datum">${ data.long         }</span>
+          </p>`;
+        
+    if( instrument.map.hidden )   instrument.dom.innerHTML+=html;
+    else                          instrument.dom.innerHTML= html;
+    instrument.dom.lastElementChild.scrollIntoView(false);
+    instrument.storage.push( data );
+
+  },
+ 
+  save: ()=> fetch(`https://geotour.glitch.me/qos/upload/${ new Date().toISOString().replaceAll(':','-').replaceAll('.','_').replaceAll('T','__')}`, 
+                   { method:'post', body:JSON.stringify(  instrument.storage  ) })
+                .then( response => response.text() )
+                .then(      msg => alert(msg)),
+  
+  dom: document.querySelector("#dataviz"),
+  map: document.querySelector("#mapid"  ),
+  
+  get: ()=>navigator.geolocation.getCurrentPosition( instrument.read, instrument.fail, instrument.options ),
+ 
+  start: ()=> (instrument.next=instrument.get)(),
+  
+  stop:  ()=>  instrument.next=()=>{},
+  
+  //ggle: force => instrument.dom.hidden= !(instrument.map.hidden =   instrument.dom.hidden ), 
+  toggle: force => instrument.map.hidden= !instrument.map.hidden, 
+  }
+document.querySelector("button#start" ).addEventListener( "click", instrument.start)
+document.querySelector("button#save" ).addEventListener( "click", instrument.save)
+document.querySelector("button#stop"  ).addEventListener( "click", instrument.stop)
+document.querySelector("button#logs"   ).addEventListener( "click", instrument.toggle)
+document.querySelector("button#reset" ).addEventListener("click", e=> window.open("cachemenu","cache"));
+
+  
+
+  
+//    document.querySelector("#dbg").addEventListener("click", dbg );
+  }
+
+
+
+
+</script>
+
+
+
+    <style>
+        body {
+            background-color: rgb(20, 46, 46);
+            font-family: Roboto, Tahoma, sans;
+            font-size: 2vh;
+            }
+
+      
+      
+      
+      
+      
+        .intro {
+            background-color: rgb(186, 206, 214);
+            width:70%;
+            margin:10vh auto;
+            padding: 20px;
+            border: 2px solid rgb(197, 178, 95);;
+            }
+        #geotour{
+            width:100%;
+            background-color:#57a4f1;
+            border: thin solid gold;            position:relative;
+            }
+        .notes{
+            background-color:#97c6f5;
+            font-size: .75em;    
+            padding: .1em .4em;
+            border: thin solid white;
+            }
+        #mapid{
+            height:100vh;
+            background-color:#C0E0FF;
+            border: thin solid gold;
+            z-index: 12;
+            }
+        #dbg,
+        #editor {
+            position:absolute;
+            padding: 12px;
+            top: 5px;
+            right:5px;
+            width:80%;
+            display:flow-root;
+            background-image: url("https://cdn.glitch.com/82396493-cf04-4e83-9abb-cf8ed0317c6d%2Fsubtletexture1.jpg");
+            box-shadow: 2px 2px 12px #000000;
+            background-color: #C0E0FF;
+            border: thin solid gold;
+            z-index: 25;
+            }
+        #dbg{  
+            max-height: 80vh;
+            width: 80vw;
+            max-width: 80vw;
+            display:none;
+            left:20px;
+            }
+
+
+        #json {
+            max-height: 350px;
+            padding: 4px;
+            border: 2px solid rgb(4, 88, 25);
+            font-size: .85em;
+            margin:6px;
+        }
+
+        #json pre {
+            overflow-x: hidden;
+            border-radius: 9px;
+            overflow-y: scroll;
+            max-height: 300px;
+        }
+
+
+        h2,h3 {
+            background-color: #ecf3fa;
+            padding: 4px;
+            border: 1px solid rgb(106, 147, 201);
+            font-size: 1.35em;
+            min-height: 1.25em;
+            width: 100%;
+            margin: 0px;
+            }
+        h3 {
+            font-size: 1em;
+            padding-left: 20px;
+            }
+
+        .handle {
+            padding:0px;
+            margin: 0px;
+            border: 0px;
+            min-height: 30px;
+        }
+    .zd-zone{
+            border: thin solid rgb(113, 170, 255);
+            background-color:rgba( 200, 200, 255, 0.6);    } 
+        .row{
+            padding: 2px;
+            border: thin solid rgb(14, 64, 202);
+        }    
+        .id{
+            font-family: 'Courier New', Courier, monospace;
+            font-size: .6em;
+            display:block;
+            color: grey;
+        }
+        .content{
+            float:right;
+            min-width: 40px;
+            }
+        ul{
+            list-style: none;
+            padding-left: 0;
+            margin: 3px;
+            overflow-y: scroll;
+            max-height: 70vh;
+            }
+        .highlight{
+            background-color: red;
+            border: thick solid white;
+            }    
+        button{
+            background-color:rgb(242, 250, 139);
+            }
+        .tourname{
+            padding:8px%;
+            text-align:center;
+            font-size: 3vh;
+            background-color:rgb(242, 250, 139);
+            }    
+        .z-field{
+            width: 24%;
+            display:inline-block;
+            margin:1%;
+            text-align:center;
+            font-size: .8em;
+            }    
+        .left {
+            float: left;
+            }
+        .pseudo-input {
+            border: thin solid rgb(113, 170, 255);
+            background-color:white;
+            padding: 2px;
+            overflow:auto;
+            }
+        .row  input[type="number"] {
+            width: 4em;
+            text-align: right;
+            padding: 0px;
+            display:inline;        
+            }
+        /*code {
+        background-color:rgb(20, 46, 46);
+        }*/
+        
+      
+      
+        .max,.min{
+            background-color: rgb(211, 245, 178);
+            width: 4em;
+            text-align: right;
+            padding: 0px;
+            display:block;
+            margin: auto;
+            }
+      
+      
+      #editor{ display:none;}
+      #gui { width:100%; display:flex;  justify-content: space-evenly; padding:1vmin; 
+        position:absolute; left:0px; top:0px; z-index:13;
+      }
+      
+      #gui button { font-size:5vw; border-radius: 2vmin;}
+      #dataviz {
+        position:absolute;
+        left 0vh;
+        top: 12vh;
+        width:100%;
+        overflow:auto;
+        z-index: 14;
+      }
+      
+        body {
+            background-color: rgb(20, 46, 46);
+            font-family: Roboto, Tahoma, sans;
+            font-size: 2vh;
+            }
+        p {
+          width:98%;
+          border: thin solid red;  
+          margin:0;
+          padding: 3px;
+          display:flex;
+      }
+
+      p.qos0    { background-color: rgb(  55, 255, 30); }
+      p.qos1    { background-color: rgb(  95, 215, 30); }
+      p.qos2    { background-color: rgb( 135, 175, 30); }
+      p.qos3    { background-color: rgb( 175, 135, 30); }
+      p.qos4    { background-color: rgb( 215,  95, 30); }
+      p.qos5    { background-color: rgb( 255,  55, 30); }
+
+      p.ok      { background-color: lightgreen; }
+      p.deny    { background-color: darkgrey; }
+      p.error   { background-color: orangered; }
+      p.timeout { background-color: red; }
+      p:nth-child(5n)  { border-width:0 0 4px 0; padding:3px 3px 9px 3px; border-color: black;}
+      
+      
+       span {
+         display: block;
+             width:7.5%;
+         max-width:7.5%;
+         min-width:7.5%;
+         border : thin dotted black;
+         font-size: 2.5vw;
+         float:left;
+         overflow: hidden;
+         padding: 3px;
+      }
+       span.lbl {
+        text-align:right;
+         color:white;
+         background-color: rgba(  0,  0,  0, 0.125);
+      }
+       span.datum {
+        text-align:left;
+        background-color: rgba( 256,256,256, 0.125);
+
+      }
+      
+      
+		    .lbl-stop { background-color: rgba(255,255,255,0.4), color: violet; }
+        .lbl-story { background-color: rgba(255,255,255,0.4),  color: red; }
+        .lbl-history { background-color: rgba(255,255,255,0.4),  color: blue; }
+        .lbl-guide { background-color: rgba(255,255,255,0.4),  color: blue; }
+        .lbl-nav { background-color: rgba(255,255,255,0.4),  color: black; }
+        .lbl-open { background-color: rgba(255,255,255,0),  color: green; font-weight:800;  }
+        .lbl-touch { background-color: rgba(255,255,255,0.4),  color: orange; }
+        .lbl-update { background-color: rgba(255,255,255,0.4),  color: yellow; }/*gold*/
+        .lbl-live { background-color: rgba(255,255,255,0.4),  color: yellow; }/*gold*/
+        .lbl-close { background-color: rgba(255,255,255,0.4),  color: grey; }
+        .lbl-hide { background-color: rgba(255,255,255,0.4),  color: grey; }
+        .lbl-active { background-color: rgba(255,255,255,0.4),  color: green; }
+        .lbl-start { background-color: rgba(255,255,255,0.4),  color: orange; }
+        .lbl-edit { background-color: rgba(255,255,255,0.4),  color: yellow; }
+        .lbl-neutral { background-color: rgba(255,255,255,0.4),  color: grey; }
+        .lbl-error { background-color: rgba(255,255,255,0.4),  color: grey; }
+        .lbl-spent { background-color: rgba(255,255,255,0.4),  color: black; }
+        .lbl-default { background-color: rgba(255,255,255,0.4),  color: red; font-weight:550;  }
+      
+      
+        </style>
+
+  
+    </body>
+</html>

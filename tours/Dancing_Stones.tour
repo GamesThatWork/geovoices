@@ -1,0 +1,220 @@
+{
+  "schema": "Open Geotour",
+  "version": 1.11,
+  "id": "Dancing_Stones",
+  "agent": "cherokee editor",
+  "attribution": "c.2022 Museum of the Cherokee People",
+  "author": "D Jacobson",
+  "url": null,
+  "theme": null,
+  "lat": 35.59455421995878,
+  "lng": -83.40935544819946,
+  "zoom": 17,
+  "pins": [
+    {
+      "id": "downstream",
+      "lat": 35.49939990724764,
+      "lng": -83.30309629429735,
+      "zones": [
+        {
+          "id": "Zone_1",
+          "radius": 125.654473073134,
+          "slice": 0.8643721200432755,
+          "sweep": 0.09174637476202463,
+          "speak": "Turn Left",
+          "next": "New_Princess"
+        }
+      ]
+    },
+    {
+      "id": "start",
+      "lat": 35.50303184896684,
+      "lng": -83.29646621635024,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 190.70964310503618,
+          "text": "Hey Judy. Start your tour here at the white church",
+          "speak": "Start your journey with a sharp sharp left turn up ahead at the church.",
+          "slice": 0.7103072705006159,
+          "sweep": 0.17726130561597636
+        },
+        {
+          "id": "Zone_1",
+          "radius": 85.4446477995881,
+          "audio": " ",
+          "speak": "Very Sharp Left turn",
+          "slice": 0.7176612478910414,
+          "sweep": 0.15956996436516496,
+          "next": "Flute"
+        }
+      ]
+    },
+    {
+      "id": "Flute",
+      "lat": 35.49876685318719,
+      "lng": -83.29984354884797,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 81.05953522170482,
+          "speak": "go across the bridge on your right. coming up soon.",
+          "slice": 0.07992905473142647,
+          "sweep": 0.14648170201212485,
+          "next": "downstream,required"
+        },
+        {
+          "id": "Zone_1",
+          "radius": 266.9249667100147,
+          "slice": 0.17987923967589758,
+          "sweep": 0.08502606216716464,
+          "audio": "music/flute.mp3",
+          "exit": true
+        },
+        {
+          "id": "Zone_2",
+          "radius": 77.52844635366499,
+          "slice": 0.529984882515383,
+          "sweep": 0.18735240253553503,
+          "next": "Upstream,required",
+          "speak": "That's the end, sister"
+        }
+      ]
+    },
+    {
+      "id": "TBone",
+      "lat": 35.498883073227404,
+      "lng": -83.30617996888658,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 211.4047755292412,
+          "speak": "Please Turn right at the light",
+          "slice": 0.7909351270654534,
+          "sweep": 0.2862489227664937
+        },
+        {
+          "id": "Zone_1",
+          "radius": 40.12532257632223,
+          "next": "howdy",
+          "speak": "righht turn"
+        }
+      ]
+    },
+    {
+      "id": "New_Princess",
+      "lat": 35.50000208983348,
+      "lng": -83.30594857229384,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 74.07279375994972,
+          "slice": 0.9117736103066398,
+          "sweep": 0.133592706947074,
+          "speak": "Left turn to cross the bridge",
+          "next": "TBone"
+        }
+      ]
+    },
+    {
+      "id": "howdy",
+      "lat": 35.49818993695733,
+      "lng": -83.30289570161693,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 57.35362124572748,
+          "speak": "howdy",
+          "next": "Flute"
+        }
+      ]
+    },
+    {
+      "id": "Upstream",
+      "lat": 35.49953142375004,
+      "lng": -83.3025283594535,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 70.38577563100098,
+          "speak": "turn right, Judy",
+          "slice": 0.7160527080118004,
+          "sweep": 0.27668710008662667,
+          "next": "BRPW"
+        }
+      ]
+    },
+    {
+      "id": "BRPW",
+      "lat": 35.50534076480822,
+      "lng": -83.30105289968836,
+      "tags": [],
+      "zones": [
+        {
+          "id": "Zone_0",
+          "radius": 82.67261872060362,
+          "speak": "Turn right and see if the road is closed"
+        },
+        {
+          "id": "The_End",
+          "radius": 34.66962680988258,
+          "next": "end"
+        }
+      ]
+    }
+  ],
+  "credits": [
+    {
+      "head": "Museum of the Cherokee People"
+    },
+    {
+      "role": "Storyteller",
+      "name": "Freeman Owle"
+    },
+    {
+      "role": "Storyteller",
+      "name": "Kathi Littlejohn"
+    },
+    {
+      "role": "Storyteller/Musician",
+      "name": "Jarrett Wildcatt"
+    },
+    {
+      "role": "Storyteller",
+      "name": "Nola Teesatuskie"
+    },
+    {
+      "role": "Guide",
+      "name": "Jarrett Wildcatt"
+    },
+    {
+      "role": "Vision Weaver",
+      "name": "Christy Long"
+    },
+    {
+      "role": "Pattern Weaver",
+      "name": "Eva Wolfe"
+    },
+    {
+      "role": "Audio Engineer",
+      "name": "Christopher McCoy"
+    },
+    {
+      "role": "Producer",
+      "name": "Shennelle Feather"
+    },
+    {
+      "role": "Executive Producer",
+      "name": "Dakota Brown"
+    }
+  ],
+  "interrupted": 1710950175870,
+  "timestamp": 1710950175870,
+  "next": "start,required"
+}

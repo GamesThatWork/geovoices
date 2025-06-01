@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+
+body {background-color: rgb(45, 44, 44); color:darkkhaki; font-family:'Courier New', Courier, monospace; font-size:1.3rem; font-weight: 400;}
+
+b  { color:rgb(80, 238, 41); font-weight: 900;}
+u  { color:rgb(238, 107, 41); font-weight: 900;}
+
+        </style>
+    </head>
+
+    <body>
+        <div id="chooser"></div>    
+        <div id="log"></div>
+
+        <script type="module">
+import { l2m }  from './util.js';
+
+
+  window.onload= ()=>
+  
+      fetch('https://geotour.glitch.me/tours')
+          .then(  response =>  response.json()               )// get remote file list
+          .then(  files    =>  document.querySelector("#chooser").innerHTML= 
+                `<div> 
+                  <span     class=      "label" >Convert File from Version 0.4 to 0.52</span>
+                  <select   class=      "tourname"><option >Choose a Tour.</option>
+                 ${files.map( f=>`<option class="tourname">${f}</option>`).join()}
+                  </select>
+                  </div>` )
+          .then( ()=>             
+              document.querySelector("select").addEventListener( "change", e=> 
+                  fetch(`https://geotour.glitch.me/tour/${e.target.value  }`)
+                      .then(  response =>  response.text()             )    // get remote file
+                      .catch(  console.error   )  // or local storage 
+                      .then(  updatetour  ) 
+                      .catch(  msg => document.querySelector("#log").innerHTML+=`<P><u> ${msg} </u></P>`)
+                      .then(  j=> {console.log( JSON.parse(j)); return j;} ) 
+                      .then(  body=> fetch(`https://geotour.glitch.me/v0.5/tour/upload/${e.target.value }`, { method:'post', body }))
+                      .then(  response => response.text() )
+                      .then(  msg => document.querySelector("#log").innerHTML+=`<P> ${msg} </P>`)
+                   //   .then(  ()  => e.target.hidden=true )
+                      )); 
+  
+  
+  
+      const updatetour =  oldjson=>{
+                const o  = JSON.parse( oldjson)  
+                if(!o)                   throw( new Error( oldjson))
+                if( o.version !==0.4 )   throw( new Error("Original file not version 0.4"))
+                const n  = {
+                    schema: 'Open Geotour',
+                    version: 0.5,
+                    id:      o.name,
+                    agent:   o.agent,
+                    attribution: 'c.2022 Museum of the Cherokee Indian',
+                    author:  o.author,
+                    url:     null,
+                    theme:   null,
+                    lat:     o.center?.lat ?? findCenter.lat( o ),
+                    lng:     o.center?.lng ?? findCenter.lng( o ),
+                    zoom:    null, 
+                    pins:    namePins(  o.pins.map( updatepin ))    
+                    }
+                return JSON.stringify( n );
+                };
+              
+      const updatepin =  o =>
+                noNulls( {
+                    id:     o.name ?? null,
+                    lat:    o.latlng?.lat ?? defaultPin.lat,
+                    lng:    o.latlng?.lng ?? defaultPin.lng,
+                    tags:   null,
+                    zones:  nameZones( o.zones.map( updatezone ) )   
+                    });
+  
+      const updatezone =  (o,i) =>
+                noNulls( {
+                    id:      o.name ??(o.id? (o.id.match(/\.[a-zA-Z0-9]*$/gm)??[""])[0]:null ) ?? null,
+                    cycle:  (o?.trigger?.cycle && o?.trigger?.cycle!=180)? o.trigger.cycle : null,
+                    exit:    o?.trigger?.out? true:null,
+                    radius:  Math.round( l2m( o.radius?.max )),
+                    sweep:   sweep( o.sector ),
+                    start:   start( o.sector ),
+                    audio:   isAudioFile( o.content ) ? o.content : null,
+                    speak:   !isAudioFile( o.content ) ? o.content : null,
+                    text:    null,
+                    image:   null,
+                    video:   null,
+                    next:    null  
+                    });
+    
+            
+      const turns  = rad => rad/(2*Math.PI);
+      const start  = sector => sector?.cut?   turns( sector.min ).toFixed(3)/1 : null;
+      const sweep  = sector => sector?.cut?( (turns( sector.max - sector.min )+100)%1).toFixed(3)/1: null;
+      const isAudioFile= str=>{
+          console.log("isAudioFile? ", str );
+          return str? 
+          [".ogg",".mp3",".wav"].find( k=> 
+              k== (String(str).match(/\.[a-zA-Z0-9]*$/gm ) ?? [""])[0] )
+          : false; 
+          }
+  
+      const noNulls= obj=>
+          Object.fromEntries(
+              Object.entries( obj )
+                  .filter( entrypair=>
+                      entrypair[1] || entrypair[1]===0   // falsey but not zero
+                           ));
+  
+      const namePins = pins=>
+          uniquify( pins.map(  (p,i,a)  =>
+              Object.assign( {}, p, {id:
+                  str2name(
+                      ( p.id && p.id!="" )?   p.id
+                      :'pin_'+(i<10?"0":"") +i 
+                  )})
+              ));
+                   
+      const nameZones = zones=>
+          uniquify( zones.map(  (z,i,a)  =>
+              Object.assign( {}, z, {id:
+                 str2name( 
+                  (z.id && z.id!="")?
+                   z.id
+                    :
+                  ( z.text ?? 
+                   ( url2name( z.speak?? z.audio?? z.image?? z.video)??
+                    (z.next? 'to_'+z.next : 'zone_'+(i<10?"0":"") +i ) ))  
+                    )})
+                 ));
+  
+  
+  
+  
+      const str2name = str => 
+          String(str).match( /([A-Za-z0-9]+)/gm )
+              .filter((z,i)=>i<7)
+                  .join("_")
+                      .toLowerCase();
+          
+      const url2name= url=> (String(url??"").match( /.+\/(.+)\..+/ )?? [null]).pop();
+  
+      const uniquify = universe => {
+          universe.forEach( member=>
+              universe.filter( candidate=> candidate.id==member.id && candidate != member )
+                  .forEach( (duplicate, i) => duplicate.id+="_"+i  ) );
+          return universe;
+          }          
+  
+          
+    const findCenter = {
+        lat: o=> o.pins.reduce( (sum,p) => sum+=p.lat, 0 )/o.pins.length,
+        lng: o=> o.pins.reduce( (sum,p) => sum+=p.lng, 0 )/o.pins.length,
+        }
+
+    const defaultPin = { lat:33.983667, lng: -84.181541 };
+  
+  
+    console.log('page is fully loaded' );
+    
+
+
+        </script>
+
+
+
+    </body>
+</html> 

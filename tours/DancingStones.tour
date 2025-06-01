@@ -1,0 +1,92 @@
+{
+  "schema": "Open Geotour",
+  "version": 1.01,
+  "id": "Cherokee",
+  "agent": "cherokee editor",
+  "attribution": "c.2022 Museum of the Cherokee People",
+  "author": "D Jacobson",
+  "url": null,
+  "theme": null,
+  "lat": 35.59455421995878,
+  "lng": -83.40935544819946,
+  "zoom": 17,
+  "pins": [
+    {
+      "id": "left_across_bridge",
+      "lat": 35.49939990724764,
+      "lng": -83.30309629429735,
+      "zones": [
+        {
+          "radius": 281.2296645563131,
+          "sweep": 0.10210696245230709,
+          "speak": "Take a left turn and follow the road across the bridge toward Big Cove.",
+          "id": "zone_00",
+          "slice": 0.007696925200395555,
+          "next": "cross_bridge_then_right"
+        },
+        {
+          "id": "Zone_1",
+          "radius": 125.654473073134,
+          "slice": -0.04878609794045474,
+          "sweep": 0.1510961209682189,
+          "speak": "Turn Left",
+          "next": "cross_bridge_then_right"
+        },
+        {
+          "id": "Zone_2",
+          "radius": 441.0526997512295,
+          "speak": "Watch carefully for a sign on your left. It is hard to see but it will say Saunooke Bridge. It leads to Big Cove. That is where we turn.",
+          "slice": 0.03582833218549242,
+          "sweep": 0.06682640107128665
+        }
+      ]
+    }
+  ],
+  "credits": [
+    {
+      "head": "Museum of the Cherokee People"
+    },
+    {
+      "role": "Storyteller",
+      "name": "Freeman Owle"
+    },
+    {
+      "role": "Storyteller",
+      "name": "Kathi Littlejohn"
+    },
+    {
+      "role": "Storyteller/Musician",
+      "name": "Jarrett Wildcatt"
+    },
+    {
+      "role": "Storyteller",
+      "name": "Nola Teesatuskie"
+    },
+    {
+      "role": "Guide",
+      "name": "Jarrett Wildcatt"
+    },
+    {
+      "role": "Vision Weaver",
+      "name": "Christy Long"
+    },
+    {
+      "role": "Pattern Weaver",
+      "name": "Eva Wolfe"
+    },
+    {
+      "role": "Audio Engineer",
+      "name": "Christopher McCoy"
+    },
+    {
+      "role": "Producer",
+      "name": "Shennelle Feather"
+    },
+    {
+      "role": "Executive Producer",
+      "name": "Dakota Brown"
+    }
+  ],
+  "interrupted": 1681901411543,
+  "timestamp": 1681901411543
+}

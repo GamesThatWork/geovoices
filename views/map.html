@@ -1,0 +1,50 @@
+<!-- This is a static file served from your routes in server.js -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>VOX.GEO</title>
+    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+          integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+          integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+          crossorigin=""></script>
+    <script src="/map.js" 
+            defer></script>
+  </head>
+
+  
+
+
+
+  
+  <body>
+    
+
+    <main>
+      <audio id="bell" src="https://cdn.glitch.com/eb91c95e-0ab7-4dca-bea8-9d13e48bdbde%2Fbell.ogg?v=1596142355686" autoplay="false"></audio>
+      
+      <form>
+        <textarea 
+            name="geoJSON"   
+            rows="20"  cols="38" 
+            placeholder="paste geoJSON here">
+        </textarea>
+        <button type="submit" id="start">map the code</button>
+      </form>
+      <p id = "clock"></p>
+      <p id = "status"></p>
+      <p id = "reading"></p>
+      <div id="mapid" style="height:80vh;background-color:#C0E0FF;" ></div>
+
+
+    </main>
+    <footer><small>Dov@<a href="http://gamesthatwork.com"><b>Games</b>That<b>Work</b>.com</a></small></footer>
+  </body>
+</html>

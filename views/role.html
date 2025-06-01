@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+    <head><style>div, select { font-family: sans-serif; font-size: 4vmin; margin: 10vmax; }</style></head>
+<body>
+    <div >My current role is: <select><option>player</option><option>editor</option><option>developer</option></select></div>   
+    <script defer>
+        document.querySelectorAll( "option" ).forEach( o=>  o.selected = o.value==localStorage.getItem( "role" ) )
+        document.querySelector(    "select" ).addEventListener( "change", e=>localStorage.setItem( "role", e.currentTarget.value ))
+    </script>
+    </body>
+</html> 

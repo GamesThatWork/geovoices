@@ -1,0 +1,899 @@
+
+
+@import url('https://fonts.googleapis.com/css2?family=Cherry+Swash:wght@400;700&family=Noto+Sans+Cherokee:wght@400;500;700;900&family=Share+Tech+Mono&display=swap');
+
+
+:root {    --border-color:  #c6860d; }
+
+*   {  box-sizing: border-box;}
+
+
+
+
+
+div:empty, video:empty, audio:empty { display: none }
+
+
+
+body {
+        background-color: rgb(97 45 0);
+        font-family: 'Share Tech Mono', monospace;
+        font-size: 2vh;
+    }
+.expo   {   font-family: 'Share Tech Mono', monospace; }
+.styled {   font-family: 'Cherry Swash',    sans-serif; }
+.cherokee { font-family: 'Noto Sans Cherokee', sans-serif;   }
+
+
+
+    
+
+
+/*  ====================================================  *
+ *  ===========   FEEDBACK FORM SCREEN   ===============  *
+ *  ====================================================  */
+
+
+
+.intro {
+    background-color: rgb(186, 206, 214);
+    width:70%;
+    margin:10vh auto;
+    padding: 20px;
+    border: 2px solid rgb(197, 178, 95);;
+    }
+button.resume,button.reload {font-size: 2.3vmin; border-radius:0.5vmin; padding:0.2vmin;}
+button.drive {font-size: 1.3vmin; height:5vh; width:8vw; border-radius: 12px; margin:0 8px;}
+#geotour{
+    width:100%;
+    background-color:#57a4f1;
+    border: thin solid gold;            
+    position:relative;
+    }
+ 
+.notes{
+    background-color:#97c6f5;
+    font-size: .75em;    
+    padding: .1em .4em;
+    border: thin solid white;
+    }
+
+
+
+
+
+/*  ====================================================  *
+ *  ===========    GENERIC CONTENT LAYER  ==============  *
+ *  ====================================================  */
+
+#content > div{
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    left: 0;
+    top:  0;    
+    }
+
+  
+        
+    .fadeout5      {  transition: opacity  2s 3s cubic-bezier(1,0.39,0.67,0.95);   opacity: 0; }
+    .fade          {                                                               opacity: 0; }
+    .fade.fadein2  {  transition: opacity 2000ms cubic-bezier(1,0.39,0.67,0.95);   opacity: 1; }
+        
+
+
+
+#effectlayer{ 
+    background-color: rgba(184, 135, 11, 0.776);
+}
+.weave {
+    background-image: url(https://cdn.glitch.global/82396493-cf04-4e83-9abb-cf8ed0317c6d/weavetile.png?v=1662281517245);
+    }
+
+
+/*  ====================================================  *
+ *  ===========       CAPTION LAYER      ==============  *
+ *  ====================================================  */
+
+
+ #captionlayer {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    left: 0;
+    top:  0;   
+    }
+
+ #captionlayer > div{
+    width: 100%;
+    height:100%;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: flex-start;
+    }
+
+ #captionlayer > div >div {
+    background-color: rgba(252, 239, 206, 0.562);
+    
+    /* background-image: url(https://cdn.glitch.global/82396493-cf04-4e83-9abb-cf8ed0317c6d/weavetile.png?v=1662281517245); */
+    box-shadow: 9px 7px 24px #4e0303;
+    border: 7px ridge var(--border-color);
+    border-radius: 5vmin;
+    font-weight: 800;
+    /* font-family: "Cherry Swash", serif; */
+    font-size: 5vh;
+    text-align: center;
+    padding: 3vmin;
+    color: #6d3a04;
+    width:80%; 
+    height: fit-content;
+    margin: 15% auto;
+    }          
+
+#captionlayer .debug {
+    background-color: rgba(37, 27, 1, 0.562);   
+    box-shadow: none;
+    border: thick solid rgb(133, 24, 24);
+    font-weight: 800;
+    font-size: 2.75vh;
+    color: #44ffb4;
+    }          
+    
+    
+
+
+
+
+/*  ====================================================  *
+ *  ===========           TEXT LAYER      ==============  *
+ *  ====================================================  */
+
+ #content > div#textlayer { 
+    width: 88%;      height: 88%;
+    left: 6%;        top:  6%;
+    }
+
+#textlayer>div{
+    background-image: url(https://cdn.glitch.global/82396493-cf04-4e83-9abb-cf8ed0317c6d/weavetile.png?v=1662281517245);
+    background-color: #FE8;
+    /* box-shadow: 9px 7px 24px #4e0303; */
+    /* border: 7px ridge var(--border-color); */
+    /* border-radius: 5vmin; */
+    font-weight: 800;
+    font-family: "Cherry Swash", serif;
+    font-size: 2vh;
+    text-align: center;
+    padding: .4rem 1rem;
+    color: #834401;
+    height: fit-content;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: flex-start;
+}       
+
+#textlayer>div.caption {  
+    height:fit-content;
+    font-size: 5vh;
+    }       
+ 
+#textlayer>div:has(#splash){  
+    height: 100%;
+    justify-content: center; 
+    }       
+        
+#textlayer p{
+    text-align: left;
+    display: block;
+    margin: 3vmin 0 0 0;
+    padding: 1vmin;
+    }
+
+#nextpoint a,    
+#textlayer a{
+    font-family: 'Share Tech Mono', monospace; 
+    font-size: 2vh;
+    text-decoration-style: none;
+    text-decoration: none;
+    font-weight: 800;
+    text-align: center;
+    display: block;
+    width:fit-content;
+    margin: 3vmin auto;
+    padding: 1rem;
+    border: .25rem  solid gold;
+    border-radius: 1rem;
+    color: rgb(239, 216, 90);
+    background-color: #723200;
+    box-shadow: 4px 4px 16px rgba(10, 2, 57, 0.943);;
+    }
+    
+    #xxnextpoint a:after ,     
+        #xxtextlayer a:after {    
+            position:relative;
+    color:rgb(223, 178, 44);
+    font-family: sans-serif;
+    text-decoration: none;
+    left:12px;
+    top:-4px;   
+    content: "🡽"; 
+    font-size: 3rem;
+    font-weight: 300;
+     /*    text-decoration: none;font-weight: 900;border: 2px  solid rgb(12, 43, 137);
+    border-radius: 12px;
+    box-shadow: 4px 4px 16px rgba(10, 2, 57, 0.943);;
+    background-color: #1f369c;*/
+    }
+
+
+
+/*  ====================================================  *
+ *  ==== CHEROKEE SPLASH SCREEN - ON TEXT LAYER ========  *
+ *  ====================================================  */
+
+
+
+/* #splash { 
+    border:0.33vmax solid rgb(249, 237, 171); 
+    font-size: 12vmin;
+    background-image:    linear-gradient(rgb(188, 233, 247), rgb(1, 62, 111));
+    border-radius: 15vmin;
+    padding: 5vh 5vw;
+    box-shadow: -2px -4px 5px white, 16px 16px 46px black;
+    line-height: 0.7;
+}
+#splash:hover { 
+    background-image:    linear-gradient(rgb(238, 245, 176), rgb(8, 69, 120));
+    box-shadow: 0px -3px 5px white, 22px 22px 46px black;
+    position:relative; left:-1vmin; top:-1vmin;
+}
+         */
+
+
+
+/*  ====================================================  *
+ *  ===========  ALT GENERIC SPLASH: LOGO ==============  *
+ *  ====================================================  */
+
+
+.tsalagi { 
+    font-family: 'Noto Sans Cherokee', sans-serif;
+    color: #842a00;
+    font-size: 12vmin;
+    text-shadow: -1px -2px white, 6px 6px 16px black;
+    margin: 2vmin 0;
+    padding: 0;
+    }
+
+
+
+ #splash {
+    position:absolute;
+    top:      0vh;   left:     0vw;
+    height: 100vh;   width:  100vw;
+
+    display: flex;
+    gap: 1vmin;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: center;    /* z-index:16;    */
+    background-color: #471111;
+    /* box-shadow: 15px 15px 24px #290202;
+    border: 7px ridge var(--border-color);
+    border-radius: 5vmin; */
+    }       
+    
+#splash.cherokee {
+
+    background-image: url(https://cdn.glitch.global/82396493-cf04-4e83-9abb-cf8ed0317c6d/weavetile.png?v=1662281517245);
+    background-size: 30vh;
+    font-weight: 800;
+    font-family: "Cherry Swash", serif;
+    text-align: center;
+    padding: 3vmin;
+    color: #834401;
+    }       
+    
+
+
+
+#splash > div{
+    border:0.33vmax solid rgb(249, 237, 171); 
+    font-size: 12vmin;
+    border-radius: 15vmin;
+    padding: 5vh 5vw;
+    line-height: 0.7;
+    background-size:contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image:    linear-gradient(hsl(195, 44%, 88%), hsl(207, 61%, 8%));
+    box-shadow:  -6px -6px 8px white, 26px 26px 46px black;
+    text-shadow: -3px -4px 2px rgb(255, 237, 36), 6px 6px 16px rgba(83, 6, 6, 0.517);
+    }
+#splash.cherokee > div{
+    background-image:    linear-gradient(hsl(196, 50%, 85%), hsl(207, 100%, 11%));
+ }
+
+#splash >div:hover { 
+    background-image:    linear-gradient(rgb(238, 250, 124), rgb(0, 90, 164));
+    box-shadow: 0px -3px 5px white, 22px 22px 46px black;
+    }
+            
+
+#splash >div >div {
+    background-size:contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0 auto;
+    text-shadow: -3px -4px 2px rgb(255, 237, 36), 6px 6px 16px rgba(83, 6, 6, 0.517);
+    }
+#logo {
+    background-image:     url(https://geo-tour.s3.us-west-2.amazonaws.com/logo.png);
+    height:50vmin;
+    width:70vmin;
+    }
+            
+#splash  div#tap {    opacity:0.4;  color: rgb(198, 143, 12);
+position: relative; top:-4vh; opacity: 0.8; } 
+
+
+#splash p {
+    margin: 2vmin 0;
+    padding: 0;
+    user-select: none;
+    text-shadow: -3px -4px 2px rgb(255, 237, 36), 6px 6px 16px rgba(83, 6, 6, 0.517);
+    }
+#splash p.tsalagi { 
+    font-size: 20vmin;
+    }
+#splash p.english {
+    color: #a79105f9;
+    font-family: 'Share Tech Mono', monospace;
+    }
+#splash p.english.cherokee {
+    font-weight: 800;
+    font-family: "Cherry Swash", serif;
+    }   
+
+
+
+#splash div.resume {
+    opacity:0.77;  
+    text-align: center;
+    background-color: #14203a;
+    background-image: none;
+    font-family:  'Share Tech Mono', monospace;
+    color: rgb(255, 173, 32);
+    font-weight: 600;
+    font-size:2.1vh;
+    text-shadow: -3px -3px 2px #000;
+    box-shadow:  -5px -5px 12px #00000044;
+    line-height: 1.2;
+    width:fit-content;
+    padding: 1vh 4vw;
+    border: 0.5vmin solid rgb(234, 137, 0);
+    border-radius: 2vw;;
+    }
+    
+
+    .resume .bright { color: rgb(237, 218, 107); }
+    .resume .small { font-size: 0.5em; }
+
+
+
+/*  ====================================================  *
+ *  ===========      DASHBOARD MENU      ===============  *
+ *  ====================================================  */
+
+
+.warning        { border: 4px  solid orange; color:orange;  }
+
+#menu{
+    position: absolute;
+    top:      6vmin;
+    right:    3vmin;
+    display:  flow-root;
+    width:    fit-content;
+    /* z-index:  6; */
+    }
+
+#pause {  
+    position:absolute; top:0; left:0; width:100vw; height:100vh;
+    background-color:rgba(96, 78, 8, 0.94 );
+    } 
+#pause >div { 
+    width:100vw; height:100vh;
+    display:flex; justify-items: center; align-items: center; 
+    font-size: 17vmin; color:white; text-align: center; font-weight: 900; 
+    font-family: 'Share Tech Mono', monospace;
+    }
+
+#menu #burger      { 
+    float:right; 
+    fill:rgb(255, 248, 231);  
+    stroke: var(--border-color); 
+    fill-opacity:0.8; 
+    border-radius: 10%;
+    box-shadow: .7vw .7vh 1vmax #00003080;
+    }   
+    
+svg#burger         { width:10vmin; height:8vmin; }  
+
+#menu #burger:has( *:hover ) { fill: rgb(255, 255, 255); stroke: none;    stroke-opacity:0;}   
+#menu .stack       { fill:var(--border-color);  stroke-opacity:0;}   
+
+#menu select,
+#menu ul       {
+    background-color: #f49f0054; 
+    padding:1vmin; border-radius:2vmin; overflow: hidden; border: thick solid var( --border-color );
+    display:flex; flex-flow: column nowrap; gap:1vmin; 
+    font-weight: 800;     box-shadow: 2px 2px 12px #000000; width: fit-content;
+    box-shadow: .7vw .7vh 1vmax #00003080;
+    }
+#menu option,
+#menu li       {background-color: #fce9bcde; border-radius:1vmin; border: 0.5vmin solid var( --border-color );
+     text-align: center;  font-size:1.4em ;padding:1vmin; box-shadow: 2px 2px 12px #00000053;   user-select: none;}
+#menu li:hover {background-color: #fff7e7fe;  box-shadow: 0px 0px 12px #f6e6e6ed;}
+
+
+
+
+/* used on the free floating fix counter*/
+p.bignum { font-weight:900; font-size: 3rem; margin:0; padding:0;} 
+
+
+
+
+
+/*  ====================================================  *
+ *  ===========       HELP SCREEN        ===============  *
+ *  ====================================================  */
+
+#help {
+    font-family: "Share Tech Mono";
+    color: rgb(96, 57, 11);
+    white-space: pre-wrap;
+    text-align: left;
+    font-size: 1.5vmax;
+    overflow-x:hidden;
+    overflow-wrap: break-word;
+}
+#help p { color:red;}
+
+#help h1,
+#help h2 {
+    margin: 1vmax 0px 0px 0px;
+    background-color: #ffffff75;
+    border: 3px dotted rgb(226, 46, 11);
+    text-align:center;
+    color:rgb(20, 46, 46);
+}
+
+
+
+/*  ====================================================  *
+ *  ===========      CREDITS  SCREEN     ===============  *
+ *  ====================================================  */
+
+
+#credits ul { width:100%; overflow:hidden; max-height:100%; height:fit-content; }
+#credits li { width:100%; border-bottom: 3px dotted rgb(112, 9, 9); display:flex; justify-content: space-between; align-items: baseline;}
+#credits .role { font-size:  .70em;  float: left; margin-right: 3vmin; }
+#credits .name { font-size:  .95em; text-align:right; float:right; }
+#credits .head { font-size: 1.25em; text-align:center; margin-top: 2vmin; width:100%; }
+#credits .attr { font-size:  .80em; text-align:center; margin: 3vmin 0; width:100%; }
+
+#credits a     {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .8em;
+    text-align: center;
+    display: block;
+    margin: auto;
+    padding: 1vmin;
+    border: 2px solid rgb(138 104 29);
+    background-color: #ffffff80;
+    color: black;
+    width: 85%;
+    border-radius: 1.5vmin;
+}
+
+
+
+
+
+        
+        
+        
+   /*  ====================================================  *
+    *  ===========      NEXTPOINT               ===============  *
+    *  ====================================================  */
+        
+ 
+
+
+#feedback,
+#nextpoint {
+    border: thick solid #BBB;
+    border-radius: 2rem;
+    background-color: #4d3434;
+    text-align: center;
+    font-size: 3vh;
+    font-weight: 600;;
+    box-shadow: 1vw 1vh 1vmax #00003080;
+    }
+
+
+#nextpoint {
+    padding: .5rem;
+    font-size: 2vh;
+    position: fixed;
+    width: 80%;
+    left:  10%;    bottom: 2%;
+    color: #888;
+    }
+
+#nextpoint.required {
+    background-color: rgb(148, 8, 8);
+    border-color: rgb(207, 45, 45);
+    color: rgb(255, 195, 98);
+    }
+  
+   
+
+#nextpoint:has( div.start ){   border: thick solid gold;}
+#nextpoint span {          color: #CCC;   font-weight: 500;  }
+#nextpoint div.start p{    color: gold;   font-weight: 600;   }
+#nextpoint div.start span{ color: white;  font-weight: 600;   }
+
+    
+
+/*  ====================================================  *
+ *  ===========        FEEDBACK FORM       =============  *
+ *  ====================================================  */
+
+
+#feedback { 
+    position:absolute;
+    width:90vw; height:90vh;
+    left:  5vw; top:    5vh;
+} 
+
+#feedback form { 
+    --lite: rgb(248, 248, 247);
+    --pale: rgb(246, 237, 156);
+    --norm: rgb(226, 204, 12);
+    --wan:  rgb(197, 192, 153);
+    --deep: rgb(144, 130, 5);
+    --dark: rgb(36, 33, 3);
+    color: var(--norm); font-family: 'Share Tech Mono', monospace; 
+    display:flex;
+    position:unset;
+    box-shadow: none;
+    width: 100%;
+    flex-direction: column;   
+    justify-content:space-evenly; 
+    align-items: center; 
+    gap: 2vmin;
+    width:100%;
+    height: 100%;
+}
+
+#feedback input, #feedback textarea { width:100%;}
+#feedback input, #feedback textarea, #feedback button { 
+    font-size: 2vh;  font-family: 'Share Tech Mono', monospace ;
+    width:100%;
+    padding:1vmin;
+    color:black; 
+    background-color:var(--norm);
+    border: 4px solid black;
+    box-shadow: 2px 2px 12px #000000; 
+    }
+#feedback input           { background-color:var(--wan);}
+#feedback textarea        { background-color:var(--lite);}
+#feedback textarea:empty  { background-color:var(--pale);}
+#feedback input:checked   { background-color:var(--pale);}
+#feedback button:hover    { background-color:var(--pale);}
+
+#feedback input[type=checkbox] {width:2vmin; height:2vmin;}
+#feedback label { font-size: 1.5vh;  text-align:left; width:90%; border: thin solid grey;}
+
+#feedback    h1:nth-child(1) { flex:none;}
+#feedback label:nth-child(2) { flex:none;}
+#feedback label:nth-child(3) { flex:6;}
+#feedback label:nth-child(4) { flex:3;}
+#feedback label:nth-child(5) { flex:1;}
+#feedback label:nth-child(6) { flex:1;}
+#feedback #permissions       { flex:1.5; }
+#feedback button             { flex:none; width:fit-content;}
+
+#feedback #permissions       {display:flex; flex-direction: column; justify-content:space-evenly;  align-items: center; }
+#feedback > label            {display:flex; flex-direction:column; align-items: flex-start;}
+
+
+#feedback textarea,
+#feedback input[type=text]         { flex:1; }
+#feedback #permissions label {width:100%;}
+
+/*http://thenewcode.com/744/Make-SVG-Responsive*/
+.svg-container { 
+	display: inline-block;
+	position: relative;
+	width: 100%;
+    padding-bottom: 15%;
+	vertical-align: middle; 
+	overflow: hidden; 
+}
+.svg-content { 
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+/*#feedback #stargui { border: thin solid var(--norm);;}*/
+#feedback svg { fill:darkblue;  stroke-width: 6px; stroke: var(--pale);    }
+.notstar { fill:var(--dark);  stroke-width: 6px; stroke: var(--norm); transition: all 2s ease;  }
+.hotstar { fill:var(--norm);  stroke-width: 6px; stroke:white;      transition: all 2s ease;   }
+.neutstar { fill:#555;  stroke-width: 9px; stroke: black;         transition: all 2s ease; }
+
+
+
+
+
+
+/*  ====================================================  *
+ *  ===========     PROGRESS BAR DISPLAY   =============  *
+ *  ====================================================  */
+
+
+
+#progressbar {
+    border: thick solid #BBB;
+    border-radius: 2vmin;
+    background-color: #444;
+    position: fixed;
+    text-align: center;
+    font-size: 0.9em;
+    padding: 2vmin 0;
+    margin: 0 auto;
+    left:  35%;
+    top:   30%;
+    width: 30%;
+    /* z-index: 2; */
+    box-shadow: 2px 2px 12px #000000;
+    }#progressbar .label { font-weight:300; font-size:0.9em; color:#AAA; }
+#progressbar .number{ margin:1vmin;font-weight:900; font-size:5em; color:white; border: thin solid gold;border-radius: 1.2vmin;background-color:#222; }
+#progressbar .ready { font-size:0.5em; color:rgb(105, 255, 105); } 
+#progressbar .ontop { font-size:1.5em; color:rgb(190, 252, 20); /*z-index: 12;*/ padding: 5vh 0vw; } 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  ====================================================  *
+ *  ===========         MAP LAYER        ===============  *
+ *  ====================================================  */
+
+
+
+ #maplayer{ /* fill the screen*/
+    position:absolute;
+    left:    0px;
+    top:     0px;
+    width: 100vw;
+    height:100vh;
+    background-color:#C0E0FF;
+    border: 0.4vmin solid grey;
+    border-radius: 5vmin;
+    z-index: 0; /* create local stacking context: encapsulate leaflet's heavy internal use of z-index */
+    }
+   
+#maplayer.fail     { border-color: red;                 }
+#maplayer.read     { border-color: rgb(135, 135, 30);   }
+#maplayer.simread  { border-color: rgb(31, 113, 31);  }
+#maplayer.track    { cursor:crosshair; }
+
+
+
+/*  ====================================================  *
+ *  ====     EDITING CONTEXT (RIGHTCLICK) MENU)  =======  *
+ *  ====================================================  */
+
+
+
+#contextmenu     { font-size: 14px; font-family:'Courier New', Courier, monospace; color:black; font-weight:600; padding:1px; }
+#contextmenu ul  { overflow-y: hidden; width: 100%; background-color: rgb(209, 213, 217);}
+#contextmenu h1,
+#contextmenu h1[contenteditable]        { border: 1px dotted rgb(64, 33, 33); width:100%;  background-color: rgb(77, 54, 54);color:white; font-size:1.2rem; margin:0; padding:1px; }
+#contextmenu h1[contenteditable]:hover  { border: 1px solid  rgb(171, 138, 138); ;  background-color: rgb(91, 68, 68); color:gold;}
+
+#contextmenu h2   { border: 1px dotted rgb(64, 33, 33); width:100%;  background-color: rgb(35, 25, 25);color:rgb(213, 152, 152); font-size:1rem; margin:0; padding:1px; }
+#contextmenu li  { border: 1px dotted rgb(112, 112, 112); width:100%; }
+#contextmenu li:hover  { border: 1px solid rgb(32, 32, 32); width:100%; background-color: white; }
+#contextmenu #contentmenu        { border: 2px solid rgb(108, 108, 108); background-color: rgb(179, 210, 232); }
+#contextmenu #contentmenu:hover  { background-color: rgb(179, 210, 232); }
+#contextmenu [contenteditable]        { border: 2px solid rgb(32, 32, 32); width:100%;background-color: rgb(193, 209, 161); }
+#contextmenu [contenteditable]:hover  { background-color: rgb(215, 238, 169); }
+#contextmenu [data-click=list]       { border: 2px solid rgb(32, 32, 32); width:100%;background-color: rgb(193, 209, 161); }
+#contextmenu [data-click=list]:hover  { background-color: rgb(215, 238, 169); }
+.leaflet-popup-content {margin:4px;}
+div.preview { width: 100%; margin:0; padding:0;}
+div.preview image { width: 100px; margin:auto; padding:0; border: 2px solid black;}
+.xtoggleindicator { border: 1px solid rgb(64, 33, 33);  margin:1px 3px; padding: 2px 5px;}
+.tag.active { border-color: gold; color: gold; background-color: rgb(83, 98, 111);}
+
+button.drive {     width: fit-content;
+    font-size: .7em;
+    float: right;
+    background-color: white;
+    font-weight: 600;
+    padding: 3vmin;
+    border: 3px solid orange;
+    margin: 0 auto;}
+button.drive:hover { background-color: rgb(254, 254, 171);}
+    
+
+
+
+
+
+
+
+#filepicker ul { overflow-y:scroll; border: thin solid blue; } 
+
+
+
+
+
+
+h2,h3 {
+    background-color: #ecf3fa;
+    padding: 4px;
+    border: 1px solid rgb(106, 147, 201);
+    font-size: 1.35em;
+    min-height: 1.25em;
+    width: 100%;
+    margin: 0px;
+    }
+h3 {
+    font-size: 1em;
+    padding-left: 20px;
+    }
+
+.handle {
+    padding:0px;
+    margin: 0px;
+    border: 0px;
+    min-height: 30px;
+}
+.zd-zone{
+    border: thin solid rgb(113, 170, 255);
+    background-color:rgba( 200, 200, 255, 0.6);    } 
+.row{
+    padding: 2px;
+    border: thin solid rgb(14, 64, 202);
+}    
+.id{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: .6em;
+    display:block;
+    color: grey;
+}
+.content{
+    float:right;
+    min-width: 40px;
+    }
+ul{
+    list-style: none;
+    padding-left: 0;
+    margin: 3px;
+    overflow-y: scroll;
+  /*  max-height: 70vh;*/
+    }
+.highlight{
+    background-color: red;
+    border: thick solid white;
+    }  
+#contextmenu span[data-click=list]  ,
+button{    background-color:rgb(250, 255, 201);    }
+button:hover{    background-color:rgb(208, 255, 0);   }
+.tourname{
+    font-size: 1.5vmax;
+    font-family: inherit;
+    }   
+.tourname option {    
+    font-size: 2rem;
+    border: thin dotted greenyellow;    
+    }    
+.tourname option:hover {    
+    background-color: greenyellow;    
+    }    
+    
+.z-field{
+    width: 24%;
+    display:inline-block;
+    margin:1%;
+    text-align:center;
+    font-size: .8em;
+    }    
+.left {
+    float: left;
+    }
+.pseudo-input {
+    border: thin solid rgb(113, 170, 255);
+    background-color:white;
+    padding: 2px;
+    overflow:auto;
+    }
+.row  input[type="number"] {
+    width: 4em;
+    text-align: right;
+    padding: 0px;
+    display:inline;        
+}
+/*code {
+background-color:rgb(20, 46, 46);
+}*/
+
+
+.max,.min{
+    background-color: rgb(211, 245, 178);
+    width: 4em;
+    text-align: right;
+    padding: 0px;
+    display:block;
+    margin: auto;
+    }
+
+
+
+/*  ====================================================  *
+ *  ========     MAP / MARKER COLOR CODES  =============  *
+ *  ====================================================  */
+
+      
+.lbl-     { background-color: rgba(255,255,255,0.1); font-weight:550;box-shadow:none; border:none;  }
+.lbl-stop    {  color: violet;  }
+.lbl-story   {  color: red;     }
+.lbl-history {  color: blue;    }
+.lbl-guide   {  color: blue;    }
+.lbl-nav     {  color: black;   }
+.lbl-open    {  color: green;   }
+.lbl-touch   {  color: orange;  }
+.lbl-update  {  color: yellow;  }/*gold*/
+.lbl-live    {  color: yellow;  }/*gold*/
+.lbl-close   {  color: grey;    }
+.lbl-hide    {  color: grey;    }
+.lbl-active  {  color: green;   }
+.lbl-start   {  color: orange;  }
+.lbl-edit    {  color: yellow;  }
+.lbl-neutral {  color: grey;    }
+.lbl-error   {  color: grey;    }
+.lbl-spent   {  color: black;   }
+.lbl-default {  color: red;     }
