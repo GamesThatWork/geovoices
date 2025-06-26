@@ -54,14 +54,14 @@ const extensions = {
 const sendList = (response, medium, pfx) =>
   s3
     .send(new ListObjectsCommand({ Bucket: AWSBUCKET }))
-    .then((list) =>
+    .then( list =>
       response
         .json(
               list.Contents.map((o) => o.Key.toLowerCase())
                 .filter(
                   (name) =>
                     !extensions[medium] ||
-                    extensions[medium].includes(name.match(/\.[a-z0-9]*$/) ?? ".")
+                     extensions[medium].includes(name.match(/\.[a-z0-9]*$/) ?? ".")
                 )
                 .filter((name) => !pfx || name.startsWith(pfx))
                 .filter((name) => name != "")
@@ -337,12 +337,11 @@ app.get("/", (request, response) =>{
         domain        = (parts.length > 1? parts[1]  : parts[0]) ?? null, 
         tld           =  local? null: parts[ parts.length-1 ];
 
-  response.sendFile( sub? `${__dirname}/views/geotour.html?tour=${sub}` :  `${__dirname}/views/landingpage.html` );
+  response.sendFile( sub? `${__dirname}/views/geotour.html` 
+                        : `${__dirname}/views/landingpage.html` );
 
-    console.log({ host, sub, domain, tld, port});
-  });
-  
-  
+  console.log({ host, sub, domain, tld, port});
+  });// Add this route at the VERY END, after all your other routes but before app.listen():
 
   
 
@@ -878,6 +877,25 @@ app.post("/add", (request, response) => {
     });
   }
 });
+
+
+
+
+
+app.get("/:tourname", (request, response) => {
+  var tourname = request.params.tourname.toLowerCase();
+  tourname = /^[a-z0-9\-]+$/.test(tourname)  ? tourname : null; 
+  response.sendFile( tourname?  `${__dirname}/views/geotour.html` 
+                             :  `${__dirname}/views/landingpage.html` );
+  console.log(`Tour route accessed: ${tourname}`);
+});
+  
+  
+
+
+
+
+
 
 // listen for requests :)
 
