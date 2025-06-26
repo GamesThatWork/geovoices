@@ -57,7 +57,6 @@ const sendList = (response, medium, pfx) =>
     .then((list) =>
       response
         .json(
-            JSON.stringify(
               list.Contents.map((o) => o.Key.toLowerCase())
                 .filter(
                   (name) =>
@@ -68,8 +67,7 @@ const sendList = (response, medium, pfx) =>
                 .filter((name) => name != "")
                 .map((name) => name.replace(pfx, ""))
             )
-          )
-        )
+          )        
     .catch((err) => response.send(err.stack));
 
 // example: .../contents?medium=audio&folder=cherokee/story
