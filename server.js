@@ -55,20 +55,21 @@ const sendList = (response, medium, pfx) =>
   s3
     .send(new ListObjectsCommand({ Bucket: AWSBUCKET }))
     .then((list) =>
-      response.send(
-        JSON.stringify(
-          list.Contents.map((o) => o.Key.toLowerCase())
-            .filter(
-              (name) =>
-                !extensions[medium] ||
-                extensions[medium].includes(name.match(/\.[a-z0-9]*$/) ?? ".")
+      response
+        .json(
+            JSON.stringify(
+              list.Contents.map((o) => o.Key.toLowerCase())
+                .filter(
+                  (name) =>
+                    !extensions[medium] ||
+                    extensions[medium].includes(name.match(/\.[a-z0-9]*$/) ?? ".")
+                )
+                .filter((name) => !pfx || name.startsWith(pfx))
+                .filter((name) => name != "")
+                .map((name) => name.replace(pfx, ""))
             )
-            .filter((name) => !pfx || name.startsWith(pfx))
-            .filter((name) => name != "")
-            .map((name) => name.replace(pfx, ""))
+          )
         )
-      )
-    )
     .catch((err) => response.send(err.stack));
 
 // example: .../contents?medium=audio&folder=cherokee/story
@@ -345,6 +346,8 @@ app.get("/", (request, response) =>{
   
   
 
+  
+
 
 app.get("/health", (req, res) => {
   res.status(200).json({ 
@@ -375,7 +378,7 @@ app.get("/uconnect",(request, response) => response.sendFile(`${__dirname}/views
 
 app.get("/.well-known/assetlinks.json", (request, response) =>
   response.sendFile(`${__dirname}/.data/assetlinks.json`));
-app.get("/version",(request, response) => response.send(JSON.stringify({ version: versionID })));
+app.get("/version",(request, response) => response.json({ version: versionID }));
 
 
 
@@ -405,15 +408,13 @@ app.get("/role", (request, response) =>
 
 
 app.get("/v0.4/tours", (request, response) =>
-  response.send(
-    JSON.stringify(
+  response.json(
       fs
         .readdirSync("./tours/v0.4")
         .filter((e) => e.match(/\.json$/))
         .map((f) => f.split(".")[0])
     )
-  )
-);
+  );
 app.get("/v0.4/tour/:tourname", (request, response) =>
   response.sendFile(`${__dirname}/tours/v0.4/cjson`)
 );
@@ -465,7 +466,7 @@ const
 app.get("/tours", (request, response) =>
      firestore.collection("tours").listDocuments()
       .then(  snapshot =>  
-                    response.type("application/json").send( JSON.stringify( snapshot.map(doc =>doc.id))))
+                    response.json( snapshot.map(doc =>doc.id)))
       .catch( err=> response.status(500).send("Error listing tours: " + err.message))
     ); 
 
@@ -479,7 +480,7 @@ app.get("/tour/:tourname", (request, response) =>
 
           firestore.collection("tours").doc( id ).get()
           .then(  doc => 
-                  doc.exists?   response.type("application/json").send( JSON.stringify(doc.data()) )
+                  doc.exists?   response.json( doc.data() ) 
                             :   response.status(404).send(`{ "err": "Tour ${request.params.tourname} not found" }`)
             )
           .catch( err=>response.status(500).send("Error loading tour: " + err.message))
