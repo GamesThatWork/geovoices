@@ -1,27 +1,35 @@
 {
-  "name": "Cherokee-Legend-Geotour",
-  "version": "0.0.1",
-  "description": "progressive web app: tracks your position on server [ geoloc, sqlLite3, Leaflet, pwa ]",
+  "name": "geo-voices",
+  "version": "2.0",
+  "description": "Create, maintain and conduct geolocated audio tours.",
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node server.js"
+    "start": "node  server.js",
+    "dev": "nodemon server.js"
   },
   "dependencies": {
-    "express": "^4.17.1",
-    "sqlite3": "^4.1.1",
-    "http-proxy-middleware": "^1.0.5",
     "@aws-sdk/client-s3": "^3.137.0",
+    "@google-cloud/firestore": "^7.11.1",
     "body-parser": "^1.20.0",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.4.0",
     "fs": "^0.0.2",
-    "express-fileupload": "^1.4.0"
+    "http-proxy-middleware": "^1.0.5",
+    "sqlite3": "^5.1.7"
   },
   "engines": {
-    "node": "14.x"
+    "node": ">=20"
   },
   "repository": {
-    "url": "https://glitch.com/edit/#!/hello-sqlite"
-  },
+    "url": "https://github.com/DovJacobson/geotour.git",
+    "type": "git"
+    },
+  "author": "Dov Jacobson",
+  "contributors": [
+    "Dov Jacobson <https://github.com/DovJacobson>"
+  ],
+ 
   "license": "MIT",
   "keywords": [
     "node",

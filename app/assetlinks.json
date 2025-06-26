@@ -1,0 +1,10 @@
+[{
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target" : { "namespace": "android_app", "package_name": "me.glitch.geotour.twa",
+                     "sha256_cert_fingerprints": [
+                       "18:9E:18:57:04:C2:64:CD:74:40:4F:1A:2F:ED:C8:2D:8E:42:15:33:FE:37:E9:DE:AD:5D:27:59:F3:20:51:4C",
+                       "69:0A:68:F3:FE:0F:8F:F6:81:07:1F:C6:21:3F:E0:11:15:D9:90:C1:8A:9C:54:36:24:B4:BC:9B:85:93:50:8D"
+                     ] 
+                   }
+      }
+]

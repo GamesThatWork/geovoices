@@ -76,6 +76,18 @@ PORT TO NOSQL
 - Session Tracking
 
 
+json tour files=> NoSQL
+json weave  files=> NoSQL
+sql feedback records => NoSQL
+
+(unimplemented) feedback => NoSQL
+
+(unimplemented) user history => NoSQL
+
+fix
+qos
+pin
+
 
 DEVOPS
 ------
@@ -85,7 +97,6 @@ DEV READY
 
 REHOST ON --- FIREBASE?
 - Docker? Kubernetes?
-
 
 
 

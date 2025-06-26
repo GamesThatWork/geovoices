@@ -9,6 +9,10 @@ import bodyParser from "body-parser";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import sqlite3 from "sqlite3";
 import fileUpload from "express-fileupload";
+import { Firestore } from '@google-cloud/firestore';
+
+
+
 
 const app = express();
 
@@ -205,11 +209,9 @@ app.use(bodyParser.urlencoded(XL));
 app.use(bodyParser.json(XL));
 app.use(bodyParser.text(XL));
 
-// we've started you off with Express,
-// but feel free to use whatever libs or frameworks you'd like through `package.json`.
 
-// http://expressjs.com/en/starter/static-files.html
-app.use(express.static("public", { dotfiles: "allow" }));
+app.use(express.static("public", { dotfiles: "allow", extensions: ["html", "htm", "json", "txt", "md", "css"] }));
+app.use(express.static("views",  { dotfiles: "allow", extensions: ["html", "htm", "json", "txt", "md", "css"] }));
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
@@ -221,7 +223,7 @@ app.use(function (req, res, next) {
 });
 
 // init sqlite db
-const dbFile = "./.data/geotour.db";
+const dbFile = "./geotour.db";
 const exists = fs.existsSync(dbFile);
 const db = new sqlite3.Database(dbFile);
 
@@ -326,49 +328,46 @@ db.serialize(  () => {
 
 //app.get("/",        (request, response) =>   response.sendFile(`${__dirname}/views/index.html`));
 app.get("/", (request, response) =>{
-  let [sub,domain,tld] =( request.headers.host ??"").split(".");
-  let html=  ((domain=="glitch")   || (sub=="www"))? 
-          `${__dirname}/views/landingpage.html`
-      :   `${__dirname}/views/geotour.html`;
-  console.log({ sub, domain, tld, html });
-  response.sendFile( html );
-});
+//  const  [host,sub,domain,tld,port] = /([^.]?).?([^.]+).([^.]?).(:?\.?)$/.exec(request.headers.host) ?? [];
+  const [ host, port] = request.headers.host.split(":"),
+        parts         =                 host.replace("www.", "").split("."),
+        local         =  host.includes("localhost"), 
+        sub           =  parts.length > (local?1:2)?   parts[0]  :  null,
+        domain        = (parts.length > 1? parts[1]  : parts[0]) ?? null, 
+        tld           =  local? null: parts[ parts.length-1 ];
 
-app.get("/qos", (request, response) =>
-  response.sendFile(`${__dirname}/views/qos.html`)
-);
+  response.sendFile( sub? `${__dirname}/views/geotour.html?tour=${sub}` :  `${__dirname}/views/landingpage.html` );
 
-app.get("/weave", (request, response) =>  response.sendFile(`${__dirname}/views/weaver.html`) );
+    console.log({ host, sub, domain, tld, port});
+  });
+  
+  
 
-app.get("/map", (request, response) =>  response.sendFile(`${__dirname}/views/map.html`));
 
-app.get("/reset", (request, response) =>
-  response.sendFile(`${__dirname}/views/reset.html`)
-);
-app.get("/clear", (request, response) =>
-  response.sendFile(`${__dirname}/views/clear.html`)
-);
-app.get("/version", (request, response) =>
-  response.send(JSON.stringify({ version: versionID }))
-);
+
+//   let html=  ((domain=="glitch")   || (sub=="www"))? 
+//           `${__dirname}/views/landingpage.html`
+//       :   `${__dirname}/views/geotour.html`;
+//   console.log({ sub, domain, tld, html });
+//   response.sendFile( html );
+// });
+
+//static files
+
+app.get("/qos",     (request, response) => response.sendFile(`${__dirname}/views/qos.html`));
+app.get("/weaver",  (request, response) => response.sendFile(`${__dirname}/views/weaver.html`) );
+app.get("/map",     (request, response) => response.sendFile(`${__dirname}/views/map.html`));
+app.get("/reset",   (request, response) => response.sendFile(`${__dirname}/views/reset.html`));
+app.get("/clear",   (request, response) => response.sendFile(`${__dirname}/views/clear.html`));
+app.get("/thanks",  (request, response) => response.sendFile(`${__dirname}/views/thanks.html`));
+app.get("/home",    (request, response) => response.sendFile(`${__dirname}/views/landingpage.html`));
+app.get("/role",    (request, response) => response.sendFile(`${__dirname}/views/role.html`));
+app.get("/uconnect",(request, response) => response.sendFile(`${__dirname}/views/test-uconnect.html`));
 
 app.get("/.well-known/assetlinks.json", (request, response) =>
-  response.sendFile(`${__dirname}/.data/assetlinks.json`)
-);
-app.get("/thanks", (request, response) =>
-  response.sendFile(`${__dirname}/views/thanks.html`)
-);
-app.get("/home", (request, response) =>
-  response.sendFile(`${__dirname}/views/landingpage.html`)
-);
+  response.sendFile(`${__dirname}/.data/assetlinks.json`));
+app.get("/version",(request, response) => response.send(JSON.stringify({ version: versionID })));
 
-app.get("/role", (request, response) =>
-  response.sendFile(`${__dirname}/views/role.html`)
-);
-
-app.get("/uconnect", (request, response) =>
-  response.sendFile(`${__dirname}/views/test-uconnect.html`)
-);
 
 
 
@@ -429,82 +428,109 @@ app.post("/v0.5/tour/upload/:tourname", (request, response) =>
 
 
 
-const tourlist= filter=>
-      fs
-        .readdirSync("./tours")
-        .filter((e) => e.match(/\.tour$/))
-        .map((f) => f.split(".")[0]);
+
+//const firestore = new Firestore();
+
+const firestore = process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON 
+  ? new Firestore({ 
+      credentials: JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON),
+      projectId: 'geo-voices'
+    })
+  : new Firestore(); // Fallback for local development
+
+
+// const tourlist= filter=>
+//       fs
+//         .readdirSync("./tours")
+//         .filter((e) => e.match(/\.tour$/))
+//         .map((f) => f.split(".")[0]);
     
+const 
+  tourlist= filter=>
+      firestore.collection("tours").listDocuments()
+      .then(  snapshot => snapshot.map(doc => doc.id ))
+      .catch(      err => 'Error listing tours: ' + err.message);  
 
 
 
 app.get("/tours", (request, response) =>
-  response.send( JSON.stringify( tourlist() )  ));
-
-
-
+     firestore.collection("tours").listDocuments()
+      .then(  snapshot =>  
+                    response.type("application/json").send( JSON.stringify( snapshot.map(doc =>doc.id))))
+      .catch( err=> response.status(500).send("Error listing tours: " + err.message))
+    ); 
 
 app.get("/tour/:tourname", (request, response) =>
-  response.sendFile(`${__dirname}/tours/${
-//     tourlist().find( tour=> 0== tour.localeCompare( request.params.tourname ))
-     tourlist().find( tour=> tour.toLowerCase()==request.params.tourname.toLowerCase()  )
-                                }.tour`)
-);
+   firestore.collection("tours").listDocuments()
+      .then(  snapshot =>{
+        const 
+          ids = snapshot.map(doc => doc.id),
+          target = request.params.tourname.toLowerCase(),
+          id = ids.find( id => id.toLowerCase() == target);
 
-
-
+          firestore.collection("tours").doc( id ).get()
+          .then(  doc => 
+                  doc.exists?   response.type("application/json").send( JSON.stringify(doc.data()) )
+                            :   response.status(404).send(`{ "err": "Tour ${request.params.tourname} not found" }`)
+            )
+          .catch( err=>response.status(500).send("Error loading tour: " + err.message))
+         })
+  );
 
 
 app.post("/tour/:tourname", (request, response) =>
-  fs.writeFile(
-    `${__dirname}/tours/${request.params.tourname}.tour`,
-    typeof request.body == "string"
-      ? request.body
-      : JSON.stringify(request.body),
-    (err) =>
-      response.send(
-        err
-          ? `<u>${err}</u>`
-          : `Successful file save: <b>${request.params.tourname}.tour</b>`
-      )
-  )
-);
+    firestore.collection("tours").doc(request.params.name).set(
+      typeof request.body == "string"? request.body
+                      : JSON.stringify(request.body)  )
+    .then(() => response.send(`Successful Firestore save: <b>${request.params.name}</b>`))
+    .catch((err) => response.status(500).send(`<u>${err}</u>`))
+    );
 
-app.get("/weaves/", (request, response) =>
-  response.send(
-    JSON.stringify(
-      fs
-        .readdirSync("./weaves")
-        .filter((e) => e.match(/\.json$/))
-        .map((f) => f.split(".")[0])
-    )
-  )
-);
-app.get("/weave/:name", (request, response) =>
-  response.sendFile(`${__dirname}/weaves/${request.params.name}.json`)
-);
-app.post("/weave/:name", (request, response) =>
-  fs.writeFile(
-    `${__dirname}/weaves/${request.params.name}.json`,
-    typeof request.body == "string"
-      ? request.body
-      : JSON.stringify(request.body),
-    (err) =>
-      response.send(
-        err
-          ? `<u>${err}</u>`
-          : `Successful file save: <b>${request.params.name}</b>`
-      )
-  )
-);
 
-app.post("/feedback/upload", (request, response) =>
-  response.send(
-    Object.keys(request.body)
-      .map((k) => `<li> ${k}:${request.body[k]}</li>`)
-      .join("")
-  )
-);
+
+// List all weaves
+app.get("/weaves",( req,res )=> 
+  
+  firestore.collection("weaves").listDocuments()
+  .then(  snapshot => res.json( snapshot.map(doc => doc.id) ))
+  .catch(      err => res.status(500).send('Error listing weaves: ' + err.message))
+  );  
+
+app.get("/weave/:name", (request, response) => 
+  firestore.collection("weaves").doc(request.params.name).get()
+  .then(doc => 
+          doc.exists?   response.type("application/json").send(doc.data().json)
+                    :   response.status(404).send("Weave not found")
+         )
+  .catch( err=>response.status(500).send("Error loading weave: " + err.message))
+  );
+
+app.post("/weave/:name", (request, response) =>{
+    // Accept either a raw string or an object with a "json" property
+    const jsonString = typeof request.body === "string" ? request.body : request.body.json;
+    if (!jsonString) {
+      return response.status(400).send("Missing 'json' string in request body.");
+    }    firestore.collection("weaves").doc(request.params.name).set({ json: jsonString })
+      .then(() => response.send(`Successful Firestore save: <b>${request.params.name}</b>`))
+      .catch((err) => response.status(500).send(`<u>${err}</u>`));
+    });
+
+
+
+
+
+
+
+app.post(["/feedback", "/feedback/upload"], (request, response) =>
+  firestore.collection("feedback").add(data)
+    .then(() => response.send(`
+      <h3>Feedback received</h3>
+      <h2>Thank you!</h2>
+      <ol>${ Object.entries( request.body )
+              .map( ([key,val]) => `<li> ${key}:${val}</li>`)
+              .join("")}</ol>`))
+    .catch((err) => response.status(500).send(`<u>${err}</u>`))
+  );
 
 app.post("/use/upload", (request, response) => {
   console.log(request.params.filename + " user upload attempt");
@@ -846,6 +872,5 @@ app.post("/add", (request, response) => {
 });
 
 // listen for requests :)
-var listener = app.listen(process.env.PORT, () => {
-  console.log(`Your server is set up on port ${listener.address().port}`);
-});
+var listener = app.listen(3000, 
+   () =>console.log(`Your server is set up on port ${listener.address().port}`));
