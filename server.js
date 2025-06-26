@@ -872,5 +872,7 @@ app.post("/add", (request, response) => {
 });
 
 // listen for requests :)
-var listener = app.listen(3000, 
-   () =>console.log(`Your server is set up on port ${listener.address().port}`));
+
+const PORT = process.env.PORT || 3000;
+var listener = app.listen(PORT, '0.0.0.0',
+   () => console.log(`Server running on port ${listener.address().port}`));
