@@ -332,7 +332,9 @@ app.get("/", (request, response) =>{
   const [ host, port] = request.headers.host.split(":"),
         parts         =                 host.replace("www.", "").split("."),
         local         =  host.includes("localhost"), 
-        sub           =  parts.length > (local?1:2)?   parts[0]  :  null,
+        isCloudRun = host.includes(".run.app") || host.includes(".a.run.app"),
+        sub = (parts.length > (local ? 1 : 2) && !isCloudRun) ? parts[0] : null,
+        //sub           =  parts.length > (local?1:2)?   parts[0]  :  null,
         domain        = (parts.length > 1? parts[1]  : parts[0]) ?? null, 
         tld           =  local? null: parts[ parts.length-1 ];
 
@@ -344,7 +346,14 @@ app.get("/", (request, response) =>{
   
 
 
-
+app.get("/health", (req, res) => {
+  res.status(200).json({ 
+    status: "healthy", 
+    version: versionID,
+    timestamp: Date.now(),
+    uptime: process.uptime()
+  });
+});
 //   let html=  ((domain=="glitch")   || (sub=="www"))? 
 //           `${__dirname}/views/landingpage.html`
 //       :   `${__dirname}/views/geotour.html`;
