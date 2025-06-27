@@ -142,7 +142,12 @@ app.get("/files/:medium/*?", (request, response) =>
 
 const AWSBUCKET = "geo-tour"; //"geotour.content"
 
-const urlAWS = `https://${AWSBUCKET}.s3-us-west-2.amazonaws.com/`;
+const urlAWS = `https://${AWSBUCKET}.s3-us-west-2.amazonaws.com/`,
+      urlGCP = "https://storage.googleapis.com/geo-voices/";
+
+
+
+
 const pfxCherokee = "cherokee/";
 app.use(fileUpload());
 
@@ -176,30 +181,45 @@ app.post("/content", (request, response) => {
     .catch((err) => response.send(err.stack));
 });
 
-app.use(
-  "/content/",
-  createProxyMiddleware({
-    logLevel: "info",
-    onProxyRes: (proxyRes, req, res) => {
-      console.log("PROXY RES", proxyRes);
-    },
-    onProxyReq: (proxyRes, req, res) => {
-      console.log("PROXY REQ", proxyRes);
-    },
-    target: "https://cdn.glitch.com/", // target host
-    changeOrigin: true, // needed for virtual hosted sites
-    ws: true, // proxy iockets
-    pathRewrite: {
-      //  '^/api/old-path': '/api/new-path', // rewrite path
-      //  '^/api/remove/path': '/path', // remove base path
-    },
-    router: {
-      // when request.headers.host == 'dev.localhost:3000',
-      // override target 'http://www.example.org' to 'http://localhost:8000'
-      //  'dev.localhost:3000': 'http://localhost:8000',
-    },
-  })
-);
+// app.use(
+//   "/content/",
+//   createProxyMiddleware({
+//     logLevel: "info",
+//     onProxyRes: (proxyRes, req, res) => {
+//       console.log("PROXY RES", proxyRes);
+//     },
+//     onProxyReq: (proxyRes, req, res) => {
+//       console.log("PROXY REQ", proxyRes);
+//     },
+//     target: "https://cdn.glitch.com/", // target host
+//     changeOrigin: true, // needed for virtual hosted sites
+//     ws: true, // proxy iockets
+//     pathRewrite: {
+//       //  '^/api/old-path': '/api/new-path', // rewrite path
+//       //  '^/api/remove/path': '/path', // remove base path
+//     },
+//     router: {
+//       // when request.headers.host == 'dev.localhost:3000',
+//       // override target 'http://www.example.org' to 'http://localhost:8000'
+//       //  'dev.localhost:3000': 'http://localhost:8000',
+//     },
+//   })
+// );
+
+
+
+
+
+app.get("/content/:filename", (req, res) => {
+  const s3Url = `${urlAWS}${  req.params.filename }`;
+  res.redirect(s3Url);
+});
+
+
+app.get("/assets/:filename", (req, res) => res.redirect(`${urlGCP}assets/${req.params.filename}`) );
+
+
+
 
 // http://localhost:3000/api/foo/bar -> http://www.example.org/api/foo/bar
 const XL = { limit: "50mb", extended: true };
