@@ -1,20 +1,28 @@
 import app from "./app.js";
 import url from "./url.js";
 
-const version = 56335;
+const version = 5634;
 const idCache = "v" + version;
 
 const coreFiles = [
   "/favicon.ico",
-  "https://cdn.glitch.com/eb91c95e-0ab7-4dca-bea8-9d13e48bdbde%2Ficon-256x256.png?v=1600674220690",
-//  "https://cdn.glitch.com/eb91c95e-0ab7-4dca-bea8-9d13e48bdbde%2Ficon-192x192.png?v=1600674220629",   
-  "https://cdn.glitch.com/eb91c95e-0ab7-4dca-bea8-9d13e48bdbde%2Fvideo.mp4?v=1597966654897",
-  "https://cdn.glitch.com/eb91c95e-0ab7-4dca-bea8-9d13e48bdbde%2Fbell.ogg?v=1596142355686",
-  "https://cdn.glitch.com/82396493-cf04-4e83-9abb-cf8ed0317c6d%2Fbellflat.ogg?v=1602666868937",
-  "https://cdn.glitch.com/eb91c95e-0ab7-4dca-bea8-9d13e48bdbde%2Fspider.png?v=1598354432023",
-  "https://cdn.glitch.com/eb91c95e-0ab7-4dca-bea8-9d13e48bdbde%2Fspidershadow.png?v=1598354776236",
-  "https://cdn.glitch.com/eb91c95e-0ab7-4dca-bea8-9d13e48bdbde%2Fxdotred.png?v=1597379072995",
-  "https://cdn.glitch.com/eb91c95e-0ab7-4dca-bea8-9d13e48bdbde%2Fxdothadow.png?v=1597379276815",
+  "/assets/icon-256x256.png",
+  "/assets/icon-192x192.png",   
+  "/assets/weavetile.png", 
+  "/assets/video.mp4",
+  "/assets/bell.ogg",
+  "/assets/bellflat.ogg",
+  "/assets/spider.png",
+  "/assets/spidershadow.png",
+  "/assets/xdotred.png",
+  "/assets/xdothadow.png",
+  // used only during installation , but maybe they will try to install while offline
+  "/assets/icon-384x384.png",
+  "/assets/icon-512x512.png", 
+  "/assets/maskable_icon_x384.png",
+  "/assets/maskable_icon_x512.png",
+  "/assets/GeotourScreenShot.PNG",
+  
   "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js",
   "https://unpkg.com/leaflet@1.6.0/dist/leaflet.css",
   "https://fonts.googleapis.com/css2?family=Cherry+Swash&family=Share+Tech+Mono&display=swap",
@@ -30,13 +38,13 @@ const coreFiles = [
   url.content.load + "music/outro.mp3",
   url.content.load + "story/outro.mp3",
   url.content.load + "guide/outro.mp3",
-  url.map.car,         //  "https://cdn.glitch.com/eb91c95e-0ab7-4dca-bea8-9d13e48bdbde%2Ficon-192x192.png?v=1600674220629",
-  url.map.guibg,       //  "https://cdn.glitch.com/82396493-cf04-4e83-9abb-cf8ed0317c6d%2Fsubtletexture1.jpg?v=1610206007889",
+  url.map.car,         //  "/assets/icon-192x192.png",
+  url.map.guibg,       //  "/assets/subtletexture1.jpg",
   url.map.pinshadow,   // "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
   ];
 
 const ig = (url) =>
-  ["/add", "/getSession", "/mark","weave","/qos"].reduce(
+  ["/add", "/getSession", "/mark","/weave","/qos"].reduce(
     (found, key) => found || String(url).includes(key),
     false
   );
@@ -203,7 +211,7 @@ const metaResponse = (req) => {
         arrayofarrays //save to server and pass through the server response to the app
       ) =>
         fetch(
-          `https://geotour.glitch.me/cache/upload/${new Date()
+          `/cache/upload/${new Date()
             .toISOString()
             .replaceAll(":", "-")
             .replaceAll(".", "_")
@@ -257,11 +265,7 @@ self.addEventListener("fetch", (event) => {
                 //   createUrlTileArr(latArr, lngArr, urlTileArr, 16);
                 //const { mediaArr, latArr, lngArr } = findMedia(tour); //destructure
 
-                let mediaUrls = mediaArr.map(
-                  (element) =>
-                    "https://geo-tour.s3-us-west-2.amazonaws.com/cherokee/" +
-                    element
-                );
+                let mediaUrls = mediaArr.map( element =>"/content/cherokee/" + element);
                 console.log(mediaArr);
                 console.log(mediaUrls);
 

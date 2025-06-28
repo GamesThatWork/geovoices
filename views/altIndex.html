@@ -12,10 +12,10 @@
             <meta name="viewport" content="width=device-width, initial-scale=1">
       
         <!-- ios support  -->
-            <link rel="apple-touch-icon" href="https://cdn.glitch.com/eb91c95e-0ab7-4dca-bea8-9d13e48bdbde%2Ficon-192x192.png?v=1600674220629">
-            <link rel="apple-touch-icon" href="https://cdn.glitch.com/eb91c95e-0ab7-4dca-bea8-9d13e48bdbde%2Ficon-256x256.png?v=1600674220690">
-            <link rel="apple-touch-icon" href="https://cdn.glitch.com/eb91c95e-0ab7-4dca-bea8-9d13e48bdbde%2Ficon-384x384.png?v=1600674221470">
-            <link rel="apple-touch-icon" href="https://cdn.glitch.com/eb91c95e-0ab7-4dca-bea8-9d13e48bdbde%2Ficon-512x512.png?v=1600674221265">
+            <link rel="apple-touch-icon" href="/assets/icon-192x192.png">
+            <link rel="apple-touch-icon" href="/assets/icon-256x256.png">
+            <link rel="apple-touch-icon" href="/assets/icon-384x384.png">
+            <link rel="apple-touch-icon" href="/assets/icon-512x512.png">
     </head>
     <body>
     
@@ -50,9 +50,9 @@ Tour, Pin, Zone
   
 const url = {   local:  { car:"car.png", guibg:"./subtletexture1.jpg", bell:"" },
                 online: { bell:"",
-                          car://"https://cdn.glitch.com/82396493-cf04-4e83-9abb-cf8ed0317c6d%2Fcar.png?v=1610361026290",
-                         "https://cdn.glitch.com/eb91c95e-0ab7-4dca-bea8-9d13e48bdbde%2Ficon-192x192.png?v=1600674220629",
-                         guibg:"https://cdn.glitch.com/82396493-cf04-4e83-9abb-cf8ed0317c6d%2Fsubtletexture1.jpg?v=1610206007889" },
+                          car://"/assets/car.png",
+                         "/assets/icon-192x192.png",
+                         guibg:"/assets/subtletexture1.jpg" },
                 active:  null
             };
 
@@ -541,7 +541,7 @@ const newTour =  context=> {
             p.open();
             },
         upload: ()=>
-            fetch(`https://geotour.glitch.me/tour/upload/${self.name}`, { method:'post', body:JSON.stringify(dna) })
+            fetch(`/tour/upload/${self.name}`, { method:'post', body:JSON.stringify(dna) })
                 .then( response => response.text() )
                 .then(      msg => alert(msg)),
         }
@@ -1361,7 +1361,7 @@ window.onload= ()=>{
         .addTo( mapbase );
     
   
-    fetch('https://geotour.glitch.me/tours')
+    fetch('/tours')
         .then(  response =>  response.json()               )// get remote file list
         .then(  files    =>  document.querySelector("#editor").innerHTML= 
               `<div> 
@@ -1375,7 +1375,7 @@ window.onload= ()=>{
             document.querySelector("select").addEventListener( "change", e=> {
                   if(e.target.value =="RESUME" ) 
                     tour = newTour( {  json:localStorage.getItem("tour")  } ); 
-                  else fetch(`https://geotour.glitch.me/tour/${
+                  else fetch(`/tour/${
                       e.target.value 
                     }`)
                    .then(  response =>  response.text()             )    // get remote file
@@ -1467,7 +1467,7 @@ window.onload= ()=>{
             min-width: 45vw;
             padding: 12px;
             display:flow-root;
-            background-image: url("https://cdn.glitch.com/82396493-cf04-4e83-9abb-cf8ed0317c6d%2Fsubtletexture1.jpg");
+            background-image: url("/assets/subtletexture1.jpg");
             box-shadow: 2px 2px 12px #000000;
             background-color: #C0E0FF;
             border: thin solid gold;

@@ -13,27 +13,26 @@
     "@google-cloud/firestore": "^7.11.1",
     "body-parser": "^1.20.0",
     "express": "^4.17.1",
-    "express-fileupload": "^1.4.0",
-    "fs": "^0.0.2",
-    "http-proxy-middleware": "^1.0.5",
-    "sqlite3": "^5.1.7"
+    "express-fileupload": "^1.4.0"
   },
   "engines": {
     "node": ">=20"
   },
-  "repository": {
-    "url": "https://github.com/DovJacobson/geotour.git",
-    "type": "git"
-    },
+"repository": {
+  "url": "https://github.com/GamesThatWork/geovoices.git",
+  "type": "git"
+},
+  "keywords": [
+      "node",
+      "express",
+      "geotour",
+      "audio-tour",
+      "gps",
+      "cherokee"
+    ],   
   "author": "Dov Jacobson",
   "contributors": [
     "Dov Jacobson <https://github.com/DovJacobson>"
   ],
- 
-  "license": "MIT",
-  "keywords": [
-    "node",
-    "glitch",
-    "express"
-  ]
+   "license": "MIT"
 }

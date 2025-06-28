@@ -512,7 +512,7 @@ newWeave( { collection } )
                 weave.show(  active );
                 },
             save: ()=>
-                fetch( `https://geotour.glitch.me/weave/${ localStorage.getItem('artist')}_${dateCode(true)}`, 
+                fetch( `/weave/${ localStorage.getItem('artist')}_${dateCode(true)}`, 
                         { method:'post', body:JSON.stringify(
                             { collection, 
                               artist: new URL(window.location.href).searchParams.get("artist") ?? "unknown"
@@ -523,10 +523,10 @@ newWeave( { collection } )
                     .then( delay2s )
                     .then( ungui   ),   
             load: ()=>
-                fetch( `https://geotour.glitch.me/weaves/` )
+                fetch( `/weaves` )
                     .then(  response =>  response.json()               )// get remote file list
                     .then(  edit.choose )
-                    .then(  file=>fetch( `https://geotour.glitch.me/weave/${file}`) )
+                    .then(  file=>fetch( `/weave/${file}`) )
                     .then(  response => response.json() )
                     .then(  data=> Object.assign( collection, data.collection) )
                     .then(  standardize )

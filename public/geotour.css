@@ -87,7 +87,7 @@ button.drive {font-size: 1.3vmin; height:5vh; width:8vw; border-radius: 12px; ma
     background-color: rgba(184, 135, 11, 0.776);
 }
 .weave {
-    background-image: url(https://cdn.glitch.global/82396493-cf04-4e83-9abb-cf8ed0317c6d/weavetile.png?v=1662281517245);
+    background-image: url(/assets/weavetile.png);
     }
 
 
@@ -117,7 +117,7 @@ button.drive {font-size: 1.3vmin; height:5vh; width:8vw; border-radius: 12px; ma
  #captionlayer > div >div {
     background-color: rgba(252, 239, 206, 0.562);
     
-    /* background-image: url(https://cdn.glitch.global/82396493-cf04-4e83-9abb-cf8ed0317c6d/weavetile.png?v=1662281517245); */
+    /* background-image: url(/assets/weavetile.png); */
     box-shadow: 9px 7px 24px #4e0303;
     border: 7px ridge var(--border-color);
     border-radius: 5vmin;
@@ -156,7 +156,7 @@ button.drive {font-size: 1.3vmin; height:5vh; width:8vw; border-radius: 12px; ma
     }
 
 #textlayer>div{
-    background-image: url(https://cdn.glitch.global/82396493-cf04-4e83-9abb-cf8ed0317c6d/weavetile.png?v=1662281517245);
+    background-image: url(/assets/weavetile.png);
     background-color: #FE8;
     /* box-shadow: 9px 7px 24px #4e0303; */
     /* border: 7px ridge var(--border-color); */
@@ -290,7 +290,7 @@ button.drive {font-size: 1.3vmin; height:5vh; width:8vw; border-radius: 12px; ma
     
 #splash.cherokee {
 
-    background-image: url(https://cdn.glitch.global/82396493-cf04-4e83-9abb-cf8ed0317c6d/weavetile.png?v=1662281517245);
+    background-image: url(/assets/weavetile.png);
     background-size: 30vh;
     font-weight: 800;
     font-family: "Cherry Swash", serif;

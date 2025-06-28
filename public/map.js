@@ -3,8 +3,8 @@ var map = L.map('mapid').setView([35.5011179,-83.2966019], 12);
 
 
 const redDot = L.icon({
-    iconUrl: 'https://cdn.glitch.com/eb91c95e-0ab7-4dca-bea8-9d13e48bdbde%2Fxdotred.png?v=1597379072995',
-    shadowUrl: 'https://cdn.glitch.com/eb91c95e-0ab7-4dca-bea8-9d13e48bdbde%2Fxdothadow.png?v=1597379276815',
+    iconUrl: '/assets/xdotred.png',
+    shadowUrl: '/assets/xdothadow.png',
 
     iconSize:     [12, 12], // size of the icon
     shadowSize:   [0, 0], // size of the shadow
@@ -15,9 +15,9 @@ const redDot = L.icon({
 
 const greyDot = L.icon({
     iconUrl: 
-      'https://cdn.glitch.com/eb91c95e-0ab7-4dca-bea8-9d13e48bdbde%2Fxdothadow.png?v=1597379276815',
+      '/assets/xdothadow.png',
   shadowUrl: 
-      'https://cdn.glitch.com/eb91c95e-0ab7-4dca-bea8-9d13e48bdbde%2Fxdotred.png?v=1597379072995',
+      '/assets/xdotred.png',
     iconSize:     [8, 8], // size of the icon
     shadowSize:   [0, 0], // size of the shadow
     iconAnchor:   [6, 6], // point of the icon which will correspond to marker's location

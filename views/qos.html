@@ -36,8 +36,8 @@
 <script>
 const url = {   local:  { car:"car.png", guibg:"./subtletexture1.jpg", bell:"" },
                 online: { bell:"",
-                          car:"https://cdn.glitch.com/82396493-cf04-4e83-9abb-cf8ed0317c6d%2Fcar.png?v=1610361026290",
-                          guibg:"https://cdn.glitch.com/82396493-cf04-4e83-9abb-cf8ed0317c6d%2Fsubtletexture1.jpg?v=1610206007889" },
+                          car:"/assets/car.png",
+                          guibg:"/assets/subtletexture1.jpg" },
                 active:  null
             };
 
@@ -504,7 +504,7 @@ const newTour =  context=> {
             p.open();
             },
         upload: ()=>
-            fetch(`https://geotour.glitch.me/tour/upload/${self.name}`, { method:'post', body:JSON.stringify(dna) })
+            fetch(`/tour/upload/${self.name}`, { method:'post', body:JSON.stringify(dna) })
                 .then( response => response.text() )
                 .then(      msg => alert(msg)),
         }
@@ -1237,7 +1237,7 @@ window.onload= ()=>{
         .addTo( mapbase );
     
   
-    fetch('https://geotour.glitch.me/tours')
+    fetch('/tours')
         .then(  response =>  response.json()               )// get remote file list
         .then(  files    =>  document.querySelector("#editor").innerHTML= 
               ` <span     class=      "label" >TOUR</span>
@@ -1245,7 +1245,7 @@ window.onload= ()=>{
                 </div>` )
         .then( ()=>
             document.querySelector("select").addEventListener( "change", e=>
-                  fetch(`https://geotour.glitch.me/tour/${e.target.value}`)
+                  fetch(`/tour/${e.target.value}`)
                       .then(  response =>  response.text()               )  // get remote file
                       .catch( ()       =>  localStorage.getItem('tour' ) )// or local storage
      .then(  json     =>  tour = newTour( {json})   )   ));
@@ -1378,7 +1378,7 @@ const instrument = {
 
   },
  
-  save: ()=> fetch(`https://geotour.glitch.me/qos/upload/${ new Date().toISOString().replaceAll(':','-').replaceAll('.','_').replaceAll('T','__')}`, 
+  save: ()=> fetch(`/qos/upload/${ new Date().toISOString().replaceAll(':','-').replaceAll('.','_').replaceAll('T','__')}`, 
                    { method:'post', body:JSON.stringify(  instrument.storage  ) })
                 .then( response => response.text() )
                 .then(      msg => alert(msg)),
@@ -1458,7 +1458,7 @@ document.querySelector("button#reset" ).addEventListener("click", e=> window.ope
             right:5px;
             width:80%;
             display:flow-root;
-            background-image: url("https://cdn.glitch.com/82396493-cf04-4e83-9abb-cf8ed0317c6d%2Fsubtletexture1.jpg");
+            background-image: url("/assets/subtletexture1.jpg");
             box-shadow: 2px 2px 12px #000000;
             background-color: #C0E0FF;
             border: thin solid gold;

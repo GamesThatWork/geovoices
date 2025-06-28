@@ -21,7 +21,7 @@ import { l2m }  from './util.js';
 
   window.onload= ()=>
   
-      fetch('https://geotour.glitch.me/tours')
+      fetch('/tours')
           .then(  response =>  response.json()               )// get remote file list
           .then(  files    =>  document.querySelector("#chooser").innerHTML= 
                 `<div> 
@@ -32,13 +32,13 @@ import { l2m }  from './util.js';
                   </div>` )
           .then( ()=>             
               document.querySelector("select").addEventListener( "change", e=> 
-                  fetch(`https://geotour.glitch.me/tour/${e.target.value  }`)
+                  fetch(`/tour/${e.target.value  }`)
                       .then(  response =>  response.text()             )    // get remote file
                       .catch(  console.error   )  // or local storage 
                       .then(  updatetour  ) 
                       .catch(  msg => document.querySelector("#log").innerHTML+=`<P><u> ${msg} </u></P>`)
                       .then(  j=> {console.log( JSON.parse(j)); return j;} ) 
-                      .then(  body=> fetch(`https://geotour.glitch.me/v0.5/tour/upload/${e.target.value }`, { method:'post', body }))
+                      .then(  body=> fetch(`/tour/upload/${e.target.value }`, { method:'post', body }))
                       .then(  response => response.text() )
                       .then(  msg => document.querySelector("#log").innerHTML+=`<P> ${msg} </P>`)
                    //   .then(  ()  => e.target.hidden=true )

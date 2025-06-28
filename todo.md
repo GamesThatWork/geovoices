@@ -103,7 +103,13 @@ REHOST ON --- FIREBASE?
 
 
 
+your human engineers have decided to render "/assets/" as a slightly outlined box enclosing a filefolder emoji followed by the text string "assets".  
 
+1: this is absolutely identical to the rendering for "/assets" and a very important distinction is lost even for the very observant user. 
+
+2: In any case your rendering of a literal string to be used in search-and-replace ought to forgo any of this tricky rendering and be printed clearly and unmodified.
+
+Can you pass this feedback on to your engineers?
 
 
 

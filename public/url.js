@@ -1,8 +1,12 @@
-const AWSBUCKET= "geo-tour",
-root =     "https://geotour.glitch.me/",
-website =  "https://www.geovoices.org",
-assets=    `https://${AWSBUCKET}.s3-us-west-2.amazonaws.com/`
-      ;
+const 
+    root =     "/",      // "https://geotour.glitch.me/",
+    website =  "https://www.geovoices.org";  // used when relative paths will not work, eg: qr code or link passed in email
+
+  // this routing should be entirely transparent and managed by the server alone
+    // AWSBUCKET= "geo-tour",
+    // GCPBUCKET= "geo-voices";
+    // assets   = `https://${AWSBUCKET}.s3-us-west-2.amazonaws.com/`
+    // assets   = `https://storage.googleapis.com/${GCPBUCKET}/`;
 
 
 export default 
@@ -23,10 +27,10 @@ export default
         },
     content: {
         list:        `${root}contents/`,
-        load:        `${assets}cherokee/`,
+        load:        `/content/cherokee/`,
         save:        `${root}upload/`,
         edit:        ``,
-        silence:     `${assets}silence.ogg`,
+        silence:     `/assets/silence.ogg`,
         weave:       `${root}weave/Cherokee`,   
         },
     json:            "https://jsoneditoronline.org/#left=url.",
@@ -35,9 +39,8 @@ export default
         attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>contributors`,
         bell:        ``,
         pins:        `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/`,
-        car:         //"https://cdn.glitch.com/82396493-cf04-4e83-9abb-cf8ed0317c6d%2Fcar.png?v=1610361026290",
-                     "https://cdn.glitch.com/eb91c95e-0ab7-4dca-bea8-9d13e48bdbde%2Ficon-192x192.png?v=1600674220629",
-        guibg:       "https://cdn.glitch.com/82396493-cf04-4e83-9abb-cf8ed0317c6d%2Fsubtletexture1.jpg?v=1610206007889",
+        car:         "/assets/icon-192x192.png", //"/assets/car.png",
+        guibg:       "/assets/subtletexture1.jpg",
         pinshadow:   "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
         }    
     }
