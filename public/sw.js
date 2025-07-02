@@ -1,7 +1,7 @@
 import app from "./app.js";
 import url from "./url.js";
 
-const version = 5637;
+const version = 53337;
 const idCache = "v" + version;
 
 const coreFiles = [
