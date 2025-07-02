@@ -2,7 +2,7 @@
       
 export default  { 
   
-    version: 3.18, 
+    version: 4.00, 
     userID: null,
     map:    null,
     tour:   null,
