@@ -7,7 +7,6 @@ import path from "path";
 import fs from "fs";
 import bodyParser from "body-parser";
 import { createProxyMiddleware } from "http-proxy-middleware";
-import sqlite3 from "sqlite3";
 import fileUpload from "express-fileupload";
 import { Firestore } from '@google-cloud/firestore';
 
@@ -181,42 +180,16 @@ app.post("/content", (request, response) => {
     .catch((err) => response.send(err.stack));
 });
 
-// app.use(
-//   "/content/",
-//   createProxyMiddleware({
-//     logLevel: "info",
-//     onProxyRes: (proxyRes, req, res) => {
-//       console.log("PROXY RES", proxyRes);
-//     },
-//     onProxyReq: (proxyRes, req, res) => {
-//       console.log("PROXY REQ", proxyRes);
-//     },
-//     target: "https://cdn.glitch.com/", // target host
-//     changeOrigin: true, // needed for virtual hosted sites
-//     ws: true, // proxy iockets
-//     pathRewrite: {
-//       //  '^/api/old-path': '/api/new-path', // rewrite path
-//       //  '^/api/remove/path': '/path', // remove base path
-//     },
-//     router: {
-//       // when request.headers.host == 'dev.localhost:3000',
-//       // override target 'http://www.example.org' to 'http://localhost:8000'
-//       //  'dev.localhost:3000': 'http://localhost:8000',
-//     },
-//   })
-// );
 
 
-
-
-
-app.get("/content/:filename", (req, res) => {
-  const s3Url = `${urlAWS}${  req.params.filename }`;
+app.get("/content/:filePath(*)", (req, res) => {
+  const s3Url = `${urlAWS}${  req.params.filePath.replaceAll('$', '/')}`;
+  console.log("Redirecting to S3:  ", s3Url);
   res.redirect(s3Url);
 });
 
 
-app.get("/assets/:filename", (req, res) => res.redirect(`${urlGCP}assets/${req.params.filename}`) );
+app.get("/assets/:filePath(*)", (req, res) => res.redirect(`${urlGCP}assets/${req.params.filePath}`) );
 
 
 
@@ -241,109 +214,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-// init sqlite db
-const dbFile = "./geotour.db";
-const exists = fs.existsSync(dbFile);
-const db = new sqlite3.Database(dbFile);
-
-const TEXT    = "TEXT",
-      REAL    = "REAL",
-      INTEGER = "INTEGER";
-
-  
-const model = {
-  Session: { 
-    name:         TEXT,
-    userAgent:    TEXT, 
-    device:       TEXT, 
-    timestamp:    INTEGER 
-   },
-  Fix: {
-    session:      INTEGER,
-    id:           INTEGER,
-    lat:          REAL,
-    long:         REAL,
-    fixTime:      INTEGER,
-    dbTime:       INTEGER,
-   "PRIMARY KEY": "(session, id)"
-    },
-  Pin: {
-    id:           INTEGER,
-    time:         INTEGER,
-    session:      INTEGER, 
-    fix:          INTEGER, 
-    lat:          REAL,
-    long:         REAL,
-    name:         TEXT,
-    note:         TEXT, 
-    tags:         TEXT, 
-    worth:        REAL,
-    active:       INTEGER, 
-    trigger:      INTEGER, 
-    station:      INTEGER, 
-    direction:    INTEGER,
-   "PRIMARY KEY": "(id)",
-  },
-  Qos: {
-    id:           INTEGER, 
-    session:      INTEGER,
-    lat:          REAL,
-    long:         REAL, 
-    accuracy:     REAL, 
-    fixTime:      INTEGER,
-    responseTime: INTEGER,
-    error:        INTEGER,
-    message:      TEXT,
-   "PRIMARY KEY": "(id)",
-    },
-  Usage: {
-    user:         INTEGER,
-    timestamp:    INTEGER,
-    tourname:     TEXT, 
-    version:      REAL,  
-    pin:          TEXT, 
-    zone:         INTEGER
-    },
-  Feedback: {
-    user:         INTEGER,
-    timestamp:    INTEGER,
-    tourname:     TEXT,
-    version:      REAL,
-    stars:        INTEGER,
-    comments:     TEXT,
-    issues:       TEXT,
-    name:         TEXT,
-    email:        TEXT,
-    device:       TEXT,
-    follow:       TEXT
-  },
-};  
-   
-
-
-
-// const table = {
-//   Session: " name TEXT, userAgent TEXT, device TEXT, timestamp INTEGER ",
-//   Fix: "session INTEGER, id INTEGER, lat DOUBLE, long DOUBLE, fixTime UNSIGNED BIG INT, dbTime UNSIGNED BIG INT,   PRIMARY KEY (session, id)",
-//   Pin: `id INTEGER PRIMARY KEY,  time UNSIGNED BIG INT,
-//         session INTEGER, fix INTEGER, lat DOUBLE, long DOUBLE, 
-//         name TEXT, note TEXT, tags TEXT, worth FLOAT,
-//         active INTEGER, trigger INTEGER, station INTEGER, direction INTEGER
-//         `,
-//   Qos: "id INTEGER PRIMARY KEY, session INTEGER, lat DOUBLE, long DOUBLE, accuracy DOUBLE, fixTime UNSIGNED BIG INT, responseTime UNSIGNED BIG INT, error INTEGER, message TEXT",
-// };
-
-db.serialize(  () => {
-    Object.keys( model ).forEach( table => {
-      let cmd= `CREATE TABLE IF NOT EXISTS 
-                  ${table} (
-                    ${ Object.keys(model[table]).map( k=>
-                        `${k}  ${model[table][k]}`
-                                  ).join(",\n") }
-                                  )`; 
-      db.run( cmd, err=>console.error( err??"Succeess: ", err? cmd :  `New Table "${table}" created!` ) );
-      });
-});
+// Firestore is already initialized above
 
 //app.get("/",        (request, response) =>   response.sendFile(`${__dirname}/views/index.html`));
 app.get("/", (request, response) =>{
@@ -373,6 +244,25 @@ app.get("/health", (req, res) => {
     timestamp: Date.now(),
     uptime: process.uptime()
   });
+});
+
+// Test Firestore connectivity
+app.get("/test-firestore", async (req, res) => {
+  try {
+    // Simple test - try to list collections
+    const collections = await firestore.listCollections();
+    res.json({
+      status: "Firestore connected successfully",
+      collections: collections.map(c => c.id),
+      timestamp: Date.now()
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "Firestore connection failed",
+      error: error.message,
+      timestamp: Date.now()
+    });
+  }
 });
 //   let html=  ((domain=="glitch")   || (sub=="www"))? 
 //           `${__dirname}/views/landingpage.html`
@@ -457,7 +347,7 @@ app.post("/v0.5/tour/upload/:tourname", (request, response) =>
 
 
 //const firestore = new Firestore();
-
+   
 const firestore = process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON 
   ? new Firestore({ 
       credentials: JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON),
@@ -484,17 +374,17 @@ app.get("/tours", (request, response) =>
      firestore.collection("tours").listDocuments()
       .then(  snapshot =>  
                     response.json( snapshot.map(doc =>doc.id)))
-      .catch( err=> response.status(500).send("Error listing tours: " + err.message))
+      .catch( err=> response.status(500).send("Error listing tours: " + err.message))        
     ); 
-
+  
 app.get("/tour/:tourname", (request, response) =>
    firestore.collection("tours").listDocuments()
-      .then(  snapshot =>{
+      .then(  snapshot =>{ 
         const 
           ids = snapshot.map(doc => doc.id),
           target = request.params.tourname.toLowerCase(),
           id = ids.find( id => id.toLowerCase() == target);
-
+          console.log("Looking for tour:", target, "Found:", id);
           firestore.collection("tours").doc( id ).get()
           .then(  doc => 
                   doc.exists?   response.json( doc.data() ) 
@@ -503,6 +393,9 @@ app.get("/tour/:tourname", (request, response) =>
           .catch( err=>response.status(500).send("Error loading tour: " + err.message))
          })
   );
+
+
+
 
 
 app.post("/tour/:tourname", (request, response) =>
@@ -549,7 +442,7 @@ app.post("/weave/:name", (request, response) =>{
 
 
 app.post(["/feedback", "/feedback/upload"], (request, response) =>
-  firestore.collection("feedback").add(data)
+  firestore.collection("feedback").add(request.body)
     .then(() => response.send(`
       <h3>Feedback received</h3>
       <h2>Thank you!</h2>
@@ -601,18 +494,18 @@ app.get("/null", (request, response) => {
 
 // endpoint to get a session ID assisigment
 app.post("/getSession", (request, response) => {
-  console.log("/getSession");
-  let sql = `INSERT INTO Session VALUES (
-          "${request.body.name || "unnamed"}",
-          "${request.get("User-Agent") || "agent unknown"}",
-          "${request.body.device || "device unknown"}",          
-          ${Date.now()} 
-        )`;
-  console.log(sql);
-  db.run(sql, {}, function (err) {
-    console.log(err, this.lastID);
-    response.send(JSON.stringify({ session: this.lastID }));
-  });
+
+  console.log("/getSession (redirecting to Firestore)");
+  const sessionData = {
+    name: request.body.name || "unnamed",
+    userAgent: request.get("User-Agent") || "agent unknown", 
+    device: request.body.device || "device unknown",
+    timestamp: Date.now()
+  };
+  
+  firestore.collection("sessions").add(sessionData)
+    .then((docRef) => response.json({ session: docRef.id }))
+    .catch((err) => response.status(500).send(`Session creation error: ${err.message}`))
 });
 
 const trackgJ = {
@@ -759,166 +652,44 @@ function clean(s) {
      
 
 
-
-app.post("/add/:datatype", (request, response) => {
-
-  const table = request.params.datatype;
-  
-  /*if      (!process.env.DISALLOW_WRITE) response.status(500).send('{"status":"Disallowed write"}').end();
-  
-  else */if (!model[table] )              response.status(500).send(`{"status":"${table} is not a known datatype"}`).end();
-
-  else {
+// Analytics tracking (user behavior and tour interactions)
+app.post("/analytics", (request, response) => {
+  try {
+    // Client sends an array of analytics data, but Firestore.add() needs individual objects
+    const dataArray = Array.isArray(request.body) ? request.body : [request.body];
     
-    const body =( "string"==typeof request.body)? JSON.parse(request.body) : request.body;
-    const vals = Array.isArray( body )? body : [ body ];
-    console.log( vals );
-    const sql = `INSERT OR REPLACE INTO ${table} 
-                             ( ${Object.keys(model[table]).join()} )
-                      VALUES
-                 ${vals.map( v=>
-                            `( ${Object.keys(model[table]).map( k=> `"${clean(v[k])}"` ?? "null").join()})`
-                               ).join() }`;
-    console.log(sql);
-    db.run(sql, error=> {
-        console.log(error, "B");
-        let thx= "Feedback" == table;
- 
+    // Add each analytics item separately to Firestore
+    const promises = dataArray.map(item => 
+      firestore.collection("analytics").add(item)
+    );
+    
+    Promise.all(promises)
+      .then(() => response.json({ 
+        status: "Analytics data stored", 
+        count: dataArray.length,
+        timestamp: Date.now() 
+      }))
+      .catch((err) => response.status(500).send(`Analytics storage error: ${err.message}`));
       
-      if( thx ) console.log(fs.readFileSync(`${__dirname}/views/thanks.html`,'binary') )
-      
-      
-      
-        if (!error)
-          if( thx )  response
-                .status(200)
-//                .setHeader('Content-Type',       'text/html':'application/json')
-//                .setHeader('Content-Disposition',thx? 'inline'   :'')
-                .sendFile( `${__dirname}/views/thanks.html` )
-        //        .end()
-                ;
-          else       response
-            .status(200)
-            // .setHeader('Content-Type',       thx? 'text/html':'application/json')
-            // .setHeader('Content-Disposition',thx? 'inline'   :'')
-                .send( JSON.stringify({
-                   error: 0,
-                   status: `${table} ${vals.length} rows  starting at #${vals[0].id ?? "unnumbered"} stored`,
-                   stored: {
-                          id:     vals[0].id ?? "implicit",
-                          rows:   vals.length, 
-                          table,
-                        },
-                      })
-                   )
-//            .end()
-            ;
-        else {
-          console.log(error.toString());
-          response.status(500).send(error.toString()).end();
-        }
-    });
+  } catch (err) {
+    response.status(500).send(`Analytics processing error: ${err.message}`);
   }
 });
 
 
 
+// if it is  not another route -- it might be a tour name
+
+//app.get("/:tourname", (request,response) => response.redirect(`/tour/${request.params.tourname}`));
+app.get("/:tourname", (request,response) => response.sendFile(`${__dirname}/views/geotour.html`));
 
 
+   
 
 
-
-
-app.post("/add", (request, response) => {
-  // console.log(request.body);
-
-  if (!process.env.DISALLOW_WRITE)
-    response.status(500).send('{"status":"Disallowed write"}').end();
-  else {
-    const r = request.body;
-    r.note = clean(r.note); // needed for pin - harmless for fix
-    r.worth = clean(r.worth);
-    r.worth = clean(r.name);
-    const type  = r.stars? "FEEDBACK" : (r.pin? "PIN": (r.responseTime? "QOS": "FIX"));
-    const table = { FEEDBACK:"Feedback" }[type];
-    const s     = str=> `"${str == "null" ? "" : str}"`;
-    let sql;
-
-    if (table)
-      sql = `INSERT OR REPLACE INTO ${table}
-                ( ${Object.keys(model[table]).join()} ),
-         VALUES ( ${Object.keys(model[table]).map( k=> r[k] ?? "null").join()} ) `;
-
-    if (type == "FIX")
-      sql = `INSERT OR REPLACE INTO Fix
-                (    session,          id,      lat,      long,   fixTime,   dbTime        )
-         VALUES (${r.session || 0},  ${r.id}, ${r.lat}, ${r.long}, ${
-        r.time
-      },  ${Date.now()} ) `;
-
-    if (type == "PIN")
-      sql = `INSERT OR REPLACE INTO Pin
-          (${
-            r.id ? "id," : ""
-          }     time,     session,     fix,     lat,     long,      name,         note,        tags,      worth,     active,     trigger,     station,     direction)
-   VALUES (${r.id ? `${r.id},` : ""} ${r.time},${r.session},${r.fix},${r.lat},${
-        r.long
-      },${s(r.name)},${s(r.note)},${s(r.tags)},${r.worth},${r.active},${
-        r.trigger
-      },${r.station},${r.direction})`;
-
-    if (type == "QOS")
-      sql = `INSERT OR REPLACE INTO Fix
-                (    session,        lat,      long,     accuracy,     fixTime,     responseTime,     error,       message)
-         VALUES (${r.session || 0},${r.lat}, ${r.long},${r.accuracy},${
-        r.fixTime
-      },${r.responseTime},${r.error},${s(r.message)}`;
-    console.log(sql);
-    db.run(sql, (error) => {
-      console.log(error, "B");
-      if (!error)
-        response
-          .status(200)
-          .send(
-            JSON.stringify({
-              error: 0,
-              status: `${type} #${r.id ? r.id : this.lastID} stored`,
-              stored: {
-                id: r.hasOwnProperty("id") ? r.id : this.lastID,
-                type,
-              },
-            })
-          )
-          .end();
-      else {
-        console.log(error.toString());
-        response.status(500).send(error.toString()).end();
-      }
-    });
-  }
-});
-
-
-
-
-
-app.get("/:tourname", (request, response) => {
-  var tourname = request.params.tourname.toLowerCase();
-  tourname = /^[a-z0-9\-]+$/.test(tourname)  ? tourname : null; 
-  response.sendFile( tourname?  `${__dirname}/views/geotour.html` 
-                             :  `${__dirname}/views/landingpage.html` );
-  console.log(`Tour route accessed: ${tourname}`);
-});
   
-  
-
-
-
-
-
-
 // listen for requests :)
 
 const PORT = process.env.PORT || 3000;
 var listener = app.listen(PORT, '0.0.0.0',
-   () => console.log(`Server running on port ${listener.address().port}`));
+   () => console.log(`Server running on port ${listener.address().port}`));   

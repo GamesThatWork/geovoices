@@ -228,7 +228,7 @@ const stop       = ()=> navigation( "stop" );
 
 const content   = document.querySelector("#content");
 const nextpoint = document.querySelector("#nextpoint");
-
+let testpoint = 0;
 
 const action = {
     credits: e=> perform.text(`<ul id="credits">
@@ -252,11 +252,27 @@ const action = {
             // localStorage.removeItem("tour"); 
             // location.reload();
             // },
-    usage: ()=>{
-        app.tour.usage.add(  { zone:0, pin:0 });
-        app.tour.usage.add(  { zone:0, pin:1 });
-        app.tour.usage.add(  { zone:0, pin:2 });
-        app.tour.usage.upload()}, 
+    testanalytics: ()=>{
+        // Generate artificial analytics events for testing
+        const testEvents = [
+            { event: "test.launch",     zone: testpoint++ },
+            { pin:   "test.waypoint.1", zone: testpoint++ },
+            { pin:   "test.waypoint.2", zone: testpoint++ },
+            { event: "test.resume",     zone: testpoint++ },
+            { event: "test.completion", zone: testpoint++ }
+        ];
+        
+        console.log('Generating test analytics events...');
+        testEvents.forEach((event, index) => {
+            setTimeout(() => {
+                app.tour.analytics.memo(event);
+                console.log(`Test event ${index + 1}/${testEvents.length}:`, event);
+            }, index * 500);
+        });
+        
+        perform.speak("analytics test generated. Check console and network for details.")
+            .then(() => console.log('All test analytics events sent'));
+    },
     restart: ()=>app.tour.restart(),
     map:     ()=>content.hidden = nextpoint.hidden = !content.hidden, 
     restart: ()=>app.tour.restart(),
@@ -290,7 +306,7 @@ const menus = {
     // developer:   [ "Pause",`Map ${content.hidden?"Show":"Hide"}`,"Select Tour","Help","Lost","Credits","Feedback","Reset","TestDrive","Edit"],    
     fixed:       [ "Pause","Map ***","Help","Lost","Credits","Feedback","Test","Reset"                   ],    
     touring:     [ "Pause","Map ***","Select Tour","Help","Lost","Credits","Feedback","Test","Reset"                   ],    
-    developer:   [ "Pause","Map ***","Select Tour","Help","Lost","Credits","Feedback","Test","Reset","TestDrive","Edit"],    
+    developer:   [ "Pause","Map ***","Select Tour","Help","Lost","Credits","Feedback","Test","Reset","TestDrive","TestAnalytics","Edit"],    
     }
 
 

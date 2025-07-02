@@ -252,37 +252,70 @@ export default  context=> {
             self.children.forEach(  pin => 
                 pin.children.forEach( zone=> 
                     zone.trigger( probe ))),
-        usage:{
-            cache: [{ 
-                    user:       app.userID ?? 0,
-                    timestamp:  Date.now(),
-                    tourname:   dna?.id      ?? "",
-                    version:    dna?.version ?? 0,
-                    pin:        "app.launch",
-                    zone:       0                   
-                }],
-            memo: data=>{
-                self.usage.add( data );
-                self.usage.upload();
-                },
-            add:  data => self.usage.cache.push( Object.assign(
-                {   user:        app.userID,
-                    timestamp:   Date.now(),
-                    tourname:    dna.id,
-                    version:     dna.version,
-                    pin:         "",
-                    zone:        0
-                }, 
-                data)),
-            upload: (e)=>
-                self.usage.cache.length?
-                    fetch( url.usage.save, { method:'post', body:JSON.stringify(self.usage.cache) })
-                        .then(  response => response.text() )
-                        .then(  console.log )
-                        .then(  ()=> self.usage.cache.length=0 )
-                        .catch( console.error )
-                : null,
-            },
+
+                                        // Clean analytics system with batching and offline support
+                    analytics: (() => {
+
+                      let  flushTimer= null; // Timer for flushing analytics cache
+                      const 
+                        cache = [],  // Cache for storing analytics events
+                        MAX_CACHE      = 30,
+                        FLUSH_INTERVAL = 30*60*1000, // 30 minutes
+                      
+                        flush = () => {
+                            if (cache.length === 0) return Promise.resolve();
+                            const body = JSON.stringify( [...cache] );
+                            cache.length = 0; // Clear the cache
+                            
+                            return fetch('/analytics', {method: 'POST',headers: { 'Content-Type': 'application/json' }, body})
+                                    .then(response => console.log(`Analytics: flush events ${response.status}`))
+                                    .catch(error => {
+                                        cache.push(...JSON.parse(body));
+                                        console.error('Analytics flush failed, restored to cache:', error);
+                                    });
+                            },
+
+                        memo = data=> {
+                            cache.push(
+                                Object.assign(
+                                   {    user: app.userID,
+                                        timestamp: Date.now(),
+                                        tourname: dna.id,
+                                        version: dna.version
+                                    }, data));
+                            if (cache.length >= MAX_CACHE) flush();
+                            clearTimeout(flushTimer);
+                            flushTimer = setTimeout(flush, FLUSH_INTERVAL);
+                            }, 
+
+                        criticalEvents = ['error', 'unhandledrejection', 'beforeunload', 'pagehide'],// 'visibilitychange', 'pageshow', 'freeze', 'resume', 'webkitvisibilitychange', 'online', 'offline', 'focus', 'blur', 'resize', 'scroll'];
+
+                        // Event listener to capture critical events
+                      
+                        flushEvent = event => {
+                            event = event.type ?? String(event);
+                            if (criticalEvents.includes(event))  memo({ event });
+                            flush();
+                            };
+                        memo({ event: "app.initialize"});
+                        window.addEventListener("beforeunload",           flushEvent);
+                        window.addEventListener("unload",                 flushEvent);
+                        window.addEventListener("pagehide",               flushEvent);
+                        window.addEventListener("visibilitychange",       flushEvent);
+                        window.addEventListener("pageshow",               flushEvent);
+                        window.addEventListener("freeze",                 flushEvent);
+                        window.addEventListener("resume",                 flushEvent);
+                        window.addEventListener("webkitvisibilitychange", flushEvent);
+                        window.addEventListener("online",                 flushEvent);
+                        window.addEventListener("offline",                flushEvent);
+                        window.addEventListener("focus",                  flushEvent);
+                        window.addEventListener("blur",                   flushEvent);
+                        window.addEventListener("resize",                 flushEvent);
+                        window.addEventListener("scroll",                 flushEvent);                      
+                        navigator.connection?.addEventListener("change",  flushEvent);
+                        return { memo, flushEvent, flush };
+                    })(),
+
 
         next:               null,       
         nextPin:            null,

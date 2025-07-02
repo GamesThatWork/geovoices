@@ -549,13 +549,12 @@ oz
     trigger: probe =>  {
         if( dna.status!="spent"  &&  self.detect( probe )) {
             self.perform( dna.content );
-
-            let tour =  self.parent.parent;      
-            tour.usage.add({
-                timestamp:   Date.now(),
+            const memo =  {
                 pin:  self.parent.dna.id,
-                zone: dna.id ?? self.parent.dna.zones.findIndex( zdna => zdna==dna  )
-                });
+                zone: dna.id ?? self.parent.dna.zones.findIndex( zdna => zdna==dna  ),
+                };
+            if( dna.content )  memo.content = dna.content;
+            app.tour.analytics.memo(memo);
 
             self.render( {status:"spent"});
             setTimeout( ()=>  self.render( {status:"close"}), (dna.cycle ?? 180)*10 );//1000

@@ -20,11 +20,11 @@ export default
         edit:        `${root}tour/`,
         },
     feedback: {
-        save:        `${root}add/Feedback/`,
-        },  
-    usage: {
-        save:        `${root}add/Usage/`,
+        save:        `${root}feedback/`,
         },
+    analytics: {
+        save:        `${root}analytics`,
+        },  
     content: {
         list:        `${root}contents/`,
         load:        `/content/cherokee/`,

@@ -63,7 +63,7 @@ const tourbase={
        // localStorage.setItem('tour', json );
         app.tour?.destruct();  
         app.tour = newTour(  {  tour:newDNA       });
-        app.tour.usage.memo( {  pin:"tour.launch" });
+        app.tour.analytics.memo( {  event:"tour.launch" });
         //if( tour?.timestamp )      app.tour.trigger("start");
         app.tour.setNext( newDNA?.next ?? "start,required");
         nav.drive();
@@ -233,7 +233,7 @@ window.onload= ()=>{
     if( hibernate  ){
         console.log('SLEEP?  tour state saved'   );
         app.tour.updateTIP( {interrupted:Date.now() })
-        app.tour.usage.upload();          // analytics to server
+        app.tour.analytics.flushEvent({  type:"hibernate"  });          // analytics to server
         }
      };
 

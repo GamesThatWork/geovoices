@@ -1,7 +1,7 @@
 import app from "./app.js";
 import url from "./url.js";
 
-const version = 5634;
+const version = 5637;
 const idCache = "v" + version;
 
 const coreFiles = [
@@ -53,6 +53,115 @@ const ignore = (url) => {
   const i = ig(url);
   //console.log( url, i );
   return i;
+};
+
+// Offline POST request handling system
+const offlinePostSystem = {
+  cacheName: 'offlinePosts',
+  
+  // Store failed POST request for retry
+  store: (request) => {
+    return caches.open(offlinePostSystem.cacheName)
+      .then(cache => {
+        const timestamp = Date.now();
+        
+        // Create a unique GET URL to store the POST data
+        const storageUrl = `${self.location.origin}/offline-post-${timestamp}`;
+        
+        // Extract the POST request data
+        return request.clone().text().then(body => {
+          const postData = {
+            url: request.url,
+            method: request.method,
+            headers: Array.from(request.headers.entries()),
+            body: body,
+            timestamp: timestamp
+          };
+          
+          // Create a GET request to store the data
+          const getRequest = new Request(storageUrl);
+          const response = new Response(JSON.stringify(postData), {
+            headers: { 'Content-Type': 'application/json' }
+          });
+          
+          return cache.put(getRequest, response)
+            .then(() => console.log('POST request stored for offline retry:', request.url));
+        });
+      })
+      .catch(error => console.error('Failed to store POST request offline:', error));
+  },
+  
+  // Retry all stored POST requests
+  retryAll: () => {
+    return caches.open(offlinePostSystem.cacheName)
+      .then(cache => {
+        return cache.keys()
+          .then(requests => {
+            const retryPromises = requests
+              .filter(req => req.url.includes('/offline-post-'))
+              .map(storageRequest => {
+                return cache.match(storageRequest)
+                  .then(response => response.json())
+                  .then(postData => {
+                    // Reconstruct the original POST request
+                    const originalRequest = new Request(postData.url, {
+                      method: postData.method,
+                      headers: new Headers(postData.headers),
+                      body: postData.body
+                    });
+                    
+                    // Try to send the request
+                    return fetch(originalRequest)
+                      .then(retryResponse => {
+                        if (retryResponse.ok) {
+                          return cache.delete(storageRequest)
+                            .then(() => console.log('Offline POST request successfully retried:', postData.url));
+                        }
+                      })
+                      .catch(error => console.log('POST retry failed, keeping for next attempt:', error));
+                  });
+              });
+            
+            return Promise.all(retryPromises);
+          });
+      })
+      .catch(error => console.error('Failed to retry offline POST requests:', error));
+  },
+  
+  // Handle POST request with offline fallback
+  handlePost: (request) => {
+    // Try the request first
+    return fetch(request.clone())
+      .then(response => {
+        if (response.ok) {
+          // Success - try to retry any stored offline requests
+          offlinePostSystem.retryAll();
+          return response;
+        } else {
+          // Server error - store for retry
+          return offlinePostSystem.store(request)
+            .then(() => {
+              // Return a fake success to prevent app-level error handling
+              return new Response(JSON.stringify({ status: 'Stored for retry', offline: true }), { 
+                status: 200,
+                headers: { 'Content-Type': 'application/json' }
+              });
+            });
+        }
+      })
+      .catch(error => {
+        // Network error - store for retry
+        return offlinePostSystem.store(request)
+          .then(() => {
+            console.log('POST request failed (offline), stored for retry:', request.url);
+            // Return a fake success to prevent app-level error handling
+            return new Response(JSON.stringify({ status: 'Stored offline', offline: true }), { 
+              status: 200,
+              headers: { 'Content-Type': 'application/json' }
+            });
+          });
+      });
+  }
 };
 
 self.addEventListener("install", (event) => {
@@ -235,6 +344,14 @@ const metaResponse = (req) => {
 
 self.addEventListener("fetch", (event) => {
   //console.log("fetch", event);
+  
+  // Handle POST requests with offline fallback
+  if (event.request.method === 'POST') {
+    event.respondWith(offlinePostSystem.handlePost(event.request));
+    return;
+  }
+  
+  // Handle GET requests with existing caching logic
   event.respondWith(
     metaResponse(event.request) ??
       caches.match(event.request).then(
