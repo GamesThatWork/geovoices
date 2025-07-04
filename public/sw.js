@@ -1,8 +1,31 @@
-import app from "./app.js";
-import url from "./url.js";
 
-const version = 53337;
+const version = 533537;
 const idCache = "v" + version;
+
+
+
+// Resilient imports with fallbacks for both url.js and app.js, because these files may not be available in the service worker context
+
+let url = { // hardcoded fallback url object
+  content: {
+    silence:  '/assets/silence.ogg',
+    load:     '/content/cherokee/'
+  },
+  map: {
+    car:      '/assets/icon-192x192.png',
+    guibg:    '/assets/subtletexture1.jpg',
+    pinshadow:'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png'
+  }
+};
+import('./url.js').then(urlModule => url = urlModule?.default ?? url).catch(e => {}); // use url.js if available
+
+
+let zoomRange = { min: 12, max: 16 }; // hardcoded fallback
+import('./app.js').then(appModule =>  zoomRange = appModule?.default?.zoomRange ?? zoomRange ).catch(e => {});  // use app.js zoom range if available
+
+
+
+
 
 const coreFiles = [
   "/favicon.ico",
@@ -249,177 +272,139 @@ const metaResponse = (req) => {
         //        console.log("Version: "+ response.version );
         return null;
       });
-  if (String(req.url).includes("cachemenu"))
-    return new Response(menu, { headers: { "Content-Type": "text/html" } });
-  if (String(req.url).includes("cachereset"))
-    return caches
-      .delete("core")
-      .then(
-        (ok) => new Response(`${menu} <h4>Core cache deleted: ${ok}</h4>`, opts)
-      )
-      .catch(
-        (err) =>
-          new Response(`${menu} <h4>Core delete failed: ${err}</h4>`, opts)
-      );
-  if (String(req.url).includes("cacheclear"))
-    return caches
-      .delete(idCache)
-      .then(
-        (ok) =>
-          new Response(`${menu} <h4>Volatile cache deleted: ${ok}</h4>`, opts)
-      )
-      .catch(
-        (err) =>
-          new Response(
-            `${menu} <h4>Volatile cache delete failed: ${err}</h4>`,
-            opts
-          )
-      );
-  if (String(req.url).includes("cacheview"))
-    return Promise.all([
-      menu,
-      caches
-        .open("core")
-        .then((cache) => cache.keys())
-        .then(
-          (keys) =>
-            `<h4>Files in Core cache</h4>${
-              keys.reduce((html, k) => html + `<li>${k.url}</li>`, "<UL>") +
-              "</UL>"
-            }`
-        ),
-      caches
-        .open(idCache)
-        .then((cache) => cache.keys())
-        .then(
-          (keys) =>
-            `<h4>Files in volatile cache ${idCache}</h4> ${
-              keys.reduce((html, k) => html + `<li>${k.url}</li>`, "<UL>") +
-              "</UL>"
-            }`
-        ),
-    ])
-      .then((htmlarray) => new Response(htmlarray.join(), opts))
-      .catch(
-        (err) =>
-          new Response(`${menu} <h4>Display caches failed: ${err}</h4>`, opts)
-      );
+  let [ , method, command ] = /(cache|version):?[\/]*(.*)/.exec(String(req.url));
 
-  if (String(req.url).includes("cacheupload"))
-    return Promise.all([
-      caches
-        .open("core")
-        .then((cache) => cache.keys())
-        .then((keys) => keys.map((k) => k.url)),
-      caches
-        .open(idCache)
-        .then((cache) => cache.keys())
-        .then((keys) => keys.map((k) => k.url)),
-    ]).then(
-      (
-        arrayofarrays //save to server and pass through the server response to the app
-      ) =>
-        fetch(
-          `/cache/upload/${new Date()
-            .toISOString()
-            .replaceAll(":", "-")
-            .replaceAll(".", "_")
-            .replace("T", "__")
-            .replace("Z", "")}`,
-          { method: "post", body: JSON.stringify(arrayofarrays.flat()) }
-        )
-          .then((serverresponse) => serverresponse.text())
-          .then(
-            (servertext) =>
-              new Response(`${menu} <h4>Cache Upload: ${servertext}</h4>`, opts)
-          )
-          .catch(
-            (err) =>
-              new Response(`${menu} <h4>Cache Upload failed: ${err}</h4>`, opts)
-          )
-    );
 
+  if ( method === "cache" ) 
+    switch (command) {
+      case "menu":  return new Response(menu, { headers: { "Content-Type": "text/html" } });
+      case "reset": return caches
+                            .delete("core")
+                            .then(  ok    => new Response(`${menu} <h4>Core cache deleted: ${ok}</h4>`, opts) )
+                            .catch( err   => new Response(`${menu} <h4>Core delete failed: ${err}</h4>`, opts) );
+      case "clear": return caches
+                            .delete(idCache)
+                            .then( ok => new Response(`${menu} <h4>Volatile cache deleted: ${ok}</h4>`, opts) )
+                            .catch( err => new Response(`${menu} <h4>Volatile delete failed: ${err}</h4>`, opts) );
+
+      case "view":  return Promise.all([
+                            caches
+                                .open("core")
+                                .then( cache => cache.keys())
+                                .then( keys  =>`<h4>Files in Core cache</h4><UL>${keys.map( k=>`<li>${k.url}</li>`)}</UL>`),
+                            caches
+                                .open( idCache )
+                                .then( cache => cache.keys())
+                                .then( keys  =>`<h4>Files in volatile cache ${idCache}</h4><UL>${keys.map( k=>`<li>${k.url}</li>`)}</UL>`)
+                              ])
+                      .then( htmlarray => new Response( htmlarray.join(), opts))
+                      .catch(      err => new Response(`${menu} <h4>Display caches failed: ${err}</h4>`, opts)  );
+      
+      case "upload": return Promise.all([
+                          caches
+                            .open("core")
+                            .then((cache) => cache.keys())
+                            .then((keys) => keys.map((k) => k.url)),
+                          caches
+                            .open(idCache)
+                            .then((cache) => cache.keys())
+                            .then((keys) => keys.map((k) => k.url)),
+                            ])
+                        .then( arrayofarrays =>
+                            fetch(
+                                `/cache/upload/${new Date()
+                                  .toISOString()
+                                  .replaceAll(":", "-")
+                                  .replaceAll(".", "_")
+                                  .replace("T", "__")
+                                  .replace("Z", "")}`,
+                              { method: "post", body: JSON.stringify(arrayofarrays.flat()) }
+                            )
+                          .then( serverresponse => serverresponse.text())
+                          .then( servertext     => new Response(`${menu} <h4>Cache Upload: ${servertext}</h4>`, opts) )
+                          .catch(           err => new Response(`${menu} <h4>Cache Upload failed: ${err}</h4>`, opts) )
+                          );
+      default: return new Response(`${menu} <h4>Unknown cache command: ${command}</h4>`, opts);
+    } 
   return null;
 };
+
 
 self.addEventListener("fetch", (event) => {
   //console.log("fetch", event);
   
-  // Handle POST requests with offline fallback
-  if (event.request.method === 'POST') {
-    event.respondWith(offlinePostSystem.handlePost(event.request));
-    return;
-  }
-  
-  // Handle GET requests with existing caching logic
+  // redirect POST fetches to use outbound caching system, be resilient to connection drops
+  if (event.request.method === 'POST') return event.respondWith(offlinePostSystem.handlePost(event.request));
+
+  // meanwhile GET fetches use cache-first strategy to expedite loading
   event.respondWith(
-    metaResponse(event.request) ??
-      caches.match(event.request).then(
-        (resp) =>
-          resp ??
-          fetch(event.request /*, {'mode': 'no-cors'}*/)
+
+    metaResponse(event.request) ??     // intercept special 'fetches' that are directed only to serviceworker
+    
+    caches.match(event.request).then(  // normal GET fetches use cache-first strategy
+        resp =>
+          resp ??  // cache hit!! our work is done, return cached response
+          
+        
+          fetch(event.request /*, {'mode': 'no-cors'}*/)  // cache miss. time for a real fetch
           
           .then((response) => {
             //                if (event.request.url.match(/tour\//i) && localStorage.getItem("cachedTour") != event.request.url) {
-            //                  localStorage.setItem("cachedTour", event.request.url);
-            if (
-              event.request.url.match(/tour\//i) &&
-              event.request.method == "GET"
-            ) {
+            //                 localStorage.setItem("cachedTour", event.request.url);
+        
+           if (  event.request.url.match(/tour\//i) ) {
+
+              // if this is a tour deinition, we must cache all the resources it references (media, map tiles, etc)
               let clone = response.clone();
-              clone.text().then((json) => {
-                const tour = JSON.parse(json);
-                const mediaArr = [];
-                const latArr = [];
-                const lngArr = [];
-                const urlTileArr = [];
-                findMedia(tour, mediaArr, latArr, lngArr);
-                
-                for(var x = app.zoomRange.min; x <= app.zoomRange.max; x++) {
-                  createUrlTileArr(latArr, lngArr, urlTileArr, x);
+              clone.text().then( json => {
+                try {
+                  const tour = JSON.parse(json);
+                  const mediaArr = [];
+                  const latArr = [];
+                  const lngArr = [];
+                  const urlTileArr = [];
+                  findMedia(tour, mediaArr, latArr, lngArr);
+                  
+                  for(var x = zoomRange.min; x <= zoomRange.max; x++) 
+                    createUrlTileArr(latArr, lngArr, urlTileArr, x);
+                  
+                  
+                  //   createUrlTileArr(latArr, lngArr, urlTileArr, 16);
+                  //const { mediaArr, latArr, lngArr } = findMedia(tour); //destructure
+
+                  let mediaUrls = mediaArr.map( element =>"/content/cherokee/" + element);
+                  console.log(mediaArr);
+                  console.log(mediaUrls);
+
+                  let combinedMediaTiles = [...mediaUrls, ...urlTileArr];
+                  console.log(combinedMediaTiles);
+
+                  messagingSystem.reportProgress(combinedMediaTiles.length);
+
+                caches.delete("tourContent")
+                  .then(    () => caches.open("tourContent") )
+                  .then( cache => fillCache(cache, combinedMediaTiles))
+                  .catch( err => console.error("Failed to cache tour content:", err));
+                }                 
+                catch (error) {
+                  console.error('Failed to parse tour JSON:', error);
+                  return; // Skip caching if JSON is invalid
                 }
-                
-                //   createUrlTileArr(latArr, lngArr, urlTileArr, 16);
-                //const { mediaArr, latArr, lngArr } = findMedia(tour); //destructure
-
-                let mediaUrls = mediaArr.map( element =>"/content/cherokee/" + element);
-                console.log(mediaArr);
-                console.log(mediaUrls);
-
-                let combinedMediaTiles = [...mediaUrls, ...urlTileArr];
-                console.log(combinedMediaTiles);
-
-                messagingSystem.reportProgress(combinedMediaTiles.length);
-
-                caches.delete("tourContent").then(() =>
-                  caches.open("tourContent").then((cache) => {
-                    fillCache(cache, combinedMediaTiles);
-                  })
-                );
               });
             }
-
+            // if it is not on out ignore list, cache it
             if (!ignore(event.request.url)) {
               let clone = response.clone();
-              caches.open(idCache).then((cache) =>
-                cache
-                  .put(event.request.url, clone)
-                  .then(() =>
-                    console.log(
-                      `FOUND & CACHED  - unanticipated file  ${event.request.url}     `
-                    )
-                  )
-                  .catch((e) =>
-                    console.log(
-                      `Failed to CACHE - unanticipated file  ${event.request.url} ${e}`
-                    )
-                  )
-              );
+              caches.open( idCache )
+                .then( cache => cache.put(event.request.url, clone)
+                      .then( ()=> console.log(  `FOUND & CACHED  - unanticipated file  ${event.request.url}`) )
+                      .catch( e =>console.log(  `Failed to CACHE - unanticipated file  ${event.request.url} ${e}`))
+                );
             } //            newcache
             return response;
           }) //   passthru or newcache
       ) // cached, passthru or newcache
-  ); ///respondwith
+  ); // respondWith
 });
 
 const messagingSystem = {

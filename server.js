@@ -234,8 +234,10 @@ app.get("/", (request, response) =>{
   console.log({ host, sub, domain, tld, port});
   });// Add this route at the VERY END, after all your other routes but before app.listen():
 
-  
 
+app.get("cache[:]?[/]{0,2}(:command(*))", (req, res) => {
+  res.status(400).send(`Serviceworker FAILED to intercept Cache Control command: ${req.params.command}`);
+});
 
 app.get("/health", (req, res) => {
   res.status(200).json({ 
@@ -243,8 +245,10 @@ app.get("/health", (req, res) => {
     version: versionID,
     timestamp: Date.now(),
     uptime: process.uptime()
-  });
-});
+  });   
+});   
+
+
 
 // Test Firestore connectivity
 app.get("/test-firestore", async (req, res) => {
@@ -374,28 +378,29 @@ app.get("/tours", (request, response) =>
      firestore.collection("tours").listDocuments()
       .then(  snapshot =>  
                     response.json( snapshot.map(doc =>doc.id)))
-      .catch( err=> response.status(500).send("Error listing tours: " + err.message))        
+      .catch( err=> response.status(500).json({ error: "Error listing tours: " + err.message }))        
     ); 
   
 app.get("/tour/:tourname", (request, response) =>
    firestore.collection("tours").listDocuments()
-      .then(  snapshot =>{ 
+      .then(  snapshot =>{
+      //  console.log("Tour list snapshot:", snapshot);
         const 
           ids = snapshot.map(doc => doc.id),
           target = request.params.tourname.toLowerCase(),
           id = ids.find( id => id.toLowerCase() == target);
           console.log("Looking for tour:", target, "Found:", id);
+          if (!id) return response.status(404).json({ error: `Tour ${request.params.tourname} not found.` });
+
           firestore.collection("tours").doc( id ).get()
           .then(  doc => 
                   doc.exists?   response.json( doc.data() ) 
-                            :   response.status(404).send(`{ "err": "Tour ${request.params.tourname} not found" }`)
-            )
-          .catch( err=>response.status(500).send("Error loading tour: " + err.message))
+                            :   response.status(404).json({ error: `Tour ${request.params.tourname} is empty.` })
+                  )
+          .catch( err=>response.status(500).json({ error: "Error loading tour: " + err.message }))
          })
+      .catch( err=>response.status(500).json({ error: "Error listing tours: " + err.message }))
   );
-
-
-
 
 
 app.post("/tour/:tourname", (request, response) =>
@@ -452,21 +457,6 @@ app.post(["/feedback", "/feedback/upload"], (request, response) =>
     .catch((err) => response.status(500).send(`<u>${err}</u>`))
   );
 
-app.post("/use/upload", (request, response) => {
-  console.log(request.params.filename + " user upload attempt");
-  let { userID, tour, version, history } = JSON.parse(request.body);
-  let r = `received:<br/>
-     ${history
-       .map(
-         (h) =>
-           `${userID}: ${tour} (v${version} ${h.pin}, ${h.zone},  ${h.time} <br/>`
-       )
-       .join("")}`;
-  response.send(r);
-
-  //  fs.writeFile(  `${__dirname}/cache/${request.params.filename}.json`,  request.body,
-  //    (err) => response.send( `<u>${err}</u>` || "successful file save"));
-});
 
 app.post("/qos/upload/:filename", (request, response) => {
   console.log(request.params.filename + " upload attempt");
@@ -679,11 +669,9 @@ app.post("/analytics", (request, response) => {
 
 
 // if it is  not another route -- it might be a tour name
-
-//app.get("/:tourname", (request,response) => response.redirect(`/tour/${request.params.tourname}`));
-app.get("/:tourname", (request,response) => response.sendFile(`${__dirname}/views/geotour.html`));
-
-
+ 
+//app.get("/:tourname", (request,response) => response.sendFile(`${__dirname}/views/geotour.html`));
+pp.get("/:tourname", (request,response) => response.redirect(`/tour/${request.params.tourname}`));
    
 
 

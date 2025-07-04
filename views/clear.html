@@ -41,9 +41,12 @@ body {
     
     const log= t=> document.querySelector('#console' ).innerHTML+= `<li>${t}</li>`;
      
+    fetch("cache://menu")
+      .then( response => response.text())
+      .then( text => document.innerHTML = text )
+      .catch( error => log(`cachemenu Fetch error: ${error.message}`) ); 
     
-    
-    setTimeout( ()=>window.location.href="cachemenu", 1200);
+    setTimeout( ()=>window.location.href="cache:menu", 30000);
     log( "Cache Killer: ");
     </script>
   

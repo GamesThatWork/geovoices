@@ -75,15 +75,39 @@ const tourbase={
         if( !tour )    return reject( null );
         progressBar();
         fetch( url.tour.load + tour )
-          .then(  response =>  response.json()             )   // get remote file
+          .then(  response => {
+            if (!response.ok) {
+              // Try to parse error as JSON, fall back to status text
+              return response.text().then( text => {
+                  try {
+                      let error = JSON.parse( text )?.error  ?? response.statusText; 
+                      throw new Error(`Tour load failed: ${response.status} ${error}`);
+                  } catch (parseError) {
+                      throw new Error(`Tour load failed: ${response.status} ${text || response.statusText}`);
+                  }
+              });
+            }
+            return response.json();
+          })   // get remote file
           .then(  tourbase.launch )
+          .catch( error => {
+            console.error("Error loading tour:", error);
+            reject(error);
+          })
           }),
 
     select: ()  => new Promise( (resolve,reject)=>{
         fetch( url.tour.list )
-          .then(  response =>  response.json()               )// get remote file list
+          .then(  response => {
+            if (!response.ok)   throw new Error(`Tour list fetch failed: ${response.status} ${response.statusText}`);
+            return response.json();
+            })// get remote file list
           .then(  menu.chooseTour )
           .then(  tourbase.load   )
+          .catch( error => {
+            console.error("Error loading tour list:", error);
+            reject(error);
+          })
           }),
 
     }
