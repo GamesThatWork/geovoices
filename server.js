@@ -671,7 +671,7 @@ app.post("/analytics", (request, response) => {
 // if it is  not another route -- it might be a tour name
  
 //app.get("/:tourname", (request,response) => response.sendFile(`${__dirname}/views/geotour.html`));
-pp.get("/:tourname", (request,response) => response.redirect(`/tour/${request.params.tourname}`));
+app.get("/:tourname", (request,response) => response.redirect(`/tour/${request.params.tourname}`));
    
 
 
