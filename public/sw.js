@@ -79,19 +79,16 @@ const ignore = (url) => {
 };
 
 // Offline POST request handling system
-const offlinePostSystem = {
-  cacheName: 'offlinePosts',
-  
+const postMethod = (() => {
+  const cacheName = 'deferredPosts',
+
   // Store failed POST request for retry
-  store: (request) => {
-    return caches.open(offlinePostSystem.cacheName)
+  encache = request =>  
+    caches.open(cacheName)
       .then(cache => {
         const timestamp = Date.now();
+        const storageUrl = `${self.location.origin}/deferred-${timestamp}`;
         
-        // Create a unique GET URL to store the POST data
-        const storageUrl = `${self.location.origin}/offline-post-${timestamp}`;
-        
-        // Extract the POST request data
         return request.clone().text().then(body => {
           const postData = {
             url: request.url,
@@ -101,7 +98,6 @@ const offlinePostSystem = {
             timestamp: timestamp
           };
           
-          // Create a GET request to store the data
           const getRequest = new Request(storageUrl);
           const response = new Response(JSON.stringify(postData), {
             headers: { 'Content-Type': 'application/json' }
@@ -112,80 +108,73 @@ const offlinePostSystem = {
         });
       })
       .catch(error => console.error('Failed to store POST request offline:', error));
-  },
   
   // Retry all stored POST requests
-  retryAll: () => {
-    return caches.open(offlinePostSystem.cacheName)
-      .then(cache => {
-        return cache.keys()
-          .then(requests => {
-            const retryPromises = requests
-              .filter(req => req.url.includes('/offline-post-'))
-              .map(storageRequest => {
-                return cache.match(storageRequest)
-                  .then(response => response.json())
-                  .then(postData => {
-                    // Reconstruct the original POST request
-                    const originalRequest = new Request(postData.url, {
-                      method: postData.method,
-                      headers: new Headers(postData.headers),
-                      body: postData.body
-                    });
-                    
-                    // Try to send the request
-                    return fetch(originalRequest)
-                      .then(retryResponse => {
-                        if (retryResponse.ok) {
-                          return cache.delete(storageRequest)
-                            .then(() => console.log('Offline POST request successfully retried:', postData.url));
-                        }
-                      })
-                      .catch(error => console.log('POST retry failed, keeping for next attempt:', error));
+  const retryAll = () => caches.open(cacheName)
+    .then(cache => 
+      cache.keys()
+        .then(requests => {
+          const retryPromises = requests
+            .filter(req => req.url.includes('/deferred-'))
+            .map(storageRequest => {
+              return cache.match(storageRequest)
+                .then(response => response.json())
+                .then(original => {
+                  const originalRequest = new Request(original.url, {
+                    method: original.method,
+                    headers: new Headers(original.headers),
+                    body: original.body
                   });
-              });
-            
-            return Promise.all(retryPromises);
-          });
-      })
-      .catch(error => console.error('Failed to retry offline POST requests:', error));
-  },
-  
-  // Handle POST request with offline fallback
-  handlePost: (request) => {
-    // Try the request first
+
+                  return fetch(originalRequest)
+                    .then(retryResponse => {
+                      if (retryResponse.ok) {
+                        return cache.delete(storageRequest)
+                          .then(() => console.log('Offline POST request successfully retried:', original.url));
+                      }
+                    })
+                    .catch(error => console.log('POST retry failed, keeping for next attempt:', error));
+                });
+            });
+          return Promise.all(retryPromises);
+        })
+    );
+
+  // respond to  POST request with offline fallback
+  const fetchPost = request => {
     return fetch(request.clone())
       .then(response => {
         if (response.ok) {
-          // Success - try to retry any stored offline requests
-          offlinePostSystem.retryAll();
+          retryAll();
           return response;
         } else {
-          // Server error - store for retry
-          return offlinePostSystem.store(request)
-            .then(() => {
-              // Return a fake success to prevent app-level error handling
-              return new Response(JSON.stringify({ status: 'Stored for retry', offline: true }), { 
-                status: 200,
+          return encache(request)
+            .then(() => 
+              new Response(JSON.stringify({ status: 'Stored for retry', offline: true }), { 
+                status: 200,  /// return fake success to prevent app-level error handling
                 headers: { 'Content-Type': 'application/json' }
-              });
-            });
+              })
+            );
         }
       })
-      .catch(error => {
-        // Network error - store for retry
-        return offlinePostSystem.store(request)
+      .catch(error => 
+        encache(request)
           .then(() => {
             console.log('POST request failed (offline), stored for retry:', request.url);
-            // Return a fake success to prevent app-level error handling
-            return new Response(JSON.stringify({ status: 'Stored offline', offline: true }), { 
+            return new Response(JSON.stringify({ status: 'Stored offline', offline: true }), {
               status: 200,
               headers: { 'Content-Type': 'application/json' }
             });
-          });
-      });
-  }
-};
+          })
+      );
+  };
+
+  return fetchPost;
+})();
+
+
+
+
 
 self.addEventListener("install", (event) => {
   self.skipWaiting();
@@ -254,93 +243,126 @@ request.onupgradeneeded = function(event) {
   );
 });
 
-const metaResponse = (req) => {
-  const menu = `<H2> <a href="/cacheview"   target="_self">View Cache Contents</a>   </H2>
-              <H2> <a href="/cacheupload" target="_self">Upload Cache URLs</a>     </H2>
-              <H2> <a href="/cacheclear"  target="_self">Clear Volatile Cache</a>  </H2>
-              <H2> <a href="/cachereset"  target="_self">Clear Core Cache</a>      </H2><p></p>`;
-  const opts = { headers: { "Content-Type": "text/html" } };
-
-  //  var dbPromise = idb.open('test-db1', 1);
-  //  console.log( "idb dbPromise: ", dbPromise );
-
-  //  console.log("META FETCH test: "+ req.url);
-  if (String(req.url) === "/")
-    return fetch("/version")
-      .then((res) => res.json())
-      .then((response) => {
-        //        console.log("Version: "+ response.version );
-        return null;
+// respond to  custom cache:// URL scheme
+const handleCacheCommand = (command) => {
+  console.log('Cache command:', command);
+  
+  switch (command) {
+    case 'clear':
+      return caches.delete(idCache)
+        .then(ok => new Response(JSON.stringify({ status: 'cleared', cache: idCache, success: ok }), {
+          headers: { 'Content-Type': 'application/json' }
+        }))
+        .catch(err => new Response(JSON.stringify({ error: err.message }), {
+          status: 500,
+          headers: { 'Content-Type': 'application/json' }
+        }));
+    
+    case 'reset':
+      return caches.delete('core')
+        .then(ok => new Response(JSON.stringify({ status: 'reset', cache: 'core', success: ok }), {
+          headers: { 'Content-Type': 'application/json' }
+        }))
+        .catch(err => new Response(JSON.stringify({ error: err.message }), {
+          status: 500,
+          headers: { 'Content-Type': 'application/json' }
+        }));
+    
+    default:
+      return new Response(JSON.stringify({ error: `Unknown cache command: ${command}` }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' }
       });
-  let [ , method, command ] = /(cache|version):?[\/]*(.*)/.exec(String(req.url));
+  }
+};
 
 
-  if ( method === "cache" ) 
-    switch (command) {
-      case "menu":  return new Response(menu, { headers: { "Content-Type": "text/html" } });
-      case "reset": return caches
-                            .delete("core")
-                            .then(  ok    => new Response(`${menu} <h4>Core cache deleted: ${ok}</h4>`, opts) )
-                            .catch( err   => new Response(`${menu} <h4>Core delete failed: ${err}</h4>`, opts) );
-      case "clear": return caches
-                            .delete(idCache)
-                            .then( ok => new Response(`${menu} <h4>Volatile cache deleted: ${ok}</h4>`, opts) )
-                            .catch( err => new Response(`${menu} <h4>Volatile delete failed: ${err}</h4>`, opts) );
+const opts = { headers: { "Content-Type": "text/html" } };
 
-      case "view":  return Promise.all([
-                            caches
-                                .open("core")
-                                .then( cache => cache.keys())
-                                .then( keys  =>`<h4>Files in Core cache</h4><UL>${keys.map( k=>`<li>${k.url}</li>`)}</UL>`),
-                            caches
-                                .open( idCache )
-                                .then( cache => cache.keys())
-                                .then( keys  =>`<h4>Files in volatile cache ${idCache}</h4><UL>${keys.map( k=>`<li>${k.url}</li>`)}</UL>`)
-                              ])
+const menu = `<H2> <a href="cache://view"   target="_self">View Cache Contents</a>   </H2>
+              <H2> <a href="cache://upload" target="_self">Upload Cache URLs</a>     </H2>
+              <H2> <a href="cache://clear"  target="_self">Clear Volatile Cache</a>  </H2>
+              <H2> <a href="cache://reset"  target="_self">Clear Core Cache</a>      </H2><p></p>`;
+
+const cacheMethod = {
+  menu: () => new Response(menu, opts),
+  
+        reset: ()=>   caches
+                        .delete("core")
+                        .then(  ok    => new Response(`${menu} <h4>Core cache deleted: ${ok}</h4>`, opts) )
+                        .catch( err   => new Response(`${menu} <h4>Core delete failed: ${err}</h4>`, opts) ),
+
+        clear: ()=>   caches
+                        .delete(idCache)
+                        .then( ok => new Response(`${menu} <h4>Volatile cache deleted: ${ok}</h4>`, opts) )
+                        .catch( err => new Response(`${menu} <h4>Volatile delete failed: ${err}</h4>`, opts) ),
+
+        view:  ()=> Promise.all([
+                      caches
+                        .open("core")
+                        .then( cache => cache.keys())
+                        .then( keys  =>`<h4>Files in Core cache</h4><UL>${keys.map( k=>`<li>${k.url}</li>`)}</UL>`),
+                      caches
+                        .open( idCache )
+                        .then( cache => cache.keys())
+                        .then( keys  =>`<h4>Files in volatile cache ${idCache}</h4><UL>${keys.map( k=>`<li>${k.url}</li>`)}</UL>`)
+                        ])
                       .then( htmlarray => new Response( htmlarray.join(), opts))
-                      .catch(      err => new Response(`${menu} <h4>Display caches failed: ${err}</h4>`, opts)  );
+                      .catch(      err => new Response(`${menu} <h4>Display caches failed: ${err}</h4>`, opts)  ),
       
-      case "upload": return Promise.all([
-                          caches
-                            .open("core")
-                            .then((cache) => cache.keys())
-                            .then((keys) => keys.map((k) => k.url)),
-                          caches
-                            .open(idCache)
-                            .then((cache) => cache.keys())
-                            .then((keys) => keys.map((k) => k.url)),
-                            ])
-                        .then( arrayofarrays =>
-                            fetch(
-                                `/cache/upload/${new Date()
-                                  .toISOString()
-                                  .replaceAll(":", "-")
-                                  .replaceAll(".", "_")
-                                  .replace("T", "__")
-                                  .replace("Z", "")}`,
-                              { method: "post", body: JSON.stringify(arrayofarrays.flat()) }
-                            )
+      upload: ()=> Promise.all([
+                     caches
+                      .open("core")
+                      .then((cache) => cache.keys())
+                      .then((keys) => keys.map((k) => k.url)),
+                    caches
+                      .open(idCache)
+                      .then((cache) => cache.keys())
+                      .then((keys) => keys.map((k) => k.url)),
+                      ])
+                    .then( arrayofarrays =>
+                          fetch(
+                            `/cache/upload/${new Date()
+                              .toISOString()
+                              .replaceAll(":", "-")
+                              .replaceAll(".", "_")
+                              .replace("T", "__")
+                              .replace("Z", "")}`,
+                            { method: "post", body: JSON.stringify(arrayofarrays.flat()) } )
                           .then( serverresponse => serverresponse.text())
                           .then( servertext     => new Response(`${menu} <h4>Cache Upload: ${servertext}</h4>`, opts) )
                           .catch(           err => new Response(`${menu} <h4>Cache Upload failed: ${err}</h4>`, opts) )
-                          );
-      default: return new Response(`${menu} <h4>Unknown cache command: ${command}</h4>`, opts);
-    } 
-  return null;
-};
+                          ),
+        default: ()=>new Response(`${menu} <h4>Unknown cache command: ${command}</h4>`, opts)
+        };
+
+
+
+const versionMethod = () => fetch("/version")
+  .then(res => res.json()
+    .then(data => {
+      console.log("Version:", data);
+      return res;
+    }))
+  .catch(err => console.error("Version fetch failed:", err));
+
+
 
 
 self.addEventListener("fetch", (event) => {
   //console.log("fetch", event);
   
-  // redirect POST fetches to use outbound caching system, be resilient to connection drops
-  if (event.request.method === 'POST') return event.respondWith(offlinePostSystem.handlePost(event.request));
+  let [ , method, key ] = /(cache|version):?[\/]*(.*)/.exec(String(event.request.url)) ?? [null, null, null];
+
+  // respond to  custom cache:// scheme
+  if ( method === 'version'           )  return event.respondWith( versionMethod() );
+  // respond to  custom cache:// scheme  
+  if ( method === 'cache'             )  return event.respondWith( cacheMethod[key]?.() ?? cacheMethod.default() );
+  // redirect POST fetches to use outbound caching system, resilient to connection drops!!
+  if ( event.request.method === 'POST')  return event.respondWith( postMethod(event.request) );
 
   // meanwhile GET fetches use cache-first strategy to expedite loading
   event.respondWith(
-
-    metaResponse(event.request) ??     // intercept special 'fetches' that are directed only to serviceworker
-    
     caches.match(event.request).then(  // normal GET fetches use cache-first strategy
         resp =>
           resp ??  // cache hit!! our work is done, return cached response
@@ -353,7 +375,6 @@ self.addEventListener("fetch", (event) => {
             //                 localStorage.setItem("cachedTour", event.request.url);
         
            if (  event.request.url.match(/tour\//i) ) {
-
               // if this is a tour deinition, we must cache all the resources it references (media, map tiles, etc)
               let clone = response.clone();
               clone.text().then( json => {
