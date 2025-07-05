@@ -558,7 +558,7 @@ oz
 
             self.render( {status:"spent"});
             setTimeout( ()=>  self.render( {status:"close"}), (dna.cycle ?? 180)*10 );//1000
-            tour.setNext( dna.next );  
+            app.tour.setNext( dna.next );  
             }
         }
     };
