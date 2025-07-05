@@ -1,5 +1,5 @@
 
-const version = 533537;
+const version = "4.01.52";
 const idCache = "v" + version;
 
 
@@ -243,38 +243,38 @@ request.onupgradeneeded = function(event) {
   );
 });
 
-// respond to  custom cache:// URL scheme
-const handleCacheCommand = (command) => {
-  console.log('Cache command:', command);
+// // respond to  custom cache:// URL scheme
+// const handleCacheCommand = (command) => {
+//   console.log('Cache command:', command);
   
-  switch (command) {
-    case 'clear':
-      return caches.delete(idCache)
-        .then(ok => new Response(JSON.stringify({ status: 'cleared', cache: idCache, success: ok }), {
-          headers: { 'Content-Type': 'application/json' }
-        }))
-        .catch(err => new Response(JSON.stringify({ error: err.message }), {
-          status: 500,
-          headers: { 'Content-Type': 'application/json' }
-        }));
+//   switch (command) {
+//     case 'clear':
+//       return caches.delete(idCache)
+//         .then(ok => new Response(JSON.stringify({ status: 'cleared', cache: idCache, success: ok }), {
+//           headers: { 'Content-Type': 'application/json' }
+//         }))
+//         .catch(err => new Response(JSON.stringify({ error: err.message }), {
+//           status: 500,
+//           headers: { 'Content-Type': 'application/json' }
+//         }));
     
-    case 'reset':
-      return caches.delete('core')
-        .then(ok => new Response(JSON.stringify({ status: 'reset', cache: 'core', success: ok }), {
-          headers: { 'Content-Type': 'application/json' }
-        }))
-        .catch(err => new Response(JSON.stringify({ error: err.message }), {
-          status: 500,
-          headers: { 'Content-Type': 'application/json' }
-        }));
+//     case 'reset':
+//       return caches.delete('core')
+//         .then(ok => new Response(JSON.stringify({ status: 'reset', cache: 'core', success: ok }), {
+//           headers: { 'Content-Type': 'application/json' }
+//         }))
+//         .catch(err => new Response(JSON.stringify({ error: err.message }), {
+//           status: 500,
+//           headers: { 'Content-Type': 'application/json' }
+//         }));
     
-    default:
-      return new Response(JSON.stringify({ error: `Unknown cache command: ${command}` }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' }
-      });
-  }
-};
+//     default:
+//       return new Response(JSON.stringify({ error: `Unknown cache command: ${command}` }), {
+//         status: 400,
+//         headers: { 'Content-Type': 'application/json' }
+//       });
+//   }
+//};
 
 
 const opts = { headers: { "Content-Type": "text/html" } };
@@ -294,7 +294,7 @@ const cacheMethod = {
 
         clear: ()=>   caches
                         .delete(idCache)
-                        .then( ok => new Response(`${menu} <h4>Volatile cache deleted: ${ok}</h4>`, opts) )
+                        .then( ok   => new Response(`${menu} <h4>Volatile cache deleted: ${ok}</h4>`, opts) )
                         .catch( err => new Response(`${menu} <h4>Volatile delete failed: ${err}</h4>`, opts) ),
 
         view:  ()=> Promise.all([
@@ -334,17 +334,12 @@ const cacheMethod = {
                           .catch(           err => new Response(`${menu} <h4>Cache Upload failed: ${err}</h4>`, opts) )
                           ),
         default: ()=>new Response(`${menu} <h4>Unknown cache command: ${command}</h4>`, opts)
-        };
+        }; 
 
 
 
-const versionMethod = () => fetch("/version")
-  .then(res => res.json()
-    .then(data => {
-      console.log("Version:", data);
-      return res;
-    }))
-  .catch(err => console.error("Version fetch failed:", err));
+ const versionMethod = () => new Response( JSON.stringify({ version }), opts);
+  
 
 
 
@@ -352,7 +347,8 @@ const versionMethod = () => fetch("/version")
 self.addEventListener("fetch", (event) => {
   //console.log("fetch", event);
   
-  let [ , method, key ] = /(cache|version):?[\/]*(.*)/.exec(String(event.request.url)) ?? [null, null, null];
+  let [ , method, key ] = /^\/?(cache|version):?[\/]*(.*)/.exec(String(event.request.url)) ?? [null, null, null];
+  console.log('Fetch method:', method, 'Key:', key, 'URL:', event.request.url );
 
   // respond to  custom cache:// scheme
   if ( method === 'version'           )  return event.respondWith( versionMethod() );

@@ -348,20 +348,22 @@ export default  context=> {
                     nextpoint.innerHTML= ( /START/i.test(pinName) )?    // and display as nextpoint to the user during the tour itself
                                                             // if the pin is 'start', display a special message      
                     `<div  class="start">
-                        <p><span class="dist">Drive to the</span><span> Start&nbsp;Point.</span></p>
+                        <p><span class="dist">Drive to the</span><span class="name"> Start&nbsp;Point</span><span class="crow" hidden> (as the crow flies)</span>.</p>
                         <p>Tour begins when you arrive.</p>
                         <a class="directions">Driving Directions to ${pinName}.</a>
                     </div>`                                 // otherwise, simple display of pin name and distance
-                :   `<span class="dist">Next waypoint: </span> '<span class="name">${   titleCase( pinName.replace(/_/g," "))  }</span>'`;
-                    
+                :   `<span class="dist">Next waypoint: </span> '<span class="name">${   titleCase( pinName.replace(/_/g," "))  }</span><span class="crow" hidden> (as the crow flies)</span>`;
+
                                                             // then update the distance every 3 seconds
-                    let distance = nextpoint.querySelector(".dist" );
+                    let distance = nextpoint.querySelector(".dist" ),
+                        crow     = nextpoint.querySelector(".crow" );
                     nextpoint.querySelector(".directions")?.addEventListener( "click", menu.directions );
                     self.nextPinRefresh= setInterval( ()=>{
                             let meters    = self.nextPin? ll2dm( self.nextPin.dna, nav.current ) : 0;
                             let miles     = meters/1609.34;
                             let precision = miles<.3? 3: (miles<.6? 2:(miles<2? 1:0));
-                            distance.innerText= `${miles.toFixed( precision )} ${miles<1.3? "(geo) mile to":"(geo) miles to"}`;
+                            if( crow ) crow.hidden= !self.nextPin;
+                            distance.innerText= `${miles.toFixed( precision )} ${miles<1.3? "mile to":" miles to"}`;
                             }, 3000);
                     }
                     self.nextPinRequired = required? self.nextPin : null; 
@@ -371,4 +373,4 @@ export default  context=> {
     self.construct();
     self.open();
     return self;
-    } 
+    }  

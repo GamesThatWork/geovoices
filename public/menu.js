@@ -21,13 +21,11 @@ const geoVoicesCredits = [
 
 const feedback = ()=>{
     
-    //document.querySelector("#menu").innerHTML="";
     
+        
     let dom=document.querySelector("#feedback");
     dom.hidden=false;
  
- 
-   //  style="enable-background:new 0 0 512 512;" version="1.1" 
 
     const svgStart= `<div  id="stargui" class="svg-container">
    <svg version="1.1" viewBox="0 0 500 80" preserveAspectRatio="xMinYMin meet" class="svg-content">`;
@@ -318,22 +316,34 @@ const open= e=>{
     e.stopPropagation(); // otherwise triggers line below!
     document.body.addEventListener("click", ready );
     document.querySelector("#feedback").hidden=true;
-    perform.text( "abort" ).then( ()=>{
-        let role = localStorage.getItem("role");////
+    perform.text( "abort" )
+    .then( ()=>{
+        let role = localStorage.getItem("role");
         let menu = menus[role]?? menus[ requestedTour()? "fixed" : "touring"];
         menu[1]=`Map ${content.hidden?"Hide":"Show"}`;
-       dom.innerHTML=
-               `<div>${app.tour?.dna.id} v.${app.tour?.dna.version.toFixed(2)}</div>
-                <div>geovoice v${app.version} </div> 
-                <ul>${ menu.map( m=>`<li>${m}</li>` ).join("") }</ul>
-                <span id="fixcounter"></span>`;   
+        let version = {
+            tour: app.tour?.dna.version.toFixed(2),
+            app:  app.version.toFixed(2),
+            }
+        Promise.all([   
+            fetch( "/version" ).then( res=>res.json() ).then( v=> version.server       =v.version.toFixed(2) ),
+            fetch(  "version" ).then( res=>res.json() ).then( v=> version.serviceworker=v.version.toFixed(2) ),
+            ])
+        .then( ()=> {
+            dom.innerHTML=`<ul>${ menu.map( m=>`<li>${m}</li>` ).join("") }</ul>
+                      <span id="fixcounter"></span>
+            <div class="versions">      ${app.tour?.dna.id} v.${ version.tour    }
+                    GeoVoice:   app v.${ version.app          } 
+                             server v.${ version.server       } 
+                      serviceworker v.${ version.serviceworker} </div>`
+                    ;   
 
             dom.querySelectorAll("li").forEach( k => 
-                k.addEventListener( "click", 
-                    action[ k.innerText.split(" ")[0].toLowerCase() ] ));
+                    k.addEventListener( "click",  action[ k.innerText.split(" ")[0].toLowerCase() ] ) );
             });
-        };
-        
+        })
+    };
+                
 
 
    

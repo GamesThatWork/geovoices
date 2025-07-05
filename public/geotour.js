@@ -20,7 +20,7 @@ then perform prestart and start driving
 
 
 
-the  register a ServiceWorker (will test version)
+then register a ServiceWorker (will test version)
 
   if Serviceworker updates
       serviceworker clears cache

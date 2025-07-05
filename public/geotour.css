@@ -441,7 +441,16 @@ svg#burger         { width:10vmin; height:8vmin; }
 #menu li:hover {background-color: #fff7e7fe;  box-shadow: 0px 0px 12px #f6e6e6ed;}
 
 
-
+ .versions{
+    background-color: rgba(79, 47, 6, 0.719);
+    color: rgb(255, 230, 202);
+    border: thin solid rgb(255, 171, 75);
+    font-family: 'Robboto Mono', monospace;
+    font-size: .5em;   
+    padding: 0.1vmin;
+    width: fit-content;
+    white-space: pre-wrap;
+}
 
 /* used on the free floating fix counter*/
 p.bignum { font-weight:900; font-size: 3rem; margin:0; padding:0;} 
@@ -547,9 +556,10 @@ p.bignum { font-weight:900; font-size: 3rem; margin:0; padding:0;}
 
 #nextpoint:has( div.start ){   border: thick solid gold;}
 #nextpoint span {          color: #CCC;   font-weight: 500;  }
+#nextpoint span {          color: #FFF;   font-weight: 800;  }
 #nextpoint div.start p{    color: gold;   font-weight: 600;   }
 #nextpoint div.start span{ color: white;  font-weight: 600;   }
-
+#nextpoint span.crow {      color:rgb(113, 109, 90); font-size: .65em; }
     
 
 /*  ====================================================  *
