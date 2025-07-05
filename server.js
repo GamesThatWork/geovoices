@@ -668,10 +668,11 @@ app.post("/analytics", (request, response) => {
 
 
 
-// if it is  not another route -- it might be a tour name
- 
-//app.get("/:tourname", (request,response) => response.sendFile(`${__dirname}/views/geotour.html`));
-app.get("/:tourname", (request,response) => response.redirect(`/tour/${request.params.tourname}`));
+// if it is not another route -- it might be a tour name
+app.get("/:tourname", (request,response) => {
+  const host = request.get('host').replace(/^[^.]+\./, '');
+  response.redirect(`${request.secure ? 'https' : 'http'}://${request.params.tourname}.${host}`);
+});
    
 
 

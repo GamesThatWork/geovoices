@@ -65,7 +65,8 @@ const statusColor ={
 
 const requestedTour =()=>{
     let tour = new URLSearchParams(window.location.search).get("tour")
-        ?? document.location.href.match( /([^\/]*)\.geovoices\.org\??.*$/i )?.[1] 
+        ?? document.location.href.match( /([^\/]*)\.geovoices/i )?.[1] 
+        ?? document.location.href.match( /([^\/]*)\.localhost/i )?.[1]        
         ?? document.location.href.split("/").pop()
         ?? null; 
     return  /open/i.test(tour)? null : titleCase( tour );
