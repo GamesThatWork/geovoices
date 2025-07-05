@@ -14,11 +14,14 @@ export default  {
 
 
     reset: (scope="all")=>
-      fetch("cacheclear")
-        .then(  res => console.log( 'ClearCache: ', res )             )
+      fetch("cache://clear")
+        .then(  res => console.log( 'Cleared cache: ', res )             )
         .then(  ()  => localStorage.removeItem("tour")                )
+        .then(  () =>  console.log( "Localstorage.tour cleared", localStorage.getItem("tour") ) )
         .then(  ()  => navigator?.serviceWorker?.getRegistration(`/`) )
         .then(  reg => reg?.unregister?.()                            )
+        .then(  () =>  console.log( "Service worker de-registered", navigator?.serviceWorker?.getRegistration(`/`) ) )  
+        .then(  ()  => new Promise( resolve => setTimeout(resolve, 3000) ) )//wait 3 seconds
         .then(  ()  => location.reload()                              )
         .catch( console.warn )
     }
