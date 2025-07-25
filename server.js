@@ -1,6 +1,6 @@
 // server.js
 // where your node app starts
-const versionID = 4.01;
+const versionID = 4.02;
 
 import express from "express";
 import path from "path";
@@ -214,26 +214,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-// Firestore is already initialized above
-
-//app.get("/",        (request, response) =>   response.sendFile(`${__dirname}/views/index.html`));
-app.get("/", (request, response) =>{
-//  const  [host,sub,domain,tld,port] = /([^.]?).?([^.]+).([^.]?).(:?\.?)$/.exec(request.headers.host) ?? [];
-  const [ host, port] = request.headers.host.split(":"),
-        parts         =                 host.replace("www.", "").split("."),
-        local         =  host.includes("localhost"), 
-        isCloudRun = host.includes(".run.app") || host.includes(".a.run.app"),
-        sub = (parts.length > (local ? 1 : 2) && !isCloudRun) ? parts[0] : null,
-        //sub           =  parts.length > (local?1:2)?   parts[0]  :  null,
-        domain        = (parts.length > 1? parts[1]  : parts[0]) ?? null, 
-        tld           =  local? null: parts[ parts.length-1 ];
-
-  response.sendFile( sub? `${__dirname}/views/geotour.html` 
-                        : `${__dirname}/views/landingpage.html` );
-
-  console.log({ host, sub, domain, tld, port});
-  });// Add this route at the VERY END, after all your other routes but before app.listen():
-
 
 app.get("cache[:]?[/]{0,2}(:command(*))", (req, res) => {
   res.status(400).send(`Serviceworker FAILED to intercept Cache Control command: ${req.params.command}`);
@@ -268,12 +248,6 @@ app.get("/test-firestore", async (req, res) => {
     });
   }
 });
-//   let html=  ((domain=="glitch")   || (sub=="www"))? 
-//           `${__dirname}/views/landingpage.html`
-//       :   `${__dirname}/views/geotour.html`;
-//   console.log({ sub, domain, tld, html });
-//   response.sendFile( html );
-// });
 
 //static files
 
@@ -675,6 +649,27 @@ app.get("/:tourname", (request,response) => {
 });
    
 
+// Firestore is already initialized above
+
+//app.get("/",        (request, response) =>   response.sendFile(`${__dirname}/views/index.html`));
+app.get("/", (request, response) =>{
+//  const  [host,sub,domain,tld,port] = /([^.]?).?([^.]+).([^.]?).(:?\.?)$/.exec(request.headers.host) ?? [];
+  const [ host, port] = request.headers.host.split(":"),
+        parts         =                 host.replace("www.", "").split("."),
+        local         =  host.includes("localhost"), 
+        isCloudRun = host.includes(".run.app") || host.includes(".a.run.app"),
+        sub = request.query.tour ?? 
+              (parts.length > (local ? 1 : 2) && !isCloudRun) ? parts[0] 
+              : null,
+        //sub           =  parts.length > (local?1:2)?   parts[0]  :  null,
+        domain        = (parts.length > 1? parts[1]  : parts[0]) ?? null, 
+        tld           =  local? null: parts[ parts.length-1 ];
+
+  response.sendFile( sub? `${__dirname}/views/geotour.html` 
+                        : `${__dirname}/views/landingpage.html` );
+
+  console.log({ host, sub, domain, tld, port});
+  });// Add this route at the VERY END, after all your other routes but before app.listen():
 
   
 // listen for requests :)
