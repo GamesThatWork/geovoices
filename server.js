@@ -643,9 +643,9 @@ app.post("/analytics", (request, response) => {
 
 
 // if it is not another route -- it might be a tour name
-app.get("/:tourname", (request,response) => {
-  const host = request.get('host').replace(/^[^.]+\./, '');
-  response.redirect(`${request.secure ? 'https' : 'http'}://${request.params.tourname}.${host}`);
+// (iOS 26 strips query strings from PWA URLs, so /tourname is the safe form)
+app.get("/:tourname", (request, response) => {
+  response.sendFile(`${__dirname}/views/geotour.html`);
 });
    
 
