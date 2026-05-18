@@ -62,20 +62,33 @@ const feedback = ()=>{
     </form>` ;
 
 //    dom.querySelectorAll("polygon").forEach( star=>star.addEventListener( "pointerenter", e=>{
-        dom.querySelectorAll("polygon").forEach( star=>star.onpointerenter= e=>{
-            dom.querySelectorAll("polygon").forEach( s=> 
-                s.className.baseVal= s.dataset.index<=star.dataset.index? "hotstar":"notstar") 
-            dom.querySelector( "#stars").value= Number(star.dataset.index)+1;
+        dom.querySelectorAll("polygon").forEach( star=>{
+            const highlight = ()=>{
+                dom.querySelectorAll("polygon").forEach( s=> 
+                    s.className.baseVal= s.dataset.index<=star.dataset.index? "hotstar":"notstar") 
+                dom.querySelector( "#stars").value= Number(star.dataset.index)+1;
+                };
+            star.onpointerenter = highlight;
+            star.onpointerdown  = highlight;
             });
     
     dom.querySelector("#email").addEventListener( "change", e=>{
         dom.querySelector("input[name=follow]").checked= true;
         });  
-    dom.querySelector("form").addEventListener( "submit", e=>setTimeout( ()=>{
-       // location.href= url.website;
-        // dom.hidden=true;
-        // dom.innerHTML="";
-        } ), 4000 );      
+    dom.querySelector("form").addEventListener( "submit", e=>{
+        e.preventDefault();
+        const data = Object.fromEntries( new FormData(e.target) );
+        fetch( url.feedback.save, {
+            method:  "POST",
+            headers: { "Content-Type": "application/json" },
+            body:    JSON.stringify( data )
+            })
+            .then( ()=>{
+                dom.innerHTML = `<h2 style="color:white;padding:2em">Thank you for your feedback!</h2>`;
+                setTimeout( ()=>{ dom.hidden=true; dom.innerHTML=""; }, 3000 );
+                })
+            .catch( err=> console.error("Feedback submit error:", err) );
+        });      
 }
 
 

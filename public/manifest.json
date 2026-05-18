@@ -1,8 +1,7 @@
 {
-  "name": "Cherokee Legend GeoTour",
-  "app_name": "Cherokee Legend GeoTour",
-  "short_name": "Cherokee GeoTour",
-  "description": "Driving tour of the lands and legends of the Cherokee.. Two hours of travel through twelve thousand years of history, story and fable geolocated on a sixty mile route through the beautiful mountains and valleys of our homeland.",
+  "name": "Cherokee GeoVoices",
+  "short_name": "Cherokee",
+  "description": "Driving tour of Cherokee lands and lore. Two hours of travel through twelve thousand years of history, story and fable geolocated on a sixty mile route through the beautiful mountains and valleys of our homeland.",
   "display": "standalone",
   "orientation": "portrait",
   "theme_color": "#f60e0e",
@@ -11,20 +10,19 @@
   "start_url": "/",
   "shortcuts" : [
   {
-    "name": "Cherokee Land and Lore",
-    "url": "/",
-    "description": "Start Cherokee Tour"
+    "name": "Land and Lore ",
+    "short_name": "Start tour ",
+    "url": "/cherokee",
+    "description": "Start a tour of Cherokee homelands"
   }],
   "categories": ["entertainment", "education", "navigation", "travel"],
   "screenshots": [{
     "src": "/assets/GeotourScreenShot.PNG",
     "sizes": "393x848",
-    "type": "image/PNG",
+    "type": "image/png",
     "platform": "narrow",
-    "label": "Cherokee GeoTour Navigation"
+    "label": "Cherokee GeoVoices Navigation"
   }],
-  "related-applications":[],
-  "iarc_rating_id":"",
   "icons": [
     {
       "src": "/assets/icon-192x192.png",
@@ -45,7 +43,13 @@
       "src": "/assets/maskable_icon_x384.png",
       "sizes": "384x384",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/maskable_icon_x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "/assets/icon-512x512.png",
@@ -56,7 +60,13 @@
       "src": "/assets/maskable_icon_x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/maskable_icon_x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

@@ -246,7 +246,7 @@ window.onload= ()=>{
       (!woke || woke.released) &&
         navigator.wakeLock?.request("screen")
           .then(     sentinel => (woke=sentinel).onrelease = maybeFallAsleep )
-          .catch (   err=> perform.debug( "WakeLock: "+err) );
+          .catch (   err=> console.warn( "WakeLock: "+err) );
 
   const maybeFallAsleep = e=> {
     console.log(`SLEEP? ${e.type} event  doc.vis= ${ document.visibilityState }`); 

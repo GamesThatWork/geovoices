@@ -395,7 +395,7 @@ position: relative; top:-4vh; opacity: 0.8; }
 
 #menu{
     position: absolute;
-    top:      6vmin;
+    top:      10vmin;
     right:    3vmin;
     display:  flow-root;
     width:    fit-content;
@@ -422,7 +422,7 @@ position: relative; top:-4vh; opacity: 0.8; }
     box-shadow: .7vw .7vh 1vmax #00003080;
     }   
     
-svg#burger         { width:10vmin; height:8vmin; }  
+svg#burger         { width:13vmin; height:11vmin; }  
 
 #menu #burger:has( *:hover ) { fill: rgb(255, 255, 255); stroke: none;    stroke-opacity:0;}   
 #menu .stack       { fill:var(--border-color);  stroke-opacity:0;}   
